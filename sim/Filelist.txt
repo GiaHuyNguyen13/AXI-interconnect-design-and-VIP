@@ -1,0 +1,11 @@
+../src/scu.v
+../src/comparator.v
+../src/addr_decoder.v
+../src/rd_sl_return.v
+../src/wr_sl_return.v
+../src/axi_interconnect.v
+
+../tb/comparator_tb.sv
+../tb/addr_decoder_tb.sv
+../tb/rd_sl_return_tb.sv
+../tb/scu_tb.sv

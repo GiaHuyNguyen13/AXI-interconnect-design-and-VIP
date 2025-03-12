@@ -1,0 +1,243 @@
+$date
+	Sat Mar  8 09:14:24 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module rd_sl_return_tb $end
+$var wire 2 ! mas_sel2 [1:0] $end
+$var wire 1 " s1_ARREADY $end
+$var wire 64 # s1_RDATA [63:0] $end
+$var wire 64 $ s1_RID [63:0] $end
+$var wire 1 % s1_RLAST $end
+$var wire 2 & s1_RRESP [1:0] $end
+$var wire 1 ' s1_RVALID $end
+$var wire 1 ( s1_resp $end
+$var wire 1 ) s2_ARREADY $end
+$var wire 64 * s2_RDATA [63:0] $end
+$var wire 64 + s2_RID [63:0] $end
+$var wire 1 , s2_RLAST $end
+$var wire 2 - s2_RRESP [1:0] $end
+$var wire 1 . s2_RVALID $end
+$var wire 1 / s2_resp $end
+$var wire 1 0 rd_RVALID $end
+$var wire 2 1 rd_RRESP [1:0] $end
+$var wire 1 2 rd_RLAST $end
+$var wire 64 3 rd_RID [63:0] $end
+$var wire 64 4 rd_RDATA [63:0] $end
+$var wire 1 5 rd_ARREADY $end
+$var reg 1 6 i_clk $end
+$var reg 2 7 mas_sel1 [1:0] $end
+$var integer 32 8 count [31:0] $end
+$var integer 32 9 err [31:0] $end
+$scope module ins1 $end
+$var wire 2 : mas_sel1 [1:0] $end
+$var wire 2 ; mas_sel2 [1:0] $end
+$var wire 1 " s1_ARREADY $end
+$var wire 64 < s1_RDATA [63:0] $end
+$var wire 64 = s1_RID [63:0] $end
+$var wire 1 % s1_RLAST $end
+$var wire 2 > s1_RRESP [1:0] $end
+$var wire 1 ' s1_RVALID $end
+$var wire 1 ? s1_resp $end
+$var wire 1 ) s2_ARREADY $end
+$var wire 64 @ s2_RDATA [63:0] $end
+$var wire 64 A s2_RID [63:0] $end
+$var wire 1 , s2_RLAST $end
+$var wire 2 B s2_RRESP [1:0] $end
+$var wire 1 . s2_RVALID $end
+$var wire 1 C s2_resp $end
+$var reg 1 5 rd_ARREADY $end
+$var reg 64 D rd_RDATA [63:0] $end
+$var reg 64 E rd_RID [63:0] $end
+$var reg 1 2 rd_RLAST $end
+$var reg 2 F rd_RRESP [1:0] $end
+$var reg 1 0 rd_RVALID $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 F
+b0 E
+b0 D
+xC
+b1 B
+b1 A
+b1 @
+x?
+b0 >
+b0 =
+b0 <
+bx ;
+bx :
+b0 9
+b1 8
+bx 7
+06
+05
+b0 4
+b0 3
+02
+b0 1
+00
+x/
+1.
+b1 -
+1,
+b1 +
+b1 *
+1)
+x(
+0'
+b0 &
+0%
+b0 $
+b0 #
+0"
+bx !
+$end
+#5
+b1 1
+b1 F
+b1 4
+b1 D
+b1 3
+b1 E
+10
+12
+15
+1/
+1C
+0(
+0?
+b1 !
+b1 ;
+b10 8
+b10 7
+b10 :
+16
+#10
+06
+#15
+b0 1
+b0 F
+b0 4
+b0 D
+b0 3
+b0 E
+00
+02
+05
+0/
+0C
+1(
+1?
+b10 !
+b10 ;
+b11 8
+b1 7
+b1 :
+16
+#20
+06
+#25
+0(
+0?
+b11 !
+b11 ;
+b100 8
+b0 7
+b0 :
+16
+#30
+06
+#35
+b101 8
+16
+#40
+06
+#45
+b1 1
+b1 F
+b1 4
+b1 D
+b1 3
+b1 E
+10
+12
+15
+1/
+1C
+b1 !
+b1 ;
+b110 8
+b10 7
+b10 :
+16
+#50
+06
+#55
+b0 1
+b0 F
+b0 4
+b0 D
+b0 3
+b0 E
+00
+02
+05
+0/
+0C
+b0 !
+b0 ;
+b111 8
+b11 7
+b11 :
+16
+#60
+06
+#65
+b11 !
+b11 ;
+b1000 8
+b0 7
+b0 :
+16
+#70
+06
+#75
+b1001 8
+16
+#80
+06
+#85
+b1 1
+b1 F
+b1 4
+b1 D
+b1 3
+b1 E
+10
+12
+15
+1/
+1C
+b1 !
+b1 ;
+b1010 8
+b10 7
+b10 :
+16
+#90
+06
+#95
+b1011 8
+16
+#96

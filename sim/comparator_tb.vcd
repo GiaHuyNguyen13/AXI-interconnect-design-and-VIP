@@ -1,0 +1,163 @@
+$date
+	Sat Mar  8 14:42:48 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module comparator_tb $end
+$var wire 1 ! less $end
+$var wire 1 " equal $end
+$var reg 1 # i_clk $end
+$var reg 32 $ rs1_data [31:0] $end
+$var reg 32 % rs2_data [31:0] $end
+$var integer 32 & count [31:0] $end
+$scope module comparator_inst1 $end
+$var wire 1 ! less $end
+$var wire 32 ' not_b [31:0] $end
+$var wire 1 ( overflow $end
+$var wire 32 ) rs1_data [31:0] $end
+$var wire 32 * rs2_data [31:0] $end
+$var wire 32 + sub [31:0] $end
+$var wire 1 " equal $end
+$var wire 1 , carry $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+x,
+bx +
+bx *
+bx )
+x(
+bx '
+b1 &
+bx %
+bx $
+0#
+x"
+x!
+$end
+#5
+0"
+0!
+0(
+b100 +
+1,
+b11111111111111111111111111111101 '
+b10 &
+b10 %
+b10 *
+b110 $
+b110 )
+1#
+#10
+0#
+#15
+1!
+b11111111111111111111111111111110 +
+0,
+b11 &
+b0 $
+b0 )
+1#
+#20
+0#
+#25
+1!
+b11111111111111111111111111110111 '
+b11111111111111111111111111111101 +
+0,
+b100 &
+b1000 %
+b1000 *
+b101 $
+b101 )
+1#
+#30
+0#
+#35
+0!
+1,
+b11111111111111111111111111111111 '
+b10 +
+b101 &
+b0 %
+b0 *
+b10 $
+b10 )
+1#
+#40
+0#
+#45
+1"
+b11111111111111111111111111111010 '
+b0 +
+b110 &
+b101 %
+b101 *
+b101 $
+b101 )
+1#
+#50
+0#
+#55
+0"
+b11111111111111111111111111111001 '
+b10 +
+b111 &
+b110 %
+b110 *
+b1000 $
+b1000 )
+1#
+#60
+0#
+#65
+b11111111111111111111111111110111 '
+b10 +
+b1000 &
+b1000 %
+b1000 *
+b1010 $
+b1010 )
+1#
+#70
+0#
+#75
+b110 +
+b11111111111111111111111111111011 '
+b1001 &
+b100 %
+b100 *
+1#
+#80
+0#
+#85
+0"
+b11111111111111111111111111111100 '
+b1 +
+b1010 &
+b11 %
+b11 *
+b100 $
+b100 )
+1#
+#90
+0#
+#95
+b11111111111111111111111111111101 '
+b1000 +
+b1011 &
+b10 %
+b10 *
+b1010 $
+b1010 )
+1#
+#96
