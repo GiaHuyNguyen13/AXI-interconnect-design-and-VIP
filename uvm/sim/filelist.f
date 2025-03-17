@@ -15,10 +15,7 @@
 ../../src/axi_interconnect.v
 
 // Interface
-../uvm_components/mas1_interface.sv
-../uvm_components/mas1_interface.sv
-../uvm_components/slv1_interface.sv
-../uvm_components/slv2_interface.sv
+../uvm_components/axi_interface.sv
 
 // Top tb
 ../uvm_components/tb.sv
@@ -33,12 +30,12 @@
 ../uvm_components/master_agent/master_driver.sv
 ../uvm_components/master_agent/master_agent.sv
 
-// AXIL Agent
-../../src/axil_agent/axil_item.sv
-../../src/axil_agent/axil_gen_item_seq.sv
-../../src/axil_agent/axil_monitor.sv
-../../src/axil_agent/axil_driver.sv
-../../src/axil_agent/axil_agent.sv
+// Master Agent
+../uvm_components/slave_agent/slave_item.sv
+../uvm_components/slave_agent/slave_gen_item_seq.sv
+../uvm_components/slave_agent/slave_monitor.sv
+../uvm_components/slave_agent/slave_driver.sv
+../uvm_components/slave_agent/slave_agent.sv
 
 //Reference models
 ../../src/rd_ref_model.sv
