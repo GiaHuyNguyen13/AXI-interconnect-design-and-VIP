@@ -19,6 +19,6 @@
 1742272425 /home/admin/Desktop/project3/uvm/uvm_components/slave_agent/slave_monitor.sv
 1742274542 /home/admin/Desktop/project3/uvm/uvm_components/slave_agent/slave_driver.sv
 1742274646 /home/admin/Desktop/project3/uvm/uvm_components/slave_agent/slave_agent.sv
-1742275492 /home/admin/Desktop/project3/uvm/uvm_components/scoreboard.sv
+1742280863 /home/admin/Desktop/project3/uvm/uvm_components/scoreboard.sv
 1742275243 /home/admin/Desktop/project3/uvm/uvm_components/env.sv
 1742274430 /home/admin/Desktop/project3/uvm/uvm_components/base_test.sv

@@ -2,3 +2,7 @@
   CREATE_STREAM @0 {NAME:m2_seq T:Transactions SCOPE:uvm_test_top.e0.m2.s0 STREAM:5119}
   CREATE_STREAM @0 {NAME:s1_seq T:Transactions SCOPE:uvm_test_top.e0.s1.s0 STREAM:5134}
   CREATE_STREAM @0 {NAME:s2_seq T:Transactions SCOPE:uvm_test_top.e0.s2.s0 STREAM:5149}
+  CREATE_STREAM @0 {NAME:m1_seq T:Transactions SCOPE:uvm_test_top.e0.m1.s0 STREAM:5102}
+  CREATE_STREAM @0 {NAME:m2_seq T:Transactions SCOPE:uvm_test_top.e0.m2.s0 STREAM:5119}
+  CREATE_STREAM @0 {NAME:s1_seq T:Transactions SCOPE:uvm_test_top.e0.s1.s0 STREAM:5134}
+  CREATE_STREAM @0 {NAME:s2_seq T:Transactions SCOPE:uvm_test_top.e0.s2.s0 STREAM:5149}

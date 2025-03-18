@@ -12,7 +12,7 @@
 1741766672 /home/admin/Desktop/project3/uvm/uvm_components/axi_interface.sv
 1742273120 /home/admin/Desktop/project3/src/rd_sl_return.v
 1742272425 /home/admin/Desktop/project3/uvm/uvm_components/slave_agent/slave_monitor.sv
-1742275492 /home/admin/Desktop/project3/uvm/uvm_components/scoreboard.sv
+1742280863 /home/admin/Desktop/project3/uvm/uvm_components/scoreboard.sv
 1742274646 /home/admin/Desktop/project3/uvm/uvm_components/slave_agent/slave_agent.sv
 1742273192 /home/admin/Desktop/project3/uvm/uvm_components/tb.sv
 1741578364 /home/admin/Desktop/project3/src/axi_interconnect.v

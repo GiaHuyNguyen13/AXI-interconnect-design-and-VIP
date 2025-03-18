@@ -1,5 +1,5 @@
 xrun(64): 20.09-s001: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	20.09-s001: Started on Mar 18, 2025 at 01:24:54 EDT
+TOOL:	xrun(64)	20.09-s001: Started on Mar 18, 2025 at 02:54:46 EDT
 xrun
 	-f filelist.f
 		+incdir+../../../uvm-1.2/src
@@ -320,4 +320,4 @@ Verilog Stack Trace:
 
 ../uvm_components/slave_agent/slave_monitor.sv:25         wait ((axi_vif.axi_awvalid && axi_vif.axi_awready) || (axi_vif.axi_arvalid && axi_vif.axi_arready));
 xcelium> exit
-TOOL:	xrun(64)	20.09-s001: Exiting on Mar 18, 2025 at 01:24:59 EDT  (total: 00:00:05)
+TOOL:	xrun(64)	20.09-s001: Exiting on Mar 18, 2025 at 02:54:52 EDT  (total: 00:00:06)
