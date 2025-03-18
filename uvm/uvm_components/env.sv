@@ -8,7 +8,7 @@ class env extends uvm_env;
   master_agent 		m1, m2; 		// Agent handle
   slave_agent    s1, s2;
   scoreboard	sb0; 		// Scoreboard handle
-  centralized_memory_model mem;
+  centralized_memory_model mem_1, mem_2; // mem_1 for master 1 and slave 1, vice versa
     
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
@@ -18,8 +18,13 @@ class env extends uvm_env;
     s2 = slave_agent::type_id::create("s2", this);
 
     sb0 = scoreboard::type_id::create("sb0", this);
-    mem = new();
-    uvm_config_db#(centralized_memory_model)::set(this, "*", "central_memory", mem);
+    mem_1 = new("even");
+    mem_2 = new("odd");
+    
+    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.m1", "mem", mem_1);
+    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.m2", "mem", mem_2);
+    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.s1", "mem", mem_1);
+    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.s2", "mem", mem_2);
   endfunction
   
   virtual function void connect_phase(uvm_phase phase);

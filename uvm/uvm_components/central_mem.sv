@@ -1,13 +1,21 @@
 class centralized_memory_model;
 
   // Declare a simple memory array (parameterized for flexibility)
-  bit [31:0] memory_array [0:1023];  // Example: 1k 32-bit words of memory
+  bit [31:0] memory_array [0:1023];
 
   // Constructor to initialize the memory contents
-  function new();
-    // Initialize the memory with some default values (you can also load it from a file)
-    foreach (memory_array[i]) begin
-      memory_array[i] = 32'h0 + i;  // Default data, can be changed later
+  // Slave 1 is even, slave 2 is odd
+  function new(string type);
+    if (type == "odd") begin 
+      for (int i = 0; i < $size(arr); i++) begin
+        arr[i] = 1;  // Store the odd number
+        odd += 2;      // Move to the next odd number
+      end
+    end else if (type == "even") begin
+      for (int i = 0; i < $size(arr); i++) begin
+        arr[i] = 0;  // Store the even number
+        odd += 2;      // Move to the next even number
+      end
     end
   endfunction
 

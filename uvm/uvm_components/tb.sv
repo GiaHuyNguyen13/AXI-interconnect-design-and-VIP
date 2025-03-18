@@ -4,6 +4,7 @@ import uvm_pkg::*;
 
 module tb;
   logic clk, rst;
+  parameter S1_WIDTH = 32'h8000_0000;
 
 // Clock gen
   initial begin
@@ -37,16 +38,17 @@ module tb;
 
 // Set interface to database and run test
   initial begin
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m1", "axi_interface", mas1_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m2", "axi_interface", mas2_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s1", "axi_interface", slv1_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s2", "axi_interface", slv2_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m1", "axi_if", mas1_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m2", "axi_if", mas2_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s1", "axi_if", slv1_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s2", "axi_if", slv2_if);
+    uvm_config_db#(bit [31:0])::set(null, "*", "S1_WIDTH", S1_WIDTH)
     run_test("burst_test");
   end
 
   // Instantiate DUT
   axi_interconnect #(
-    .S1_WIDTH(32'h8000_0000)   
+    .S1_WIDTH(S1_WIDTH)   
 ) dut(
 
     .i_clk(clk),

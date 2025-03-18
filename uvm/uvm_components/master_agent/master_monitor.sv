@@ -9,7 +9,7 @@ class master_monitor extends uvm_monitor;
 
   virtual function void build_phase (uvm_phase phase);
   super.build_phase(phase);
-  if (!uvm_config_db #(virtual axi_interface)::get(this, "", "axi_interface", axi_vif))
+  if (!uvm_config_db #(virtual axi_interface)::get(this, "", "interface", axi_vif))
       `uvm_fatal("MON", "Could not get axi_vif")
     axi_mon_ap = new ("axi_mon_ap", this); // create analysis port
   endfunction
