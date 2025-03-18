@@ -7,7 +7,7 @@ class master_agent extends uvm_agent;
   master_driver 		d0; 		// Driver handle
   master_monitor 		m0; 		// Monitor handle
   uvm_sequencer #(master_item)	s0; 		// Sequencer Handle
-  axi_interface axi_if;
+  virtual axi_interface axi_if;
   centralized_memory_model mem;
 
   virtual function void build_phase(uvm_phase phase);
@@ -18,8 +18,8 @@ class master_agent extends uvm_agent;
     uvm_config_db#(centralized_memory_model)::get(this, "", "mem", mem);
     uvm_config_db#(centralized_memory_model)::set(this, "*", "passdown_mem", mem);
 
-    uvm_config_db#(axi_interface)::get(this, "", "axi_if", axi_if);
-    uvm_config_db#(axi_interface)::set(this, "*", "interface", axi_if);
+    uvm_config_db#(virtual axi_interface)::get(this, "", "axi_if", axi_if);
+    uvm_config_db#(virtual axi_interface)::set(this, "*", "interface", axi_if);
   endfunction
   
   virtual function void connect_phase(uvm_phase phase);

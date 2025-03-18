@@ -1,9 +1,9 @@
 module comparator (
     input  wire [31:0] rs1_data, rs2_data,
-    output reg  [0:0]  less, equal
+    output wire  [0:0]  less, equal
 );
-    reg [31:0] sub, not_b;
-    reg overflow, carry;
+    wire [31:0] sub, not_b;
+    wire overflow, carry;
     // logic [0:0] br_equal_reg, br_less_reg;
     
     assign not_b = ~rs2_data;

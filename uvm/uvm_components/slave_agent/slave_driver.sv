@@ -1,4 +1,4 @@
-class slave_driver extends uvm_driver #(axi_item);              
+class slave_driver extends uvm_driver #(slave_item);              
   `uvm_component_utils(slave_driver)
   function new(string name = "slave_driver", uvm_component parent=null);
     super.new(name, parent);
@@ -29,7 +29,7 @@ class slave_driver extends uvm_driver #(axi_item);
   endtask
   
 
-  virtual task r_addr (axi_item m_item);
+  virtual task r_addr (slave_item m_item);
       @(posedge axi_vif.clk);
       if (!m_item.operation) begin // Read operation
           // axi_vif.axi_arid    <= m_item.axi_arid;
@@ -50,7 +50,7 @@ class slave_driver extends uvm_driver #(axi_item);
       end
   endtask
 
-  virtual task r_data (axi_item m_item);
+  virtual task r_data (slave_item m_item);
       @(posedge axi_vif.clk);
       if (!m_item.operation) begin // Read operation
           // axi_vif.axi_rready <= m_item.axi_rready;
@@ -60,7 +60,7 @@ class slave_driver extends uvm_driver #(axi_item);
       end
   endtask
 
-  virtual task w_addr (axi_item m_item);
+  virtual task w_addr (slave_item m_item);
     @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
         // axi_vif.axi_awid    <= m_item.axi_awid;
@@ -80,7 +80,7 @@ class slave_driver extends uvm_driver #(axi_item);
     end
 endtask
 
-virtual task w_data (axi_item m_item);
+virtual task w_data (slave_item m_item);
     @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
         // wait (axi_vif.axi_awvalid && axi_vif.axi_awready);
@@ -102,7 +102,7 @@ virtual task w_data (axi_item m_item);
     end
 endtask
 
-virtual task drive_item (axi_item m_item);
+virtual task drive_item (slave_item m_item);
   wait(!axi_vif.rst) begin
     fork
     r_addr(m_item);

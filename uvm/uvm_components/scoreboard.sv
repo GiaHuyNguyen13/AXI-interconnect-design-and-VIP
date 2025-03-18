@@ -41,13 +41,13 @@ class scoreboard extends uvm_scoreboard;
   endfunction : write_m2 
 
 
-  virtual function write_s1 (master_item s1_item);
+  virtual function write_s1 (slave_item s1_item);
     
 
   endfunction : write_s1 
 
 
-  virtual function write_s2 (master_item s2_item);
+  virtual function write_s2 (slave_item s2_item);
     
 
   endfunction : write_s2  

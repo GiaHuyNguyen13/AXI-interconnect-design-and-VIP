@@ -29,10 +29,10 @@ always @(*) begin
         end
 
         default: begin
-            wr_AWREADY = '0;
-            wr_WREADY  = '0;
-            wr_BVALID  = '0;
-            wr_BRESP   = '0;
+            wr_AWREADY = 1'b0;
+            wr_WREADY  = 1'b0;
+            wr_BVALID  = 1'b0;
+            wr_BRESP   = 2'b0;
         end
     endcase
 end

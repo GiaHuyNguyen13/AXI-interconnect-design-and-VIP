@@ -38,17 +38,16 @@
 ../uvm_components/slave_agent/slave_agent.sv
 
 //Reference models
-../../src/rd_ref_model.sv
-../../src/wr_ref_model.sv
+//../uvm_components/rd_ref_model.sv
+//../uvm_components/wr_ref_model.sv
 
 // Remaining UVM components
-../../src/scoreboard.sv
-../../src/env.sv
-../../src/base_test.sv
-../../src/burst_test.sv
+../uvm_components/scoreboard.sv
+../uvm_components/env.sv
+../uvm_components/base_test.sv
 
 //SVA
-../../src/SVA.sv
+
  
             
 

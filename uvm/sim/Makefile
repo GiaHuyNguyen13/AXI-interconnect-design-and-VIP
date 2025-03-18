@@ -3,7 +3,7 @@ clean:
 
 run:
 	echo "sth">>here.d && make clean && \
-	xrun -f filelist.f -top tb -timescale 1ns/1ps +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc -coverage all -covcleanworkdir -covfile coverage.ccf
+	xrun -f filelist.f -top tb -timescale 1ns/1ps +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH
 
 wave:
 	echo "sth">>here.d && make clean && \

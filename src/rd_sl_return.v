@@ -38,12 +38,12 @@ always @(*) begin
         end
 
         default: begin
-            rd_ARREADY = '0;
-            rd_RLAST   = '0;
-            rd_RVALID  = '0;
-            rd_RID     = '0;
-            rd_RDATA   = '0;
-            rd_RRESP   = '0;
+            rd_ARREADY = 1'b0;
+            rd_RLAST   = 1'b0;
+            rd_RVALID  = 1'b0;
+            rd_RID     = 8'b0;
+            rd_RDATA   = 32'b0;
+            rd_RRESP   = 2'b0;
         end
     endcase
 end

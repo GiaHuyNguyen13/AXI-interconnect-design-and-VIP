@@ -2,19 +2,25 @@ class centralized_memory_model;
 
   // Declare a simple memory array (parameterized for flexibility)
   bit [31:0] memory_array [0:1023];
+  int kind;
+  int val; // Counter for numbers
 
   // Constructor to initialize the memory contents
   // Slave 1 is even, slave 2 is odd
-  function new(string type);
-    if (type == "odd") begin 
-      for (int i = 0; i < $size(arr); i++) begin
-        arr[i] = 1;  // Store the odd number
-        odd += 2;      // Move to the next odd number
+  function new(input int type_in); // 0 for even, 1 for odd
+    this.kind = type_in; // Assign constructor argument to class member
+
+    if (this.kind == 1) begin // Odd numbers
+      val = 1;
+      for (int i = 0; i < $size(memory_array); i++) begin
+        memory_array[i] = val;
+        val += 2; // Move to the next odd number
       end
-    end else if (type == "even") begin
-      for (int i = 0; i < $size(arr); i++) begin
-        arr[i] = 0;  // Store the even number
-        odd += 2;      // Move to the next even number
+    end else if (this.kind == 0) begin // Even numbers
+      val = 0;
+      for (int i = 0; i < $size(memory_array); i++) begin
+        memory_array[i] = val;
+        val += 2; // Move to the next even number
       end
     end
   endfunction

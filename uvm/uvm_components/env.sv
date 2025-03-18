@@ -18,20 +18,20 @@ class env extends uvm_env;
     s2 = slave_agent::type_id::create("s2", this);
 
     sb0 = scoreboard::type_id::create("sb0", this);
-    mem_1 = new("even");
-    mem_2 = new("odd");
+    mem_1 = new(0);
+    mem_2 = new(1);
     
-    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.m1", "mem", mem_1);
-    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.m2", "mem", mem_2);
-    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.s1", "mem", mem_1);
-    uvm_config_db#(centralized_memory_model)::set(this, "uvm_test_top.env.s2", "mem", mem_2);
+    uvm_config_db#(centralized_memory_model)::set(this, "m1", "mem", mem_1);
+    uvm_config_db#(centralized_memory_model)::set(this, "m2", "mem", mem_2);
+    uvm_config_db#(centralized_memory_model)::set(this, "s1", "mem", mem_1);
+    uvm_config_db#(centralized_memory_model)::set(this, "s2", "mem", mem_2);
   endfunction
   
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    m1.m0.m1_mon_ap.connect(sb0.m1_analysis_imp);
-    m2.m0.m2_mon_ap.connect(sb0.m2_analysis_imp);
-    s1.m0.s1_mon_ap.connect(sb0.s1_analysis_imp);
-    s2.m0.s2_mon_ap.connect(sb0.s2_analysis_imp);
+    m1.m0.axi_mon_ap.connect(sb0.m1_analysis_imp);
+    m2.m0.axi_mon_ap.connect(sb0.m2_analysis_imp);
+    s1.m0.axi_mon_ap.connect(sb0.s1_analysis_imp);
+    s2.m0.axi_mon_ap.connect(sb0.s2_analysis_imp);
   endfunction
 endclass
