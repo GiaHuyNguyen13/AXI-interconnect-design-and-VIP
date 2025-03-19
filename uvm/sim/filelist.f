@@ -30,9 +30,9 @@
 ../uvm_components/master_agent/master_driver.sv
 ../uvm_components/master_agent/master_agent.sv
 
-// Master Agent
+// Slave Agent
 ../uvm_components/slave_agent/slave_item.sv
-../uvm_components/slave_agent/slave_gen_item_seq.sv
+//../uvm_components/slave_agent/slave_gen_item_seq.sv
 ../uvm_components/slave_agent/slave_monitor.sv
 ../uvm_components/slave_agent/slave_driver.sv
 ../uvm_components/slave_agent/slave_agent.sv

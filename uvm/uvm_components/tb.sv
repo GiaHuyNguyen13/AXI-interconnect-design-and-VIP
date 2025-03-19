@@ -38,10 +38,10 @@ module tb;
 
 // Set interface to database and run test
   initial begin
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m1", "axi_if", mas1_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.m2", "axi_if", mas2_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s1", "axi_if", slv1_if);
-    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.env.s2", "axi_if", slv2_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.m1", "axi_if", mas1_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.m2", "axi_if", mas2_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s1", "axi_if", slv1_if);
+    uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s2", "axi_if", slv2_if);
     uvm_config_db#(bit [31:0])::set(null, "*", "S1_WIDTH", S1_WIDTH);
     run_test("base_test");
   end
@@ -52,7 +52,7 @@ module tb;
 ) dut(
 
     .i_clk(clk),
-    .i_rstn(rst),
+    .i_rstn(!rst),
 
     // Master 1 Interface
     .m1_awaddr (mas1_if.axi_awaddr),

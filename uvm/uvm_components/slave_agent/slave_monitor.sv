@@ -18,6 +18,7 @@ class slave_monitor extends uvm_monitor;
     super.run_phase(phase);
     // This task monitors the interface for a complete 
     // transaction and writes into analysis port when complete
+
     forever begin
         // @(axi_vif.clk);
         slave_item m_item_beat;
@@ -57,20 +58,26 @@ class slave_monitor extends uvm_monitor;
               m_item_beat.axi_wlast   = axi_vif.axi_wlast;
               m_item_beat.axi_wvalid  = axi_vif.axi_wvalid;
               m_item_beat.axi_wready  = axi_vif.axi_wready;
+
+
+              m_item_beat.axi_bid     = axi_vif.axi_bid;
+              m_item_beat.axi_bresp   = axi_vif.axi_bresp;
+              m_item_beat.axi_bvalid  = axi_vif.axi_bvalid;
+              m_item_beat.axi_bready  = axi_vif.axi_bready;
               axi_mon_ap.write(m_item_beat);
               
-              if (i == axi_vif.axi_awlen) begin
+              // if (i == axi_vif.axi_awlen) begin
               
-              wait (axi_vif.axi_bvalid && axi_vif.axi_bready);
-              //`uvm_info("AXI_MON", $sformatf("AXI I'm in"), UVM_HIGH)
-                  // Write response line
-                  m_item.axi_bid     = axi_vif.axi_bid;
-                  m_item.axi_bresp   = axi_vif.axi_bresp;
-                  m_item.axi_bvalid  = axi_vif.axi_bvalid;
-                  m_item.axi_bready  = axi_vif.axi_bready;     
-                  `uvm_info("AXI_MON", $sformatf("m_item_beat.axi_bready: %0d",axi_vif.axi_bready), UVM_HIGH)
-                  axi_mon_ap.write(m_item);
-              end
+              // wait (axi_vif.axi_bvalid && axi_vif.axi_bready);
+              // //`uvm_info("AXI_MON", $sformatf("AXI I'm in"), UVM_HIGH)
+              //     // Write response line
+              //     m_item.axi_bid     = axi_vif.axi_bid;
+              //     m_item.axi_bresp   = axi_vif.axi_bresp;
+              //     m_item.axi_bvalid  = axi_vif.axi_bvalid;
+              //     m_item.axi_bready  = axi_vif.axi_bready;     
+              //     `uvm_info("AXI_MON", $sformatf("m_item_beat.axi_bready: %0d",axi_vif.axi_bready), UVM_HIGH)
+              //     axi_mon_ap.write(m_item);
+              // end
               if (axi_vif.axi_wlast) begin
                 break;  // Exit the loop after the last data beat
               end

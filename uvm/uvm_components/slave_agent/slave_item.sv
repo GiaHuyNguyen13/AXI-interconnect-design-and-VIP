@@ -1,43 +1,43 @@
 class slave_item extends uvm_sequence_item;
     `uvm_object_utils(slave_item)
 
-   rand bit    operation; // 0 for read, 1 for write
+   // /*rand*/ bit    operation; // 0 for read, 1 for write
 
    // Write address line
-   rand bit [7:0]   axi_awid;
-   rand bit [31:0]  axi_awaddr;
-   rand bit [7:0]   axi_awlen;
-   rand bit [2:0]   axi_awsize;
-   rand bit [1:0]   axi_awburst;
-   rand bit         axi_awlock;
-   rand bit [3:0]   axi_awcache;
-   rand bit [2:0]   axi_awprot;
-   rand bit         axi_awvalid;
+   /*rand*/ bit [7:0]   axi_awid;
+   /*rand*/ bit [31:0]  axi_awaddr;
+   /*rand*/ bit [7:0]   axi_awlen;
+   /*rand*/ bit [2:0]   axi_awsize;
+   /*rand*/ bit [1:0]   axi_awburst;
+   /*rand*/ bit         axi_awlock;
+   /*rand*/ bit [3:0]   axi_awcache;
+   /*rand*/ bit [2:0]   axi_awprot;
+   /*rand*/ bit         axi_awvalid;
         bit         axi_awready;
 
    // Write data line
-   rand bit [31:0]  axi_wdata;
-   rand bit [3:0]   axi_wstrb;
-   rand bit         axi_wlast;
-   rand bit         axi_wvalid;
+   /*rand*/ bit [31:0]  axi_wdata;
+   /*rand*/ bit [3:0]   axi_wstrb;
+   /*rand*/ bit         axi_wlast;
+   /*rand*/ bit         axi_wvalid;
         bit         axi_wready;
 
    // Write response line
         bit [7:0]   axi_bid;
         bit [1:0]   axi_bresp;
         bit         axi_bvalid;
-   rand bit         axi_bready;
+   /*rand*/ bit         axi_bready;
 
    // Read address line
-   rand bit [7:0]   axi_arid;
-   rand bit [31:0]  axi_araddr;
-   rand bit [7:0]   axi_arlen;
-   rand bit [2:0]   axi_arsize;
-   rand bit [1:0]   axi_arburst;
-   rand bit         axi_arlock;
-   rand bit [3:0]   axi_arcache;
-   rand bit [2:0]   axi_arprot;
-   rand bit         axi_arvalid;
+   /*rand*/ bit [7:0]   axi_arid;
+   /*rand*/ bit [31:0]  axi_araddr;
+   /*rand*/ bit [7:0]   axi_arlen;
+   /*rand*/ bit [2:0]   axi_arsize;
+   /*rand*/ bit [1:0]   axi_arburst;
+   /*rand*/ bit         axi_arlock;
+   /*rand*/ bit [3:0]   axi_arcache;
+   /*rand*/ bit [2:0]   axi_arprot;
+   /*rand*/ bit         axi_arvalid;
         bit         axi_arready;
    
    // Read data line
@@ -46,114 +46,114 @@ class slave_item extends uvm_sequence_item;
         bit [1:0]   axi_rresp;
         bit         axi_rlast;
         bit         axi_rvalid;
-   rand bit         axi_rready;
+   /*rand*/ bit         axi_rready;
 
 
    function new (string name="slave_item");
       super.new (name);
    endfunction
 
-   // *********** CONSTRAINTS *********** //
-   constraint c_op {
-      soft operation == 1;
-    }
-   constraint c_axi_awid {
-      axi_awid inside {[0:255]};
-   }
+   // // *********** CONSTRAINTS *********** //
+   // constraint c_op {
+   //    soft operation == 1;
+   //  }
+   // constraint c_axi_awid {
+   //    axi_awid inside {[0:255]};
+   // }
 
-   constraint c_axi_awaddr {
-      axi_awaddr inside {[0:15]};
-   }
+   // constraint c_axi_awaddr {
+   //    axi_awaddr inside {[0:15]};
+   // }
 
-   constraint c_axi_awlen {
-      soft axi_awlen inside {[3:3]};
-   }
+   // constraint c_axi_awlen {
+   //    soft axi_awlen inside {[3:3]};
+   // }
 
-   constraint c_axi_awsize {
-      axi_awsize inside {[0:0]};
-   }
+   // constraint c_axi_awsize {
+   //    axi_awsize inside {[0:0]};
+   // }
 
-   constraint c_axi_awburst {
-      axi_awburst inside {[0:0]};
-   }
+   // constraint c_axi_awburst {
+   //    axi_awburst inside {[0:0]};
+   // }
 
-   constraint c_axi_awlock {
-      axi_awlock inside {[0:0]};
-   }
+   // constraint c_axi_awlock {
+   //    axi_awlock inside {[0:0]};
+   // }
 
-   constraint c_axi_awvalid {
-      axi_awvalid inside {[1:1]};
-   }
+   // constraint c_axi_awvalid {
+   //    axi_awvalid inside {[1:1]};
+   // }
 
-   constraint c_axi_wdata {
-      axi_wdata inside {[0:2**32-1]};
-   }
+   // constraint c_axi_wdata {
+   //    axi_wdata inside {[0:2**32-1]};
+   // }
 
-   constraint c_axi_wstrb {
-      axi_wstrb inside {[0:15]};
-   }
+   // constraint c_axi_wstrb {
+   //    axi_wstrb inside {[0:15]};
+   // }
 
-   constraint c_axi_wlast {
-      axi_wlast inside {[1:1]};
-   }
+   // constraint c_axi_wlast {
+   //    axi_wlast inside {[1:1]};
+   // }
 
-   constraint c_axi_wvalid {
-      axi_wvalid inside {[1:1]};
-   }
+   // constraint c_axi_wvalid {
+   //    axi_wvalid inside {[1:1]};
+   // }
 
-   constraint c_axi_bready {
-      axi_bready inside {[1:1]};
-   }
+   // constraint c_axi_bready {
+   //    axi_bready inside {[1:1]};
+   // }
 
-   constraint c_axi_arid {
-      // axi_arid inside {[0:255]};
-      axi_arid == 1;
-   }
+   // constraint c_axi_arid {
+   //    // axi_arid inside {[0:255]};
+   //    axi_arid == 1;
+   // }
 
-   constraint c_axi_araddr {
-      axi_araddr inside {[1:10]};
-      // axi_araddr == 1;
-   }
+   // constraint c_axi_araddr {
+   //    axi_araddr inside {[1:10]};
+   //    // axi_araddr == 1;
+   // }
 
-   constraint c_axi_arlen {
-      // axi_arlen inside {[0:255]};
-      soft axi_arlen == 1;
-   }
+   // constraint c_axi_arlen {
+   //    // axi_arlen inside {[0:255]};
+   //    soft axi_arlen == 1;
+   // }
 
-   constraint c_axi_arsize {
-      // axi_arsize inside {[0:7]};
-      axi_arsize == 0;
-   }
+   // constraint c_axi_arsize {
+   //    // axi_arsize inside {[0:7]};
+   //    axi_arsize == 0;
+   // }
 
-   constraint c_axi_arburst {
-      // axi_arburst inside {[0:3]};
-      axi_arburst == 0;
-   }
+   // constraint c_axi_arburst {
+   //    // axi_arburst inside {[0:3]};
+   //    axi_arburst == 0;
+   // }
 
-   constraint c_axi_arlock {
-      axi_arlock inside {[0:0]};
-   }
+   // constraint c_axi_arlock {
+   //    axi_arlock inside {[0:0]};
+   // }
 
-   constraint c_axi_arvalid {
-      // axi_arvalid inside {[0:1]};
-      axi_arvalid == 1'b1;
-   }
+   // constraint c_axi_arvalid {
+   //    // axi_arvalid inside {[0:1]};
+   //    axi_arvalid == 1'b1;
+   // }
 
-   constraint c_axi_rready {
-      axi_rready inside {[1:1]};
-   }
+   // constraint c_axi_rready {
+   //    axi_rready inside {[1:1]};
+   // }
 
-   constraint prot_cache_zero {
-      //axi_arprot == 3'b000;
-      //axi_awprot == 3'b000;
-      axi_arcache == 4'b0000;
-      axi_awcache == 4'b0000;
-   }
+   // constraint prot_cache_zero {
+   //    //axi_arprot == 3'b000;
+   //    //axi_awprot == 3'b000;
+   //    axi_arcache == 4'b0000;
+   //    axi_awcache == 4'b0000;
+   // }
 
 function void print();
       string print_str;
       print_str = $sformatf("AXI Transaction:\n");
-      print_str = {print_str, $sformatf("  Operation: %0d\n", operation)};
+      // print_str = {print_str, $sformatf("  Operation: %0d\n", operation)};
       
       // Write address line
       print_str = {print_str, $sformatf("  axi_awid: 0x%0h\n", axi_awid)};

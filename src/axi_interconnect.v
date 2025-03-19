@@ -12,17 +12,17 @@ module axi_interconnect (
     input wire  [3:0]  m1_awcache,
     input wire  [2:0]  m1_awprot,
     input wire         m1_awvalid,
-    input wire         m1_awready,
+    output wire         m1_awready,
     // Write Data (W)
     input wire  [31:0] m1_wdata,
     input wire  [3:0]  m1_wstrb,
     input wire         m1_wlast,
     input wire         m1_wvalid,
-    input wire         m1_wready,
+    output wire         m1_wready,
     // Write Response (B)
     input wire  [7:0]  m1_bid,
-    input wire  [1:0]  m1_bresp,
-    input wire         m1_bvalid,
+    output wire  [1:0]  m1_bresp,
+    output wire         m1_bvalid,
     input wire         m1_bready,
     // Read Address (AR)
     input wire  [31:0] m1_araddr,
@@ -34,13 +34,13 @@ module axi_interconnect (
     input wire  [3:0]  m1_arcache,
     input wire  [2:0]  m1_arprot,
     input wire         m1_arvalid,
-    input wire         m1_arready,
+    output wire         m1_arready,
     // Read Data (R)
-    input wire  [7:0]  m1_rid,
-    input wire  [31:0] m1_rdata,
-    input wire  [1:0]  m1_rresp,
-    input wire         m1_rlast,
-    input wire         m1_rvalid,
+    output wire  [7:0]  m1_rid,
+    output wire  [31:0] m1_rdata,
+    output wire  [1:0]  m1_rresp,
+    output wire         m1_rlast,
+    output wire         m1_rvalid,
     input wire         m1_rready,
 
     // Master 2 Interface
@@ -54,17 +54,17 @@ module axi_interconnect (
     input wire  [3:0]  m2_awcache,
     input wire  [2:0]  m2_awprot,
     input wire         m2_awvalid,
-    input wire         m2_awready,
+    output wire         m2_awready,
     // Write Data (W)
     input wire  [31:0] m2_wdata,
     input wire  [3:0]  m2_wstrb,
     input wire         m2_wlast,
     input wire         m2_wvalid,
-    input wire         m2_wready,
+    output wire         m2_wready,
     // Write Response (B)
     input wire  [7:0]  m2_bid,
-    input wire  [1:0]  m2_bresp,
-    input wire         m2_bvalid,
+    output wire  [1:0]  m2_bresp,
+    output wire         m2_bvalid,
     input wire         m2_bready,
     // Read Address (AR)
     input wire  [31:0] m2_araddr,
@@ -76,13 +76,13 @@ module axi_interconnect (
     input wire  [3:0]  m2_arcache,
     input wire  [2:0]  m2_arprot,
     input wire         m2_arvalid,
-    input wire         m2_arready,
+    output wire         m2_arready,
     // Read Data (R)
-    input wire  [7:0]  m2_rid,
-    input wire  [31:0] m2_rdata,
-    input wire  [1:0]  m2_rresp,
-    input wire         m2_rlast,
-    input wire         m2_rvalid,
+    output wire  [7:0]  m2_rid,
+    output wire  [31:0] m2_rdata,
+    output wire  [1:0]  m2_rresp,
+    output wire         m2_rlast,
+    output wire         m2_rvalid,
     input wire         m2_rready,
 
     // Slave 1 Interface
@@ -96,17 +96,17 @@ module axi_interconnect (
     output reg  [3:0]  s1_awcache,
     output reg  [2:0]  s1_awprot,
     output reg         s1_awvalid,
-    output reg         s1_awready,
+    input wire         s1_awready,
     // Write Data (W)
     output reg  [31:0] s1_wdata,
     output reg  [3:0]  s1_wstrb,
     output reg         s1_wlast,
     output reg         s1_wvalid,
-    output reg         s1_wready,
+    input wire         s1_wready,
     // Write Response (B)
     output reg  [7:0]  s1_bid,
-    output reg  [1:0]  s1_bresp,
-    output reg         s1_bvalid,
+    input wire  [1:0]  s1_bresp,
+    input wire         s1_bvalid,
     output reg         s1_bready,
     // Read Address (AR)
     output reg  [31:0] s1_araddr,
@@ -118,13 +118,13 @@ module axi_interconnect (
     output reg  [3:0]  s1_arcache,
     output reg  [2:0]  s1_arprot,
     output reg         s1_arvalid,
-    output reg         s1_arready,
+    input wire         s1_arready,
     // Read Data (R)
-    output reg  [7:0]  s1_rid,
-    output reg  [31:0] s1_rdata,
-    output reg  [1:0]  s1_rresp,
-    output reg         s1_rlast,
-    output reg         s1_rvalid,
+    input wire  [7:0]  s1_rid,
+    input wire  [31:0] s1_rdata,
+    input wire  [1:0]  s1_rresp,
+    input wire         s1_rlast,
+    input wire         s1_rvalid,
     output reg         s1_rready,
 
     // Slave 2 Interface
@@ -138,17 +138,17 @@ module axi_interconnect (
     output reg  [3:0]  s2_awcache,
     output reg  [2:0]  s2_awprot,
     output reg         s2_awvalid,
-    output reg         s2_awready,
+    input wire         s2_awready,
     // Write Data (W)
     output reg  [31:0] s2_wdata,
     output reg  [3:0]  s2_wstrb,
     output reg         s2_wlast,
     output reg         s2_wvalid,
-    output reg         s2_wready,
+    input wire         s2_wready,
     // Write Response (B)
     output reg  [7:0]  s2_bid,
-    output reg  [1:0]  s2_bresp,
-    output reg         s2_bvalid,
+    input wire  [1:0]  s2_bresp,
+    input wire         s2_bvalid,
     output reg         s2_bready,
     // Read Address (AR)
     output reg  [31:0] s2_araddr,
@@ -160,13 +160,13 @@ module axi_interconnect (
     output reg  [3:0]  s2_arcache,
     output reg  [2:0]  s2_arprot,
     output reg         s2_arvalid,
-    output reg         s2_arready,
+    input wire         s2_arready,
     // Read Data (R)
-    output reg  [7:0]  s2_rid,
-    output reg  [31:0] s2_rdata,
-    output reg  [1:0]  s2_rresp,
-    output reg         s2_rlast,
-    output reg         s2_rvalid,
+    input wire  [7:0]  s2_rid,
+    input wire  [31:0] s2_rdata,
+    input wire  [1:0]  s2_rresp,
+    input wire         s2_rlast,
+    input wire         s2_rvalid,
     output reg         s2_rready  
 );
 parameter S1_WIDTH = 32'h8000_0000;

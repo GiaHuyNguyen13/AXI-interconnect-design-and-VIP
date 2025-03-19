@@ -11,7 +11,7 @@ class master_driver extends uvm_driver #(master_item);
     super.build_phase(phase);
     if (!uvm_config_db#(virtual axi_interface)::get(this, "", "interface", axi_vif))
       `uvm_fatal("DRV", "Could not get axi_vif")
-    if (!uvm_config_db#(centralized_memory_model)::get(this, "*", "passdown_mem", mem))
+    if (!uvm_config_db#(centralized_memory_model)::get(this, "", "passdown_mem", mem))
       `uvm_fatal("CONFIG_ERR", "Could not get centralized memory from config DB.");
   endfunction
   

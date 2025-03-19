@@ -7,8 +7,8 @@ class base_test extends uvm_test;
   env  				e0;
   master_gen_item_seq 		m1_seq;
   master_gen_item_seq     m2_seq;
-  slave_gen_item_seq      s1_seq;
-  slave_gen_item_seq      s2_seq;
+  // slave_gen_item_seq      s1_seq;
+  // slave_gen_item_seq      s2_seq;
   
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
@@ -32,10 +32,10 @@ class base_test extends uvm_test;
     m2_seq = master_gen_item_seq::type_id::create("m2_seq");
     m2_seq.randomize();
 
-    s1_seq = slave_gen_item_seq::type_id::create("s1_seq");
-    s1_seq.randomize();
-    s2_seq = slave_gen_item_seq::type_id::create("s2_seq");
-    s2_seq.randomize();
+    // s1_seq = slave_gen_item_seq::type_id::create("s1_seq");
+    // s1_seq.randomize();
+    // s2_seq = slave_gen_item_seq::type_id::create("s2_seq");
+    // s2_seq.randomize();
   endfunction
   
   virtual task run_phase(uvm_phase phase);
@@ -43,8 +43,8 @@ class base_test extends uvm_test;
     fork
     m1_seq.start(e0.m1.s0);
     m2_seq.start(e0.m2.s0);
-    s1_seq.start(e0.s1.s0);
-    s2_seq.start(e0.s2.s0);
+    // s1_seq.start(e0.s1.s0);
+    // s2_seq.start(e0.s2.s0);
     join
     #200;
     phase.drop_objection(this);
