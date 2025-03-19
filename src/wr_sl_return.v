@@ -9,8 +9,8 @@ module wr_sl_return(
 
 wire s1_resp, s2_resp;
 
-assign s1_resp = ~mas_sel1[0] & mas_sel1[1];
-assign s2_resp = ~mas_sel2[0] & mas_sel2[1];
+assign s1_resp = mas_sel1[0] & ~mas_sel1[1];
+assign s2_resp = mas_sel2[0] & ~mas_sel2[1];
 
 always @(*) begin
     case({s2_resp,s1_resp})

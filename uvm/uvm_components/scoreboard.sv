@@ -99,15 +99,19 @@ class scoreboard extends uvm_scoreboard;
 
 
 virtual function void grant_req(input bit op, input int slv_num); // Change grant of each slave, arbiter simulator
-    if(s1_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
-    if(s1_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
-    if(s2_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
-    if(s2_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
+    if(m1_req_q.size()) begin
+        if(s1_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
+        if(s2_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
+        if(s1_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
+        if(s2_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
+    end
 
-    if(s1_wr_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_wr_lock = 2'b00;
-    if(s1_wr_lock == 2'b11 && m2_req_q[0].axi_rlast) s1_wr_lock = 2'b00;
-    if(s2_wr_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_wr_lock = 2'b00;
-    if(s2_wr_lock == 2'b11 && m2_req_q[0].axi_rlast) s2_wr_lock = 2'b00;
+    if(m2_req_q.size()) begin
+        if(s1_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
+        if(s2_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
+        if(s1_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
+        if(s2_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
+    end
 
     case (op)
       1'b0: begin

@@ -225,7 +225,7 @@ wr_sl_return wr_sl_return_m1(
     .mas_sel1   (mas_sel_s1_wr), 
     .mas_sel2   (mas_sel_s2_wr),
     .wr_AWREADY (m1_awready), 
-    .wr_WREADY  (m1_awready), 
+    .wr_WREADY  (m1_wready), 
     .wr_BVALID  (m1_bvalid),  
     .wr_BRESP   (m1_bresp)
 );
@@ -239,10 +239,10 @@ wr_sl_return wr_sl_return_m2(
     .s2_BVALID  (s2_bvalid), 
     .s1_BRESP   (s1_bresp), 
     .s2_BRESP   (s2_bresp), 
-    .mas_sel1   (mas_sel_s1_wr), 
-    .mas_sel2   (mas_sel_s2_wr),
+    .mas_sel1   (~mas_sel_s1_wr), 
+    .mas_sel2   (~mas_sel_s2_wr),
     .wr_AWREADY (m2_awready), 
-    .wr_WREADY  (m2_awready), 
+    .wr_WREADY  (m2_wready), 
     .wr_BVALID  (m2_bvalid),  
     .wr_BRESP   (m2_bresp)
 );
@@ -283,8 +283,8 @@ rd_sl_return rd_sl_return_m2 (
     .s2_RDATA   (s2_rdata),
     .s1_RRESP   (s1_rresp), 
     .s2_RRESP   (s2_rresp), 
-    .mas_sel1   (mas_sel_s1_rd), 
-    .mas_sel2   (mas_sel_s2_rd),
+    .mas_sel1   (~mas_sel_s1_rd), 
+    .mas_sel2   (~mas_sel_s2_rd),
     .rd_ARREADY (m2_arready), 
     .rd_RLAST   (m2_rlast), 
     .rd_RVALID  (m2_rvalid),

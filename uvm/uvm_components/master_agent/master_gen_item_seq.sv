@@ -16,7 +16,7 @@ class master_gen_item_seq extends uvm_sequence;
     	m_item.randomize() with {
         operation == op;
         axi_awlen == len;
-        axi_arlen == len;
+        axi_arlen == 3;
       };
       finish_item(m_item);
     end
