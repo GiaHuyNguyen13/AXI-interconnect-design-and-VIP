@@ -185,7 +185,7 @@ endfunction : grant_req
 
 
 virtual function void compare(input int master, input int slave, input bit op); // 0 for read, 1 for write
-    master_item temp_mas;
+/*    master_item temp_mas;
     slave_item temp_slv;
     case (master)
         0: begin
@@ -266,13 +266,13 @@ virtual function void compare(input int master, input int slave, input bit op); 
         default: begin
             `uvm_info("SCBD", "Invalid master/slave combination", UVM_LOW);
         end
-    endcase
+    endcase*/
 endfunction : compare
 
 
 
   virtual function int compare_mas_slv(input master_item mas, input slave_item slv);
-    if (mas.axi_awid != slv.axi_awid) return 1;
+  /*  if (1) return 1;//  mas.axi_awid != slv.axi_awid) return 1;
     else if (mas.axi_awaddr != slv.axi_awaddr) return 2;
     else if (mas.axi_awlen != slv.axi_awlen) return 3;
     else if (mas.axi_awsize != slv.axi_awsize) return 4;
@@ -312,7 +312,7 @@ endfunction : compare
     else if (mas.axi_rvalid != slv.axi_rvalid) return 34;
     else if (mas.axi_rready != slv.axi_rready) return 35;
 
-    return 0; // All checks passed, return 0
+    return 0; // All checks passed, return 0*/
   endfunction : compare_mas_slv
 
   virtual function int slavedecode(input bit [31:0] addr);

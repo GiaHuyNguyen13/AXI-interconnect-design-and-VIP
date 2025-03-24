@@ -77,10 +77,6 @@ class master_item extends uvm_sequence_item;
       axi_awburst inside {[0:0]};
    }
 
-   constraint c_axi_awlock {
-      axi_awlock inside {[0:0]};
-   }
-
    constraint c_axi_awvalid {
       axi_awvalid inside {[1:1]};
    }
@@ -143,12 +139,12 @@ class master_item extends uvm_sequence_item;
       axi_rready inside {[1:1]};
    }
 
-   constraint prot_cache_zero {
-      //axi_arprot == 3'b000;
-      //axi_awprot == 3'b000;
-      axi_arcache == 4'b0000;
-      axi_awcache == 4'b0000;
-   }
+   // constraint prot_cache_zero {
+   //    //axi_arprot == 3'b000;
+   //    //axi_awprot == 3'b000;
+   //    axi_arcache == 4'b0000;
+   //    axi_awcache == 4'b0000;
+   // }
 
 function void print();
       string print_str;

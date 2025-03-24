@@ -1,5 +1,5 @@
 module axi_interconnect (
-    input wire  [0:0]  i_clk, i_rstn,
+    input wire         i_clk, i_rstn,
 
     // Master 1 Interface
     // Write Address (AW)

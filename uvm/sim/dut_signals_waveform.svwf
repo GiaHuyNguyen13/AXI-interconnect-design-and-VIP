@@ -1,0 +1,663 @@
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.S1_WIDTH}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#1  Write Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awaddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_awready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#1  Write Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_wdata[31:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_wstrb[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_wlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_wvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_wready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#1  Write Response} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_bid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_bresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_bvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_bready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#1  Read Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_araddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_arready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#1  Read Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1_rready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {Master#2  Write Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awaddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_awvalid}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#2  Write Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_wdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_wstrb[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_wlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_wvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_wready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#2  Write Response} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_bresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_bid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_bvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_bready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#2  Read Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_araddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_arready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Master#2  Read Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2_rready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {Slave#1  Write Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awaddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_awready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#1  Write Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_wdata[31:0]}]}
+	} ]]
+waveform format $id -radix %x
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_wstrb[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_wlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_wvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_wready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#1  Write Response} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_bid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_bresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_bvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_bready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {Slave#1  Read Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_araddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_arready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#1  Read Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s1_rready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {Slave#2  Write Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awaddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_awready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#2  Write Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_wdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_wstrb[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_wlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_wvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_wready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#2  Write Response} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_bid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_bresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_bvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_bready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_rstn}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -label {Slave#2  Read Address} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_araddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arburst[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arcache[3:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arlen[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arlock}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arprot[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arsize[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_arready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -label {Slave#2  Read Data} -comment {}]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rlast}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rid[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.s2_rready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.wr_sl_return_m1.s1_resp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.wr_sl_return_m1.s2_resp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.next_gr[0:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.endtrans[0:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.state[1:0]}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s1_rd_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s1_rd_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s1_wr_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s1_wr_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s2_rd_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s2_rd_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s2_wr_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m1s2_wr_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s1_rd_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s1_rd_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s1_wr_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s1_wr_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s2_rd_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s2_rd_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s2_wr_addr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.m2s2_wr_sel}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.mas_sel_s1_rd[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.mas_sel_s1_wr[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.mas_sel_s2_rd[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.mas_sel_s2_wr[1:0]}]}
+	} ]]
+
+waveform xview limits 0 1350000ps
