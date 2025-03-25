@@ -1,7 +1,7 @@
 class slave_item extends uvm_sequence_item;
     `uvm_object_utils(slave_item)
 
-   // /*rand*/ bit    operation; // 0 for read, 1 for write
+   rand bit    operation; // 0 for read, 1 for write
 
    // Write address line
    /*rand*/ bit [7:0]   axi_awid;
@@ -13,19 +13,19 @@ class slave_item extends uvm_sequence_item;
    /*rand*/ bit [3:0]   axi_awcache;
    /*rand*/ bit [2:0]   axi_awprot;
    /*rand*/ bit         axi_awvalid;
-        bit         axi_awready;
+   rand     bit         axi_awready;
 
    // Write data line
    /*rand*/ bit [31:0]  axi_wdata;
    /*rand*/ bit [3:0]   axi_wstrb;
    /*rand*/ bit         axi_wlast;
    /*rand*/ bit         axi_wvalid;
-        bit         axi_wready;
+   rand     bit         axi_wready;
 
    // Write response line
-        bit [7:0]   axi_bid;
-        bit [1:0]   axi_bresp;
-        bit         axi_bvalid;
+   rand         bit [7:0]   axi_bid;
+   rand         bit [1:0]   axi_bresp;
+   rand         bit         axi_bvalid;
    /*rand*/ bit         axi_bready;
 
    // Read address line
@@ -38,14 +38,14 @@ class slave_item extends uvm_sequence_item;
    /*rand*/ bit [3:0]   axi_arcache;
    /*rand*/ bit [2:0]   axi_arprot;
    /*rand*/ bit         axi_arvalid;
-        bit         axi_arready;
+   rand         bit         axi_arready;
    
    // Read data line
-        bit [7:0]   axi_rid;
-        bit [31:0]  axi_rdata;
-        bit [1:0]   axi_rresp;
-        bit         axi_rlast;
-        bit         axi_rvalid;
+   rand     bit [7:0]   axi_rid;
+            bit [31:0]  axi_rdata;
+   rand     bit [1:0]   axi_rresp;
+            bit         axi_rlast;
+   rand     bit         axi_rvalid;
    /*rand*/ bit         axi_rready;
 
 
@@ -54,9 +54,29 @@ class slave_item extends uvm_sequence_item;
    endfunction
 
    // // *********** CONSTRAINTS *********** //
-   // constraint c_op {
-   //    soft operation == 1;
-   //  }
+   constraint c_axi_bvalid {
+      axi_bvalid inside {[1:1]};
+   }
+
+   constraint c_axi_bresp {
+      axi_bresp inside {2'b00, 2'b10, 2'b11};
+   }
+
+   constraint c_axi_arready {
+      axi_arready == 1'b1;
+   } 
+
+   constraint c_axi_wready {
+      axi_wready == 1'b1;
+   } 
+
+   constraint c_axi_rvalid {
+      axi_rvalid == 1'b1;
+   } 
+   
+   constraint c_op {
+      soft operation == 1;
+    }
    // constraint c_axi_awid {
    //    axi_awid inside {[0:255]};
    // }

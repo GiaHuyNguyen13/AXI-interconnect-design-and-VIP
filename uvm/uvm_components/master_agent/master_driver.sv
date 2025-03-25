@@ -79,23 +79,35 @@ class master_driver extends uvm_driver #(master_item);
 endtask
 
 virtual task w_data (master_item m_item);
-    integer len = m_item.axi_awlen + 1;
     @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
         //wait (axi_vif.axi_awvalid && axi_vif.axi_awready);
-        for (integer i=0; i<len; i++) begin
+        for (integer i=0; i<=m_item.axi_awlen; i++) begin
           @(posedge axi_vif.clk);
           axi_vif.axi_wdata   <= mem.read(m_item.axi_awaddr + i);
           axi_vif.axi_wstrb   <= m_item.axi_wstrb;
-          axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
-
-          @(posedge axi_vif.clk);
-          axi_vif.axi_wvalid  <= m_item.axi_wvalid;
-
+          //axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
+          if (i == m_item.axi_awlen) begin
+              @(posedge axi_vif.clk);
+              @(posedge axi_vif.clk);
+              axi_vif.axi_wlast <= 1;
+              axi_vif.axi_wvalid  <= m_item.axi_wvalid;
+          end
+          else begin
+              axi_vif.axi_wlast <= 0;
+              @(posedge axi_vif.clk);
+              axi_vif.axi_wvalid  <= m_item.axi_wvalid;
+          end
           //wait(axi_vif.axi_wready);
           @(posedge axi_vif.clk);
           axi_vif.axi_wvalid  <= 1'b0;
           axi_vif.axi_wlast <= 0;
+
+          //repeat (2) @(posedge axi_vif.clk);
+          // if (axi_vif.axi_wlast) begin
+          //     @(posedge axi_vif.clk);
+          //     axi_vif.axi_wdata <= 32'h0000_0000;
+          // end
         end
           //wait(axi_vif.axi_bvalid);
     end

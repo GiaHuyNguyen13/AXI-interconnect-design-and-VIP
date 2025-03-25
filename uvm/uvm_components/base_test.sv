@@ -41,10 +41,10 @@ class base_test extends uvm_test;
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
     fork
-    m1_seq.start(e0.m1.s0);
-    m2_seq.start(e0.m2.s0);
-    // s1_seq.start(e0.s1.s0);
-    // s2_seq.start(e0.s2.s0);
+       m1_seq.start(e0.m1.s0);
+       m2_seq.start(e0.m2.s0);
+       // s1_seq.start(e0.s1.s0);
+       // s2_seq.start(e0.s2.s0);
     join
     #200;
     phase.drop_objection(this);

@@ -192,10 +192,10 @@ set id [waveform add -signals [subst  {
 	{[format {tb.dut.m2_awid[7:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {tb.dut.m2_awready}]}
+	{[format {tb.dut.m2_awvalid}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {tb.dut.m2_awvalid}]}
+	{[format {tb.dut.m2_awready}]}
 	} ]]
 set id [waveform add -label {} -comment {}]
 set id [waveform add -cdivider divider]
@@ -204,6 +204,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m2_wdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m2_wstrb[3:0]}]}
 	} ]]
@@ -340,7 +341,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s1_wdata[31:0]}]}
 	} ]]
-waveform format $id -radix %x
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s1_wstrb[3:0]}]}
 	} ]]
@@ -352,6 +353,26 @@ set id [waveform add -signals [subst  {
 	} ]]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s1_wready}]}
+	} ]]
+set id [waveform add -label {} -comment {}]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.i_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.wr_sl_return_m1.s1_resp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.wr_sl_return_m1.s2_resp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.next_gr[0:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.endtrans[0:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {tb.dut.scu_s1_wr.state[1:0]}]}
 	} ]]
 set id [waveform add -label {} -comment {}]
 set id [waveform add -cdivider divider]
@@ -580,26 +601,6 @@ set id [waveform add -signals [subst  {
 set id [waveform add -label {} -comment {}]
 set id [waveform add -cdivider divider]
 set id [waveform add -signals [subst  {
-	{[format {tb.dut.i_clk}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {tb.dut.wr_sl_return_m1.s1_resp}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {tb.dut.wr_sl_return_m1.s2_resp}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {tb.dut.scu_s1_wr.next_gr[0:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {tb.dut.scu_s1_wr.endtrans[0:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
-	{[format {tb.dut.scu_s1_wr.state[1:0]}]}
-	} ]]
-set id [waveform add -label {} -comment {}]
-set id [waveform add -cdivider divider]
-set id [waveform add -signals [subst  {
 	{[format {tb.dut.m1s1_rd_addr[31:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
@@ -660,4 +661,4 @@ set id [waveform add -signals [subst  {
 	{[format {tb.dut.mas_sel_s2_wr[1:0]}]}
 	} ]]
 
-waveform xview limits 0 1350000ps
+waveform xview limits 60000ps 1410000ps
