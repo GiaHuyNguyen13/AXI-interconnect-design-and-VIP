@@ -31,14 +31,14 @@ class slave_driver extends uvm_driver #(slave_item);
 
   virtual task r_addr (slave_item m_item);
       @(posedge axi_vif.clk);
-      if (axi_vif.axi_arvalid) begin // Read operation
+      // if (axi_vif.axi_arvalid) begin // Read operation
           axi_vif.axi_arready <= 1'b1;
-      end
+      // end
   endtask
 
   virtual task r_data (slave_item m_item);
       @(posedge axi_vif.clk);
-      if (axi_vif.axi_arvalid) begin // Read operation
+      if (axi_vif.axi_rready) begin // Read operation
           axi_vif.axi_rid <= axi_vif.axi_arid;
           axi_vif.axi_rvalid <= 1'b1;
           for(int i = 0; i <= axi_vif.axi_arlen; i++) begin
@@ -48,6 +48,7 @@ class slave_driver extends uvm_driver #(slave_item);
             @(posedge axi_vif.clk);
           end
           axi_vif.axi_rlast <= 1'b0;
+          axi_vif.axi_rvalid <= 1'b0;
       end
   endtask
 

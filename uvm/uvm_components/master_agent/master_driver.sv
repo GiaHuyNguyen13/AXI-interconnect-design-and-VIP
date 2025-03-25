@@ -29,22 +29,23 @@ class master_driver extends uvm_driver #(master_item);
   
 
   virtual task r_addr (master_item m_item);
-      @(posedge axi_vif.clk);
+      // @(posedge axi_vif.clk);
       if (!m_item.operation) begin // Read operation
           axi_vif.axi_arid    <= m_item.axi_arid;
           axi_vif.axi_araddr  <= m_item.axi_araddr;
           axi_vif.axi_arlen   <= m_item.axi_arlen;
-          axi_vif.axi_arsize  <= m_item.axi_arsize;
+          axi_vif.axi_arsize  <= 3'b010;
           axi_vif.axi_arburst <= m_item.axi_arburst;
           axi_vif.axi_arlock  <= m_item.axi_arlock;
           axi_vif.axi_arcache <= m_item.axi_arcache;
           axi_vif.axi_arprot  <= m_item.axi_arprot;
-          @(posedge axi_vif.clk);
+          // @(posedge axi_vif.clk);
           axi_vif.axi_arvalid <= m_item.axi_arvalid;
-          wait(axi_vif.axi_arready);
+          // wait(axi_vif.axi_arready);
           @(posedge axi_vif.clk);
           axi_vif.axi_arvalid <= 1'b0;
           wait(axi_vif.axi_rlast && axi_vif.axi_rvalid);
+          wait(!axi_vif.axi_rlast && !axi_vif.axi_rvalid);
       end
   endtask
 
