@@ -59,8 +59,9 @@ class master_driver extends uvm_driver #(master_item);
   endtask
 
   virtual task w_addr (master_item m_item);
-    @(posedge axi_vif.clk);
+    // @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
+      // `uvm_info("SCBD", $sformatf("here"), UVM_LOW);
         axi_vif.axi_awid    <= m_item.axi_awid;
         axi_vif.axi_awaddr  <= m_item.axi_awaddr;
         axi_vif.axi_awlen   <= m_item.axi_awlen;
@@ -69,9 +70,11 @@ class master_driver extends uvm_driver #(master_item);
         axi_vif.axi_awprot  <= m_item.axi_awprot;
         axi_vif.axi_awlock  <= m_item.axi_awlock;
         axi_vif.axi_awcache <= m_item.axi_awcache;
-        @(posedge axi_vif.clk);
+        // @(posedge axi_vif.clk);
+        
+        // wait(axi_vif.axi_awready);
         axi_vif.axi_awvalid <= m_item.axi_awvalid;
-        wait(axi_vif.axi_awready);
+        // @(posedge axi_vif.clk);
         @(posedge axi_vif.clk);
         axi_vif.axi_awvalid <= 1'b0;
         //wait(axi_vif.axi_bvalid);
@@ -79,35 +82,24 @@ class master_driver extends uvm_driver #(master_item);
 endtask
 
 virtual task w_data (master_item m_item);
-    @(posedge axi_vif.clk);
+    integer len = m_item.axi_awlen + 1;
+    // @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
         //wait (axi_vif.axi_awvalid && axi_vif.axi_awready);
-        for (integer i=0; i<=m_item.axi_awlen; i++) begin
+        for (integer i=0; i<len; i++) begin
           @(posedge axi_vif.clk);
           axi_vif.axi_wdata   <= mem.read(m_item.axi_awaddr + i);
           axi_vif.axi_wstrb   <= m_item.axi_wstrb;
-          //axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
-          if (i == m_item.axi_awlen) begin
-              @(posedge axi_vif.clk);
-              @(posedge axi_vif.clk);
-              axi_vif.axi_wlast <= 1;
-              axi_vif.axi_wvalid  <= m_item.axi_wvalid;
-          end
-          else begin
-              axi_vif.axi_wlast <= 0;
-              @(posedge axi_vif.clk);
-              axi_vif.axi_wvalid  <= m_item.axi_wvalid;
-          end
+          axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
+
+          // @(posedge axi_vif.clk);
+          axi_vif.axi_wvalid  <= m_item.axi_wvalid;
+
           //wait(axi_vif.axi_wready);
           @(posedge axi_vif.clk);
           axi_vif.axi_wvalid  <= 1'b0;
           axi_vif.axi_wlast <= 0;
-
-          //repeat (2) @(posedge axi_vif.clk);
-          // if (axi_vif.axi_wlast) begin
-          //     @(posedge axi_vif.clk);
-          //     axi_vif.axi_wdata <= 32'h0000_0000;
-          // end
+          // `uvm_info("SCBD", $sformatf("here1"), UVM_LOW);
         end
           //wait(axi_vif.axi_bvalid);
     end
