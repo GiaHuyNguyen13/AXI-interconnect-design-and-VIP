@@ -1,6 +1,6 @@
 module scu (
     input  wire [0:0] clk, rstn,
-    input  wire [0:0] sel_m1, sel_m2, endtrans,
+    input  wire [0:0] sel_m1, sel_m2, endtrans_1, endtrans_2,
     output reg  [1:0] mas_sel
 );
     //States
@@ -30,13 +30,13 @@ module scu (
                     next_state = state;
             end
             GRANT1: begin
-                if (endtrans == 1'b1)
+                if (endtrans_1 == 1'b1)
                     next_state = NEXT;
                 else
                     next_state = state;
             end
             GRANT2: begin
-                if (endtrans == 1'b1)
+                if (endtrans_2 == 1'b1)
                     next_state = NEXT;
                 else
                     next_state = state;

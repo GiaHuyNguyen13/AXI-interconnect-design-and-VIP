@@ -298,7 +298,8 @@ scu scu_s1_wr (
     .rstn       (i_rstn), 
     .sel_m1     (m1s1_wr_sel), 
     .sel_m2     (m2s1_wr_sel), 
-    .endtrans   (m1_wlast), 
+    .endtrans_1 (m1_wlast),
+    .endtrans_2 (m2_wlast), 
     .mas_sel    (mas_sel_s1_wr)
 );
 
@@ -307,7 +308,8 @@ scu scu_s2_wr (
     .rstn       (i_rstn), 
     .sel_m1     (m1s2_wr_sel), 
     .sel_m2     (m2s2_wr_sel), 
-    .endtrans   (m2_wlast), 
+    .endtrans_1 (m1_wlast),
+    .endtrans_2 (m2_wlast), 
     .mas_sel    (mas_sel_s2_wr)
 );
 
@@ -316,7 +318,8 @@ scu scu_s1_rd (
     .rstn       (i_rstn), 
     .sel_m1     (m1s1_rd_sel), 
     .sel_m2     (m2s1_rd_sel), 
-    .endtrans   (s1_rlast), 
+    .endtrans_1 (s1_rlast),
+    .endtrans_2 (s1_rlast), 
     .mas_sel    (mas_sel_s1_rd)
 );
 
@@ -325,7 +328,8 @@ scu scu_s2_rd (
     .rstn       (i_rstn), 
     .sel_m1     (m1s2_rd_sel), 
     .sel_m2     (m2s2_rd_sel), 
-    .endtrans   (s2_rlast), 
+    .endtrans_1 (s2_rlast),
+    .endtrans_2 (s2_rlast), 
     .mas_sel    (mas_sel_s2_rd)
 );
     
