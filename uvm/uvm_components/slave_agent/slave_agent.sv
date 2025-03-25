@@ -15,10 +15,10 @@ class slave_agent extends uvm_agent;
     s0 = uvm_sequencer#(slave_item)::type_id::create("s0", this);
     d0 = slave_driver::type_id::create("d0", this);
     m0 = slave_monitor::type_id::create("m0", this);
-    uvm_config_db#(centralized_memory_model)::get(this, "", "mem", mem);
+    void'(uvm_config_db#(centralized_memory_model)::get(this, "", "mem", mem));
     uvm_config_db#(centralized_memory_model)::set(this, "*", "passdown_mem", mem);
     
-    uvm_config_db#(virtual axi_interface)::get(this, "", "axi_if", axi_if);
+    void'(uvm_config_db#(virtual axi_interface)::get(this, "", "axi_if", axi_if));
     uvm_config_db#(virtual axi_interface)::set(this, "*", "interface", axi_if);
   endfunction
   

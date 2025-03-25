@@ -81,9 +81,9 @@ class master_item extends uvm_sequence_item;
       axi_awvalid inside {[1:1]};
    }
 
-   constraint c_axi_wdata {
-      axi_wdata inside {[0:2**32-1]};
-   }
+   // constraint c_axi_wdata {
+   //    axi_wdata inside {[0:2**32-1]};
+   // }
 
    constraint c_axi_wstrb {
       axi_wstrb inside {[0:15]};

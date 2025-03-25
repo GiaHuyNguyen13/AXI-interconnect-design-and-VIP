@@ -19,12 +19,12 @@ class slave_driver extends uvm_driver #(slave_item);
     super.run_phase(phase);
     forever begin
       slave_item m_item;
-      // `uvm_info("DRV", $sformatf("Wait for item from sequencer"), UVM_HIGH)
-      // seq_item_port.get_next_item(m_item); // get next item
+      `uvm_info("DRV_Slave", $sformatf("Wait for item from sequencer"), UVM_HIGH)
+      seq_item_port.get_next_item(m_item); // get next item
       // m_item.print();
       drive_item(m_item); // forward item to DUT through interface
-      // `uvm_info("DRV", $sformatf("AXI item done"), UVM_HIGH)
-      // seq_item_port.item_done(); // item get done
+      `uvm_info("DRV_Slave", $sformatf("AXI item done"), UVM_HIGH)
+      seq_item_port.item_done(); // item get done
     end
   endtask
   
@@ -60,8 +60,13 @@ class slave_driver extends uvm_driver #(slave_item);
 endtask
 
 virtual task w_data (slave_item m_item);
-    @(posedge axi_vif.clk);
     axi_vif.axi_wready <= 1'b1;
+    @(negedge axi_vif.axi_wlast);
+    axi_vif.axi_bresp <= m_item.axi_bresp;
+    axi_vif.axi_bid <= m_item.axi_awid;
+    @(posedge axi_vif.clk);
+    axi_vif.axi_bresp <= 2'b00;
+    axi_vif.axi_bid <= 8'b0000_0000;
 endtask
 
 virtual task drive_item (slave_item m_item);
