@@ -64,9 +64,11 @@ virtual task w_data (slave_item m_item);
     @(negedge axi_vif.axi_wlast);
     axi_vif.axi_bresp <= m_item.axi_bresp;
     axi_vif.axi_bid <= m_item.axi_awid;
+    axi_vif.axi_bvalid <= 1'b1;
     @(posedge axi_vif.clk);
     axi_vif.axi_bresp <= 2'b00;
     axi_vif.axi_bid <= 8'b0000_0000;
+    axi_vif.axi_bvalid <= 1'b0;
 endtask
 
 virtual task drive_item (slave_item m_item);

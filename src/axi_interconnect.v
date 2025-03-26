@@ -298,8 +298,8 @@ scu scu_s1_wr (
     .rstn       (i_rstn), 
     .sel_m1     (m1s1_wr_sel), 
     .sel_m2     (m2s1_wr_sel), 
-    .endtrans_1 (m1_wlast),
-    .endtrans_2 (m2_wlast), 
+    .endtrans_1 (m1_bready & m1_bvalid),
+    .endtrans_2 (m2_bready & m2_bvalid), 
     .mas_sel    (mas_sel_s1_wr)
 );
 
@@ -308,8 +308,8 @@ scu scu_s2_wr (
     .rstn       (i_rstn), 
     .sel_m1     (m1s2_wr_sel), 
     .sel_m2     (m2s2_wr_sel), 
-    .endtrans_1 (m1_wlast),
-    .endtrans_2 (m2_wlast), 
+    .endtrans_1 (m1_bready & m1_bvalid),
+    .endtrans_2 (m2_bready & m2_bvalid), 
     .mas_sel    (mas_sel_s2_wr)
 );
 
