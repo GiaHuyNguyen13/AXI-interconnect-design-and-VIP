@@ -22,8 +22,9 @@ class master_monitor extends uvm_monitor;
         // @(axi_vif.clk);
         master_item m_item_beat;
         master_item m_item = master_item::type_id::create("m_item");
-        wait ((axi_vif.axi_awvalid && axi_vif.axi_awready) || (axi_vif.axi_arvalid && axi_vif.axi_arready));
-        // `uvm_info("MNT", $sformatf("Read data is correct"), UVM_HIGH)
+        @(posedge axi_vif.clk) begin
+        // wait ((axi_vif.axi_awvalid && axi_vif.axi_awready) || (axi_vif.axi_arvalid && axi_vif.axi_arready));
+        `uvm_info("MNT", $sformatf("Read data is correct"), UVM_LOW)
         if (axi_vif.axi_awvalid && axi_vif.axi_awready) begin
             // Write address line
             m_item.axi_awid    = axi_vif.axi_awid;
@@ -126,5 +127,6 @@ class master_monitor extends uvm_monitor;
             end
         end
     end
+  end
   endtask
 endclass

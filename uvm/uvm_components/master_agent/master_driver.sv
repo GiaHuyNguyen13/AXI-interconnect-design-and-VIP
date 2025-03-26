@@ -60,7 +60,7 @@ class master_driver extends uvm_driver #(master_item);
   endtask
 
   virtual task w_addr (master_item m_item);
-    // @(posedge axi_vif.clk);
+    @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
       // `uvm_info("SCBD", $sformatf("here"), UVM_LOW);
         axi_vif.axi_awid    <= m_item.axi_awid;
@@ -76,17 +76,18 @@ class master_driver extends uvm_driver #(master_item);
         // wait(axi_vif.axi_awready);
         axi_vif.axi_awvalid <= m_item.axi_awvalid;
         // @(posedge axi_vif.clk);
-        @(posedge axi_vif.clk);
-        axi_vif.axi_awvalid <= 1'b0;
+        // @(posedge axi_vif.clk);
+        // axi_vif.axi_awvalid <= 1'b0;
         //wait(axi_vif.axi_bvalid);
     end
 endtask
 
 virtual task w_data (master_item m_item);
     integer len = m_item.axi_awlen + 1;
-    // @(posedge axi_vif.clk);
+    @(posedge axi_vif.clk);
     if (m_item.operation) begin // Write operation
         //wait (axi_vif.axi_awvalid && axi_vif.axi_awready);
+        axi_vif.axi_bready <= 1'b1;
         for (integer i=0; i<len; i++) begin
           @(posedge axi_vif.clk);
           axi_vif.axi_wdata   <= mem.read(m_item.axi_awaddr + i);
@@ -111,10 +112,9 @@ virtual task drive_item (master_item m_item);
     fork
     r_addr(m_item);
     r_data(m_item);
-    join
+    // join
 
-    fork
-    axi_vif.axi_bready <= 1'b1; 
+    // fork 
     w_addr(m_item);
     w_data(m_item);
     join

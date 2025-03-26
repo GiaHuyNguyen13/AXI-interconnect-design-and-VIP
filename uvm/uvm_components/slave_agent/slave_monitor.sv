@@ -23,7 +23,8 @@ class slave_monitor extends uvm_monitor;
         // @(axi_vif.clk);
         slave_item m_item_beat;
         slave_item m_item = slave_item::type_id::create("m_item");
-        wait ((axi_vif.axi_awvalid && axi_vif.axi_awready) || (axi_vif.axi_arvalid && axi_vif.axi_arready));
+        @(posedge axi_vif.clk) begin
+        // wait ((axi_vif.axi_awvalid && axi_vif.axi_awready) || (axi_vif.axi_arvalid && axi_vif.axi_arready));
         // `uvm_info("MNT", $sformatf("Read data is correct"), UVM_HIGH)
         if (axi_vif.axi_awvalid && axi_vif.axi_awready) begin
             // Write address line
@@ -128,5 +129,6 @@ class slave_monitor extends uvm_monitor;
             end
         end
     end
+  end
   endtask
 endclass
