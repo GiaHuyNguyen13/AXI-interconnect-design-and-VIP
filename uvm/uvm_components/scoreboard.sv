@@ -12,6 +12,7 @@ class scoreboard extends uvm_scoreboard;
   bit m1_slave_num, m2_slave_num; // 0 for slave 1, 1 for slave 2
   master_item m1_queue[$], m2_queue[$];
   slave_item s1_queue[$], s2_queue[$];
+  int delay = 0;
 
   // Queue for checking arbitration
   master_item m1_req_q[$], m2_req_q[$];
@@ -47,8 +48,9 @@ class scoreboard extends uvm_scoreboard;
       end
       if (m1_item.axi_wvalid && m1_item.axi_wready) begin
         m1_req_q.push_back(m1_item);
-        grant_req(0, slavedecode(m1_item.axi_awaddr));
+        grant_req(1, slavedecode(m1_item.axi_awaddr));
         m1_queue.push_back(m1_item);
+        `uvm_info("SCBD", $sformatf("HERERERe %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, m1_item.axi_wlast), UVM_LOW);
       end
       
   endfunction : write_m1
@@ -62,8 +64,9 @@ class scoreboard extends uvm_scoreboard;
       end
       if (m2_item.axi_wvalid && m2_item.axi_wready) begin
         m2_req_q.push_back(m2_item);
-        grant_req(0, slavedecode(m2_item.axi_awaddr));
-        m2_queue.push_back(m2_item);        
+        grant_req(1, slavedecode(m2_item.axi_awaddr));
+        m2_queue.push_back(m2_item);  
+        `uvm_info("SCBD", $sformatf("HERGGHGHGHRe %0d %0d", s1_wr_grant, m2_item.axi_wdata), UVM_LOW);      
       end
 
   endfunction : write_m2 
@@ -77,22 +80,29 @@ class scoreboard extends uvm_scoreboard;
       end
       if (s1_item.axi_wvalid && s1_item.axi_wready) begin
         s1_queue.push_back(s1_item);
-        if(s1_wr_grant == 2'b01) compare(0, 0, 1);
-        if(s1_wr_grant == 2'b10) compare(1, 0, 1);      
+        `uvm_info("SCBD", $sformatf("He %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
+        if(s1_item.axi_bvalid) begin
+            for (int i = 0; i <= s1_item.axi_awlen; i++) begin
+                if(s1_wr_grant == 2'b01) compare(0, 0, 1);
+                if(s1_wr_grant == 2'b10) compare(1, 0, 1);
+                `uvm_info("SCBD", $sformatf("Heasasas %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
+            end
+        end     
       end
   endfunction : write_s1 
+
 
 
   virtual function write_s2 (slave_item s2_item);
       if (s2_item.axi_rvalid && s2_item.axi_rready) begin
         s2_queue.push_back(s2_item);
-        if(s2_rd_grant == 2'b01) compare(0, 0, 0);
-        if(s2_rd_grant == 2'b10) compare(1, 0, 0);      
+        if(s2_rd_grant == 2'b01) compare(0, 1, 0);
+        if(s2_rd_grant == 2'b10) compare(1, 1, 0);      
       end
       if (s2_item.axi_wvalid && s2_item.axi_wready) begin
         s2_queue.push_back(s2_item);
-        if(s2_wr_grant == 2'b01) compare(0, 0, 1);
-        if(s2_wr_grant == 2'b10) compare(1, 0, 1);      
+        if(s2_wr_grant == 2'b01) compare(0, 1, 1);
+        if(s2_wr_grant == 2'b10) compare(1, 1, 1);      
       end
 
   endfunction : write_s2
@@ -185,7 +195,7 @@ endfunction : grant_req
 
 
 virtual function void compare(input int master, input int slave, input bit op); // 0 for read, 1 for write
-/*    master_item temp_mas;
+    master_item temp_mas;
     slave_item temp_slv;
     case (master)
         0: begin
@@ -266,13 +276,13 @@ virtual function void compare(input int master, input int slave, input bit op); 
         default: begin
             `uvm_info("SCBD", "Invalid master/slave combination", UVM_LOW);
         end
-    endcase*/
+    endcase
 endfunction : compare
 
 
 
   virtual function int compare_mas_slv(input master_item mas, input slave_item slv);
-  /*  if (1) return 1;//  mas.axi_awid != slv.axi_awid) return 1;
+    if(mas.axi_awid != slv.axi_awid) return 1;// if (1) return 1;  
     else if (mas.axi_awaddr != slv.axi_awaddr) return 2;
     else if (mas.axi_awlen != slv.axi_awlen) return 3;
     else if (mas.axi_awsize != slv.axi_awsize) return 4;
