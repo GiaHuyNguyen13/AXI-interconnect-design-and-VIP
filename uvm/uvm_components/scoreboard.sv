@@ -10,8 +10,9 @@ class scoreboard extends uvm_scoreboard;
   
   bit [31:0] S1_WIDTH;
   bit m1_slave_num, m2_slave_num; // 0 for slave 1, 1 for slave 2
-  master_item m1_queue[$], m2_queue[$];
+  master_item s1_master_queue[$], s2_master_queue[$];
   slave_item s1_queue[$], s2_queue[$];
+  bit [3:0] s1_grant_q[$], s2_grant_q[$]; // bit 3 is for the master num, bit 2 is for op, bit 1:0 is the grant signal
   int delay = 0;
 
   // Queue for checking arbitration
@@ -44,13 +45,30 @@ class scoreboard extends uvm_scoreboard;
       if (m1_item.axi_rvalid && m1_item.axi_rready) begin
         m1_req_q.push_back(m1_item);
         grant_req(0, slavedecode(m1_item.axi_araddr));
-        m1_queue.push_back(m1_item);
+        
+        if(!slavedecode(m1_item.axi_araddr)) begin
+            s1_grant_q.push_back({1'b0,1'b0,s1_rd_grant});
+            s1_master_queue.push_back(m1_item);
+        end
+        else begin 
+            s2_grant_q.push_back({1'b0,1'b0,s2_rd_grant});
+            s2_master_queue.push_back(m1_item);
+        end
       end
+
       if (m1_item.axi_wvalid && m1_item.axi_wready) begin
         m1_req_q.push_back(m1_item);
         grant_req(1, slavedecode(m1_item.axi_awaddr));
-        m1_queue.push_back(m1_item);
-        `uvm_info("SCBD", $sformatf("HERERERe %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, m1_item.axi_wlast), UVM_LOW);
+        // m1_queue.push_back(m1_item);
+        if(!slavedecode(m1_item.axi_awaddr)) begin
+            s1_grant_q.push_back({1'b0,1'b1,s1_wr_grant});
+            s1_master_queue.push_back(m1_item);
+        end
+        else begin 
+            s2_grant_q.push_back({1'b0,1'b1,s2_wr_grant});
+            s2_master_queue.push_back(m1_item);
+        end
+        `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
       end
       
   endfunction : write_m1
@@ -60,13 +78,29 @@ class scoreboard extends uvm_scoreboard;
       if (m2_item.axi_rvalid && m2_item.axi_rready) begin
         m2_req_q.push_back(m2_item);
         grant_req(0, slavedecode(m2_item.axi_araddr));
-        m2_queue.push_back(m2_item);       
+        // m2_queue.push_back(m2_item);
+        if(!slavedecode(m2_item.axi_araddr)) begin
+            s1_grant_q.push_back({1'b1,1'b0,s1_rd_grant});
+            s1_master_queue.push_back(m2_item);
+        end
+        else begin 
+            s2_grant_q.push_back({1'b1,1'b0,s2_rd_grant});
+            s2_master_queue.push_back(m2_item);
+        end       
       end
       if (m2_item.axi_wvalid && m2_item.axi_wready) begin
         m2_req_q.push_back(m2_item);
         grant_req(1, slavedecode(m2_item.axi_awaddr));
-        m2_queue.push_back(m2_item);  
-        `uvm_info("SCBD", $sformatf("HERGGHGHGHRe %0d %0d", s1_wr_grant, m2_item.axi_wdata), UVM_LOW);      
+        // m2_queue.push_back(m2_item);
+        if(!slavedecode(m2_item.axi_awaddr)) begin
+            s1_grant_q.push_back({1'b1,1'b1,s1_wr_grant});
+            s1_master_queue.push_back(m2_item);
+        end
+        else begin 
+            s2_grant_q.push_back({1'b1,1'b1,s2_wr_grant});
+            s2_master_queue.push_back(m2_item);
+        end  
+        `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
       end
 
   endfunction : write_m2 
@@ -75,20 +109,15 @@ class scoreboard extends uvm_scoreboard;
   virtual function write_s1 (slave_item s1_item);
       if (s1_item.axi_rvalid && s1_item.axi_rready) begin
         s1_queue.push_back(s1_item);
-        if(s1_rd_grant == 2'b01) compare(0, 0, 0);
-        if(s1_rd_grant == 2'b10) compare(1, 0, 0);      
+        // if(s1_rd_grant == 2'b01) compare(0, 0, 0);
+        // if(s1_rd_grant == 2'b10) compare(1, 0, 0);      
       end
       if (s1_item.axi_wvalid && s1_item.axi_wready) begin
         s1_queue.push_back(s1_item);
-        `uvm_info("SCBD", $sformatf("He %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
-        if(s1_item.axi_bvalid) begin
-            for (int i = 0; i <= s1_item.axi_awlen; i++) begin
-                if(s1_wr_grant == 2'b01) compare(0, 0, 1);
-                if(s1_wr_grant == 2'b10) compare(1, 0, 1);
-                `uvm_info("SCBD", $sformatf("Heasasas %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
-            end
-        end     
-      end
+        `uvm_info("SCBD", $sformatf("Captured at s1 %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
+            // if(s1_wr_grant == 2'b01) compare(0, 0, 1);
+            // if(s1_wr_grant == 2'b10) compare(1, 0, 1);
+      end     
   endfunction : write_s1 
 
 
@@ -96,32 +125,19 @@ class scoreboard extends uvm_scoreboard;
   virtual function write_s2 (slave_item s2_item);
       if (s2_item.axi_rvalid && s2_item.axi_rready) begin
         s2_queue.push_back(s2_item);
-        if(s2_rd_grant == 2'b01) compare(0, 1, 0);
-        if(s2_rd_grant == 2'b10) compare(1, 1, 0);      
+        // if(s2_rd_grant == 2'b01) compare(0, 1, 0);
+        // if(s2_rd_grant == 2'b10) compare(1, 1, 0);      
       end
       if (s2_item.axi_wvalid && s2_item.axi_wready) begin
         s2_queue.push_back(s2_item);
-        if(s2_wr_grant == 2'b01) compare(0, 1, 1);
-        if(s2_wr_grant == 2'b10) compare(1, 1, 1);      
+        // if(s2_wr_grant == 2'b01) compare(0, 1, 1);
+        // if(s2_wr_grant == 2'b10) compare(1, 1, 1);      
       end
 
   endfunction : write_s2
 
 
 virtual function void grant_req(input bit op, input int slv_num); // Change grant of each slave, arbiter simulator
-    if(m1_req_q.size()) begin
-        if(s1_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
-        if(s2_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
-        if(s1_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
-        if(s2_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
-    end
-
-    if(m2_req_q.size()) begin
-        if(s1_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
-        if(s2_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
-        if(s1_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
-        if(s2_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
-    end
 
     case (op)
       1'b0: begin
@@ -189,19 +205,69 @@ virtual function void grant_req(input bit op, input int slv_num); // Change gran
       end
     endcase
 
+    if(m1_req_q.size()) begin
+        `uvm_info("SCBD", $sformatf("Captured at grant_req %0d %2b", m1_req_q[0].axi_wlast, s1_wr_lock), UVM_LOW);
+        if(s1_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
+        if(s2_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
+        if(s1_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
+        if(s2_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
+    end
+
+    if(m2_req_q.size()) begin
+        if(s1_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
+        if(s2_rd_lock == 2'b11 && m2_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
+        if(s1_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
+        if(s2_wr_lock == 2'b11 && m2_req_q[0].axi_wlast) s2_wr_lock = 2'b00;
+    end
+
     m1_req_q.delete();
     m2_req_q.delete();
 endfunction : grant_req
 
+function void check_phase(uvm_phase phase);
+    bit [3:0] s1_grant_temp, s2_grant_temp;
+    master_item m_item_temp;
+    slave_item s_item_temp;
+    super.check_phase(phase);
+    
 
-virtual function void compare(input int master, input int slave, input bit op); // 0 for read, 1 for write
-    master_item temp_mas;
-    slave_item temp_slv;
+    //Slave 1
+    if (s1_master_queue.size() != s1_queue.size()) begin
+        `uvm_error("SCBD", $sformatf("s1 ACCESS log length mismatch"));
+    end else if(s1_grant_q.size() != s1_queue.size()) begin
+        `uvm_error("SCBD", $sformatf("s1 GRANT log length mismatch"));
+    end else begin
+        while (s1_queue.size()) begin
+            s1_grant_temp = s1_grant_q.pop_front();
+            m_item_temp = s1_master_queue.pop_front();
+            s_item_temp = s1_queue.pop_front();
+            compare(s1_grant_temp[3], 1'b0, s1_grant_temp[2], m_item_temp, s_item_temp);
+        end   
+    end
+
+
+    //Slave 2
+    if (s2_master_queue.size() != s2_queue.size()) begin
+        `uvm_error("SCBD", $sformatf("s2 ACCESS log length mismatch"));
+    end else if(s2_grant_q.size() != s2_queue.size()) begin
+        `uvm_error("SCBD", $sformatf("s2 GRANT log length mismatch"));
+    end else begin
+        while (s2_queue.size()) begin
+            s2_grant_temp = s2_grant_q.pop_front();
+            m_item_temp = s2_master_queue.pop_front();
+            s_item_temp = s2_queue.pop_front();
+            compare(s2_grant_temp[3], 1'b1, s2_grant_temp[2], m_item_temp, s_item_temp);
+        end   
+    end
+    
+endfunction
+
+
+virtual function void compare(input int master, input int slave, input bit op, input master_item temp_mas,
+                                input slave_item temp_slv); // 0 for read, 1 for write
     case (master)
         0: begin
             if (slave == 0) begin 
-                temp_mas = m1_queue.pop_front();
-                temp_slv = s1_queue.pop_front();
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
                         if (!(temp_mas.axi_rdata % 2) && !(temp_mas.axi_wdata % 2)) begin
@@ -217,8 +283,6 @@ virtual function void compare(input int master, input int slave, input bit op); 
                     `uvm_error("SCBD", $sformatf("Master 1 and Slave 1 mismatch ERROR code: %0d", compare_mas_slv(temp_mas, temp_slv))); end
             end
             else if (slave == 1) begin
-                temp_mas = m1_queue.pop_front();
-                temp_slv = s2_queue.pop_front();
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
                         if ((temp_mas.axi_rdata % 2) || (temp_mas.axi_wdata % 2)) begin
@@ -237,8 +301,6 @@ virtual function void compare(input int master, input int slave, input bit op); 
         end
         1: begin
             if (slave == 0) begin
-                temp_mas = m2_queue.pop_front();
-                temp_slv = s1_queue.pop_front();
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
                         if (!(temp_mas.axi_rdata % 2) && !(temp_mas.axi_wdata % 2)) begin
@@ -255,8 +317,6 @@ virtual function void compare(input int master, input int slave, input bit op); 
                     `uvm_error("SCBD", $sformatf("Master 2 and Slave 1 mismatch ERROR code: %0d", compare_mas_slv(temp_mas, temp_slv))); end
             end
             else if (slave == 1) begin
-                temp_mas = m2_queue.pop_front();
-                temp_slv = s2_queue.pop_front();
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
                         if ((temp_mas.axi_rdata % 2) || (temp_mas.axi_wdata % 2)) begin
