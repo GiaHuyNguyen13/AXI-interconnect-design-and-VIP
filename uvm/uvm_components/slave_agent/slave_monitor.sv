@@ -20,8 +20,9 @@ class slave_monitor extends uvm_monitor;
     // This task monitors the interface for a complete 
     // transaction and writes into analysis port when complete
 
-    m_item_beat = slave_item::type_id::create("m_item_beat");
+    
     forever begin
+      m_item_beat = slave_item::type_id::create("m_item_beat");
       @(posedge axi_vif.clk) begin
         if (axi_vif.axi_wvalid && axi_vif.axi_wready) begin
           

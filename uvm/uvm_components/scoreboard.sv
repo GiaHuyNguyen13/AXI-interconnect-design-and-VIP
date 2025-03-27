@@ -13,7 +13,6 @@ class scoreboard extends uvm_scoreboard;
   master_item s1_master_queue[$], s2_master_queue[$];
   slave_item s1_queue[$], s2_queue[$];
   bit [3:0] s1_grant_q[$], s2_grant_q[$]; // bit 3 is for the master num, bit 2 is for op, bit 1:0 is the grant signal
-  int delay = 0;
 
   // Queue for checking arbitration
   master_item m1_req_q[$], m2_req_q[$];
@@ -61,6 +60,7 @@ class scoreboard extends uvm_scoreboard;
         grant_req(1, slavedecode(m1_item.axi_awaddr));
         // m1_queue.push_back(m1_item);
         if(!slavedecode(m1_item.axi_awaddr)) begin
+            // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
             s1_grant_q.push_back({1'b0,1'b1,s1_wr_grant});
             s1_master_queue.push_back(m1_item);
         end
@@ -68,7 +68,7 @@ class scoreboard extends uvm_scoreboard;
             s2_grant_q.push_back({1'b0,1'b1,s2_wr_grant});
             s2_master_queue.push_back(m1_item);
         end
-        `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
+        // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
       end
       
   endfunction : write_m1
@@ -100,7 +100,7 @@ class scoreboard extends uvm_scoreboard;
             s2_grant_q.push_back({1'b1,1'b1,s2_wr_grant});
             s2_master_queue.push_back(m2_item);
         end  
-        `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
+        // `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
       end
 
   endfunction : write_m2 
@@ -114,7 +114,7 @@ class scoreboard extends uvm_scoreboard;
       end
       if (s1_item.axi_wvalid && s1_item.axi_wready) begin
         s1_queue.push_back(s1_item);
-        `uvm_info("SCBD", $sformatf("Captured at s1 %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
+        // `uvm_info("SCBD", $sformatf("Captured at s1 %0d %0d", s1_wr_grant, s1_item.axi_wdata), UVM_LOW);
             // if(s1_wr_grant == 2'b01) compare(0, 0, 1);
             // if(s1_wr_grant == 2'b10) compare(1, 0, 1);
       end     
@@ -206,7 +206,7 @@ virtual function void grant_req(input bit op, input int slv_num); // Change gran
     endcase
 
     if(m1_req_q.size()) begin
-        `uvm_info("SCBD", $sformatf("Captured at grant_req %0d %2b", m1_req_q[0].axi_wlast, s1_wr_lock), UVM_LOW);
+        // `uvm_info("SCBD", $sformatf("Captured at grant_req %0d %2b", m1_req_q[0].axi_wlast, s1_wr_lock), UVM_LOW);
         if(s1_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s1_rd_lock = 2'b00;
         if(s2_rd_lock == 2'b01 && m1_req_q[0].axi_rlast) s2_rd_lock = 2'b00;
         if(s1_wr_lock == 2'b01 && m1_req_q[0].axi_wlast) s1_wr_lock = 2'b00;
@@ -229,6 +229,10 @@ function void check_phase(uvm_phase phase);
     master_item m_item_temp;
     slave_item s_item_temp;
     super.check_phase(phase);
+
+    // for (int i = 0; i < s1_master_queue.size(); i++) begin
+    //     `uvm_info("SCBD", $sformatf("s1_master_queue content: %0d", s1_master_queue[i].axi_wdata), UVM_LOW);
+    // end
     
 
     //Slave 1
@@ -241,6 +245,7 @@ function void check_phase(uvm_phase phase);
             s1_grant_temp = s1_grant_q.pop_front();
             m_item_temp = s1_master_queue.pop_front();
             s_item_temp = s1_queue.pop_front();
+            // `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_wdata, s_item_temp.axi_wdata), UVM_LOW);
             compare(s1_grant_temp[3], 1'b0, s1_grant_temp[2], m_item_temp, s_item_temp);
         end   
     end
@@ -256,6 +261,7 @@ function void check_phase(uvm_phase phase);
             s2_grant_temp = s2_grant_q.pop_front();
             m_item_temp = s2_master_queue.pop_front();
             s_item_temp = s2_queue.pop_front();
+            // `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_wdata, s_item_temp.axi_wdata), UVM_LOW);
             compare(s2_grant_temp[3], 1'b1, s2_grant_temp[2], m_item_temp, s_item_temp);
         end   
     end
