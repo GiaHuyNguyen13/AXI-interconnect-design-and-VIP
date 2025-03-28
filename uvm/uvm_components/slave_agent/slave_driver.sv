@@ -6,6 +6,7 @@ class slave_driver extends uvm_driver #(slave_item);
   
   virtual axi_interface axi_vif;
   centralized_memory_model mem;
+  int delay = 0;
   
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
@@ -37,10 +38,16 @@ class slave_driver extends uvm_driver #(slave_item);
   endtask
 
   virtual task r_data (slave_item m_item);
-      @(posedge axi_vif.clk);
+    if(!delay) begin
+      @(posedge axi_vif.clk) //begin
+        delay++;
+    end
+        @(posedge axi_vif.clk)
+        @(posedge axi_vif.clk)
       if (axi_vif.axi_rready) begin // Read operation
           axi_vif.axi_rid <= axi_vif.axi_arid;
           axi_vif.axi_rvalid <= 1'b1;
+          `uvm_info("DRV_Slave", $sformatf("HEREEEEE"), UVM_HIGH)
           for(int i = 0; i <= axi_vif.axi_arlen; i++) begin
             axi_vif.axi_rdata <= mem.read(axi_vif.axi_araddr + i);
             axi_vif.axi_rresp <= 2'b00;
@@ -49,6 +56,7 @@ class slave_driver extends uvm_driver #(slave_item);
           end
           axi_vif.axi_rlast <= 1'b0;
           axi_vif.axi_rvalid <= 1'b0;
+          // delay = 0;
       end
   endtask
 
@@ -73,16 +81,19 @@ endtask
 
 virtual task drive_item (slave_item m_item);
   wait(!axi_vif.rst) begin
+    if (!m_item.operation) begin
     fork
     r_addr(m_item);
     r_data(m_item);
-    // join
+    join
+  end else begin
 
-    // fork
+    fork
     axi_vif.axi_bready <= 1'b1; 
     w_addr(m_item);
     w_data(m_item);
     join
+  end
   end
 endtask
 

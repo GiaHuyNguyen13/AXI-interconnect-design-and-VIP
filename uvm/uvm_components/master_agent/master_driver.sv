@@ -29,7 +29,7 @@ class master_driver extends uvm_driver #(master_item);
   
 
   virtual task r_addr (master_item m_item);
-      // @(posedge axi_vif.clk);
+      @(posedge axi_vif.clk);
       if (!m_item.operation) begin // Read operation
           axi_vif.axi_arid    <= m_item.axi_arid;
           axi_vif.axi_araddr  <= m_item.axi_araddr;
@@ -42,10 +42,16 @@ class master_driver extends uvm_driver #(master_item);
           // @(posedge axi_vif.clk);
           axi_vif.axi_arvalid <= m_item.axi_arvalid;
           // wait(axi_vif.axi_arready);
-          @(posedge axi_vif.clk);
-          axi_vif.axi_arvalid <= 1'b0;
-          wait(axi_vif.axi_rlast && axi_vif.axi_rvalid);
-          wait(!axi_vif.axi_rlast && !axi_vif.axi_rvalid);
+          // @(posedge axi_vif.clk);
+          // axi_vif.axi_arvalid <= 1'b0;
+          `uvm_info("DRV_Master", $sformatf("AAAAAA1"), UVM_HIGH)
+          // wait(axi_vif.axi_rlast && axi_vif.axi_rvalid);
+          // wait(!axi_vif.axi_rlast && !axi_vif.axi_rvalid);
+          // @(posedge axi_vif.axi_rlast);
+          for(int i = 0; i <= m_item.axi_arlen; i++) begin
+            @(posedge axi_vif.clk);
+          end
+          `uvm_info("DRV_Master", $sformatf("AAAAAA"), UVM_HIGH)
       end
   endtask
 
@@ -112,9 +118,9 @@ virtual task drive_item (master_item m_item);
     fork
     r_addr(m_item);
     r_data(m_item);
-    // join
+    join
 
-    // fork 
+    fork 
     w_addr(m_item);
     w_data(m_item);
     join

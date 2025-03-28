@@ -7,7 +7,7 @@ class slave_gen_item_seq extends uvm_sequence;
   // rand bit [6:0] num;
   // rand bit op;
   // rand bit [7:0] len;
-  bit op = 1;
+  bit op = 0;
   bit [6:0] num = 3;
 
   virtual task body();
