@@ -69,7 +69,7 @@ endtask
 
 virtual task w_data (slave_item m_item);
     axi_vif.axi_wready <= 1'b1;
-    @(negedge axi_vif.axi_wlast);
+    wait(axi_vif.axi_wlast);
     axi_vif.axi_bresp <= m_item.axi_bresp;
     axi_vif.axi_bid <= m_item.axi_awid;
     axi_vif.axi_bvalid <= 1'b1;

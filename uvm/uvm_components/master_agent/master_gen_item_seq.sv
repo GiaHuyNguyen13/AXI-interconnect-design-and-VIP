@@ -7,7 +7,7 @@ class master_gen_item_seq extends uvm_sequence;
   //rand bit [6:0] num;
   //rand bit op;
   //rand bit [7:0] len;
-  integer op  = 0;
+  integer op  = 1;
   integer len = 4;
   integer num = 3;
 
