@@ -4,7 +4,8 @@ class slave_agent extends uvm_agent;
     super.new(name, parent);
   endfunction
   
-  slave_driver 		d0; 		// Driver handle
+  slave_rd_driver 		rd0; 		// Driver handle
+  slave_wr_driver     wd0;    // Driver handle
   slave_monitor 		m0; 		// Monitor handle
   uvm_sequencer #(slave_item)	s0; 		// Sequencer Handle
   virtual axi_interface axi_if;
@@ -13,8 +14,10 @@ class slave_agent extends uvm_agent;
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     s0 = uvm_sequencer#(slave_item)::type_id::create("s0", this);
-    d0 = slave_driver::type_id::create("d0", this);
+    rd0 = slave_rd_driver::type_id::create("rd0", this);
+    wd0 = slave_wr_driver::type_id::create("wd0", this);
     m0 = slave_monitor::type_id::create("m0", this);
+
     void'(uvm_config_db#(centralized_memory_model)::get(this, "", "mem", mem));
     uvm_config_db#(centralized_memory_model)::set(this, "*", "passdown_mem", mem);
     
@@ -24,7 +27,8 @@ class slave_agent extends uvm_agent;
   
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    d0.seq_item_port.connect(s0.seq_item_export);
+    rd0.seq_item_port.connect(s0.seq_item_export);
+    wd0.seq_item_port.connect(s0.seq_item_export);
   endfunction
 
 endclass

@@ -1,6 +1,6 @@
-class slave_driver extends uvm_driver #(slave_item);              
-  `uvm_component_utils(slave_driver)
-  function new(string name = "slave_driver", uvm_component parent=null);
+class slave_wr_driver extends uvm_driver #(slave_item);              
+  `uvm_component_utils(slave_wr_driver)
+  function new(string name = "slave_wr_driver", uvm_component parent=null);
     super.new(name, parent);
   endfunction
   
@@ -20,6 +20,7 @@ class slave_driver extends uvm_driver #(slave_item);
     super.run_phase(phase);
     forever begin
       slave_item m_item;
+      @(posedge axi_vif.axi_awvalid);
       `uvm_info("DRV_Slave", $sformatf("Wait for item from sequencer"), UVM_HIGH)
       seq_item_port.get_next_item(m_item); // get next item
       // m_item.print();
@@ -30,25 +31,25 @@ class slave_driver extends uvm_driver #(slave_item);
   endtask
   
 
-  virtual task r_addr (slave_item m_item);
-      @(posedge axi_vif.clk);
-          axi_vif.axi_arready <= 1'b1;
-  endtask
+  // virtual task r_addr (slave_item m_item);
+  //     @(posedge axi_vif.clk);
+  //         axi_vif.axi_arready <= 1'b1;
+  // endtask
 
-  virtual task r_data (slave_item m_item);
-    @( posedge axi_vif.axi_rready);
-          axi_vif.axi_rid <= axi_vif.axi_arid;
-          axi_vif.axi_rvalid <= 1'b1;
-          `uvm_info("DRV_Slave", $sformatf("HEREEEEE"), UVM_HIGH)
-          for(int i = 0; i <= axi_vif.axi_arlen; i++) begin
-            axi_vif.axi_rdata <= mem.read(axi_vif.axi_araddr + i);
-            axi_vif.axi_rresp <= 2'b00;
-            if(i == axi_vif.axi_arlen) axi_vif.axi_rlast <= 1'b1;
-            @(posedge axi_vif.clk);
-          end
-          axi_vif.axi_rlast <= 1'b0;
-          // axi_vif.axi_rvalid <= 1'b0;
-  endtask
+  // virtual task r_data (slave_item m_item);
+  //   @( posedge axi_vif.axi_rready);
+  //         axi_vif.axi_rid <= axi_vif.axi_arid;
+  //         axi_vif.axi_rvalid <= 1'b1;
+  //         `uvm_info("DRV_Slave", $sformatf("HEREEEEE"), UVM_HIGH)
+  //         for(int i = 0; i <= axi_vif.axi_arlen; i++) begin
+  //           axi_vif.axi_rdata <= mem.read(axi_vif.axi_araddr + i);
+  //           axi_vif.axi_rresp <= 2'b00;
+  //           if(i == axi_vif.axi_arlen) axi_vif.axi_rlast <= 1'b1;
+  //           @(posedge axi_vif.clk);
+  //         end
+  //         axi_vif.axi_rlast <= 1'b0;
+  //         // axi_vif.axi_rvalid <= 1'b0;
+  // endtask
 
   virtual task w_addr (slave_item m_item);
     @(posedge axi_vif.clk);
@@ -71,19 +72,19 @@ endtask
 
 virtual task drive_item (slave_item m_item);
   wait(!axi_vif.rst) begin
-    if (!m_item.operation) begin
-    fork
-    r_addr(m_item);
-    r_data(m_item);
-    join
-  end else begin
+  //   if (!m_item.operation) begin
+  //   fork
+  //   r_addr(m_item);
+  //   r_data(m_item);
+  //   join
+  // end else begin
 
     fork
     axi_vif.axi_bready <= 1'b1; 
     w_addr(m_item);
     w_data(m_item);
     join
-  end
+  // end
   end
 endtask
 
