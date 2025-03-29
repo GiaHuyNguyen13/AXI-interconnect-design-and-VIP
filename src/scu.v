@@ -24,7 +24,7 @@ module scu (
             START:  begin
                 if (sel_m1 == 1'b1)
                     next_state = GRANT1;
-                else if ((sel_m1 == 1'b0 && sel_m2 == 1'b1))
+                else if (sel_m2 == 1'b1)
                     next_state = GRANT2;
                 else
                     next_state = state;
@@ -42,12 +42,22 @@ module scu (
                     next_state = state;
             end
             NEXT:   begin
-                if ((sel_m1 == 1'b1 && sel_m2 == 1'b0) || (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b0))
+                if (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b0)
                     next_state = GRANT1;
-                else if ((sel_m1 == 1'b0 && sel_m2 == 1'b1) || (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b1))
+                else if (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b1)
+                    next_state = GRANT2;
+                else if (sel_m1 == 1'b1)
+                    next_state = GRANT1;
+                else if (sel_m2 == 1'b1)
                     next_state = GRANT2;
                 else
                     next_state = state;
+                // if ((sel_m1 == 1'b1 && sel_m2 == 1'b0) || (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b0))
+                //     next_state = GRANT1;
+                // else if ((sel_m1 == 1'b0 && sel_m2 == 1'b1) || (sel_m1 == 1'b1 && sel_m2 == 1'b1 && next_gr == 1'b1))
+                //     next_state = GRANT2;
+                // else
+                //     next_state = state;
             end
             default: next_state = START;
         endcase

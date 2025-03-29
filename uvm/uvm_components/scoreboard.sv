@@ -233,7 +233,9 @@ function void check_phase(uvm_phase phase);
     // for (int i = 0; i < s1_master_queue.size(); i++) begin
     //     `uvm_info("SCBD", $sformatf("s1_master_queue content: %0d", s1_master_queue[i].axi_wdata), UVM_LOW);
     // end
-    
+
+    `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
+    `uvm_info("SCBD", $sformatf("%0d",s1_queue.size()), UVM_LOW);
 
     //Slave 1
     if (s1_master_queue.size() != s1_queue.size()) begin

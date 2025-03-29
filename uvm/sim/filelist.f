@@ -46,6 +46,7 @@
 ../uvm_components/scoreboard.sv
 ../uvm_components/env.sv
 ../uvm_components/base_test.sv
+../uvm_components/burst_test.sv
 
 //SVA
 

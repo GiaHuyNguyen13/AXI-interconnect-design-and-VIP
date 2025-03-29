@@ -4,12 +4,12 @@ class master_gen_item_seq extends uvm_sequence;
     super.new(name);
   endfunction
 
-  //rand bit [6:0] num;
-  //rand bit op;
-  //rand bit [7:0] len;
-  integer op  = 1;
-  integer len = 4;
-  integer num = 3;
+  rand bit [6:0] num;
+  rand bit op;
+  rand bit [7:0] len;
+  // integer op  = 1;
+  // integer len = 4;
+  // integer num = 3;
 
   virtual task body();
     for (int i = 0; i < num; i ++) begin

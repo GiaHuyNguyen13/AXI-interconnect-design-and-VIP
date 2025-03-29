@@ -43,7 +43,7 @@ module tb;
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s1", "axi_if", slv1_if);
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s2", "axi_if", slv2_if);
     uvm_config_db#(bit [31:0])::set(null, "*", "S1_WIDTH", S1_WIDTH);
-    run_test("base_test");
+    run_test("burst_test");
   end
 
   // Instantiate DUT

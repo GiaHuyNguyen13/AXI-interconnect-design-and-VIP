@@ -41,7 +41,8 @@ class master_driver extends uvm_driver #(master_item);
           axi_vif.axi_arprot  <= m_item.axi_arprot;
           axi_vif.axi_arvalid <= m_item.axi_arvalid;
           // wait(!axi_vif.axi_arready)
-          // axi_vif.axi_arvalid <= 1'b0;
+          @(posedge axi_vif.axi_rlast);
+          axi_vif.axi_arvalid <= 1'b0;
           `uvm_info("DRV_Master", $sformatf("Hgggggggggggggggggggggg"), UVM_HIGH)
       end
   endtask
@@ -50,7 +51,10 @@ class master_driver extends uvm_driver #(master_item);
       @(posedge axi_vif.clk);
       if (!m_item.operation) begin // Read operation
           axi_vif.axi_rready <= m_item.axi_rready;
+          // @(posedge axi_vif.axi_rlast);
+          
           @(negedge axi_vif.axi_rlast);
+          axi_vif.axi_rready <= 1'b0;
           `uvm_info("DRV_Master", $sformatf("HHHHHHHHHHHHHHHHHHHHHHHHHHHH"), UVM_HIGH)
       end
   endtask
