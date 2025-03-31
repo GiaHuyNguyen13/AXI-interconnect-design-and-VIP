@@ -11,7 +11,7 @@ class slave_gen_item_seq extends uvm_sequence;
   // bit [6:0] num = 3;
 
   virtual task body();
-    for (int i = 0; i < num; i ++) begin
+    for (int i = 1; i <= num; i ++) begin
     	slave_item m_item = slave_item::type_id::create("m_item");
     	start_item(m_item);
     	void'(m_item.randomize() with {
