@@ -11,6 +11,7 @@ class slave_gen_item_seq extends uvm_sequence;
   // bit [6:0] num = 3;
 
   virtual task body();
+  `uvm_info("burst_test", $sformatf("I'm here slave, %0d", num), UVM_LOW);
     for (int i = 1; i <= num; i ++) begin
     	slave_item m_item = slave_item::type_id::create("m_item");
     	start_item(m_item);

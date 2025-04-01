@@ -20,8 +20,8 @@ class slave_rd_driver extends uvm_driver #(slave_item);
     super.run_phase(phase);
     forever begin
       slave_item m_item;
-      `uvm_info("DRV_Slave", $sformatf("Wait for item from sequencer"), UVM_HIGH)
       @(posedge axi_vif.axi_arvalid) begin
+        `uvm_info("DRV_Slave", $sformatf("Wait for item from sequencer"), UVM_HIGH)
         `uvm_info("DRV_Slave", $sformatf("Receive item"), UVM_HIGH)
         seq_item_port.get_next_item(m_item); // get next item
         // m_item.print();

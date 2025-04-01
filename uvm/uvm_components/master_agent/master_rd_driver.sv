@@ -19,13 +19,13 @@ class master_rd_driver extends uvm_driver #(master_item);
     super.run_phase(phase);
     forever begin
       master_item m_item;
-      if(seq_item_port.has_do_available()) begin
+      // if(seq_item_port.has_do_available()) begin
         `uvm_info("DRV_Master", $sformatf("Wait for item from sequencer"), UVM_HIGH)
         seq_item_port.get_next_item(m_item); // get next item
         drive_item(m_item); // forward item to DUT through interface
         `uvm_info("DRV_Master", $sformatf("AXI item done"), UVM_HIGH)
         seq_item_port.item_done(); // item get done
-      end
+      // end
     end
   endtask
   

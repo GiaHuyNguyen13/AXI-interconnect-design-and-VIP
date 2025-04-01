@@ -4,22 +4,25 @@ class burst_test extends base_test;
     super.new(name, parent);
   endfunction
 
-  // bit operation = 1; // 0  for read, 1 for write
   bit [6:0] test_num_m1_wr = 2;
-  bit [6:0] test_num_m1_rd = 0;
+  bit [6:0] test_num_m1_rd = 2;
   bit [6:0] test_num_m2_wr = 2;
-  bit [6:0] test_num_m2_rd = 0;
+  bit [6:0] test_num_m2_rd = 2;
 
-  bit [7:0] burst_len_m1_wr = 3; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 3; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 3; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 3; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
 
-  bit [6:0] test_num_sl_wr = test_num_m1_wr + test_num_m2_wr;
-  bit [6:0] test_num_sl_rd = test_num_m1_rd + test_num_m2_rd;  
+  bit [6:0] test_num_sl_wr = 4;//test_num_m1_wr + test_num_m2_wr;
+  bit [6:0] test_num_sl_rd = 4;//test_num_m1_rd + test_num_m2_rd;  
   
   
   virtual function void build_phase(uvm_phase phase);
+    m1_wr_en = 0; // en = 1 to enable
+    m1_rd_en = 1; // en = 1 to enable
+    m2_wr_en = 0; // en = 1 to enable
+    m2_rd_en = 0; // en = 1 to enable
     super.build_phase(phase);
 
     m1_seq_wr.randomize() with { 

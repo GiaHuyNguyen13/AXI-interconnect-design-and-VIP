@@ -14,22 +14,17 @@ class base_test extends uvm_test;
   slave_gen_item_seq      s1_seq_rd;
   slave_gen_item_seq      s2_seq_wr;
   slave_gen_item_seq      s2_seq_rd;
+
+  bit m1_wr_en; // en = 1 to enable
+  bit m1_rd_en; // en = 1 to enable
+  bit m2_wr_en; // en = 1 to enable
+  bit m2_rd_en; // en = 1 to enable
   
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     
     // Create the environment
     e0 = env::type_id::create("e0", this);
-    
-    // Get virtual IF handle from top level and pass it to everything
-    // in env level
-    // if (!uvm_config_db#(virtual axi_interface)::get(this, "", "axi_interface", axi_vif))
-    //   `uvm_fatal("TEST", "Did not get axi_vif")
-    // if (!uvm_config_db#(virtual axil_interface)::get(this, "", "axil_interface", axil_vif))
-    //   `uvm_fatal("TEST", "Did not get axil_vif")
-
-    // uvm_config_db#(virtual axi_interface)::set(this, "e0.*", "axi_interface", axi_vif);
-    // uvm_config_db#(virtual axil_interface)::set(this, "e0.*", "axil_interface", axil_vif);
 
     // Create sequence and randomize it
     m1_seq_wr = master_gen_item_seq::type_id::create("m1_seq_wr");
@@ -54,12 +49,14 @@ class base_test extends uvm_test;
   
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
-    fork
-       m1_seq_wr.start(e0.m1.s0_wr);
-       m1_seq_rd.start(e0.m1.s0_rd);
+    `uvm_info("INFO", $sformatf("m1_wr_en: %b, m1_rd_en: %b, m2_wr_en: %b, m2_rd_en: %b", 
+                           m1_wr_en, m1_rd_en, m2_wr_en, m2_rd_en), UVM_LOW)
 
-       m2_seq_wr.start(e0.m2.s0_wr);
-       m2_seq_rd.start(e0.m2.s0_rd);
+    fork
+       // if(m1_wr_en) m1_seq_wr.start(e0.m1.s0_wr);
+       if(m1_rd_en) m1_seq_rd.start(e0.m1.s0_rd);
+       // if(m2_wr_en) m2_seq_wr.start(e0.m2.s0_wr);
+       // if(m2_rd_en) m2_seq_rd.start(e0.m2.s0_rd);
 
        s1_seq_wr.start(e0.s1.s0_wr);
        s1_seq_rd.start(e0.s1.s0_rd);
