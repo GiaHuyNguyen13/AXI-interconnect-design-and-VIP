@@ -1,6 +1,6 @@
-class master_driver extends uvm_driver #(master_item);              
-  `uvm_component_utils(master_driver)
-  function new(string name = "master_driver", uvm_component parent=null);
+class master_wr_driver extends uvm_driver #(master_item);              
+  `uvm_component_utils(master_wr_driver)
+  function new(string name = "master_wr_driver", uvm_component parent=null);
     super.new(name, parent);
   endfunction
   
@@ -19,44 +19,15 @@ class master_driver extends uvm_driver #(master_item);
     super.run_phase(phase);
     forever begin
       master_item m_item;
-      `uvm_info("DRV_Master", $sformatf("Wait for item from sequencer"), UVM_HIGH)
-      seq_item_port.get_next_item(m_item); // get next item
-      drive_item(m_item); // forward item to DUT through interface
-      `uvm_info("DRV_Master", $sformatf("AXI item done"), UVM_HIGH)
-      seq_item_port.item_done(); // item get done
+      // `uvm_info("DRV_Master", $sformatf("%0d", seq_item_port.has_do_available()), UVM_HIGH)
+      if(seq_item_port.has_do_available()) begin
+        `uvm_info("DRV_Master", $sformatf("Wait for item from sequencer"), UVM_HIGH)
+        seq_item_port.get_next_item(m_item); // get next item
+        drive_item(m_item); // forward item to DUT through interface
+        `uvm_info("DRV_Master", $sformatf("AXI item done"), UVM_HIGH)
+        seq_item_port.item_done(); // item get done
+      end
     end
-  endtask
-  
-
-  virtual task r_addr (master_item m_item);
-      @(posedge axi_vif.clk);
-      if (!m_item.operation) begin // Read operation
-          axi_vif.axi_arid    <= m_item.axi_arid;
-          axi_vif.axi_araddr  <= m_item.axi_araddr;
-          axi_vif.axi_arlen   <= m_item.axi_arlen;
-          axi_vif.axi_arsize  <= 3'b010;
-          axi_vif.axi_arburst <= m_item.axi_arburst;
-          axi_vif.axi_arlock  <= m_item.axi_arlock;
-          axi_vif.axi_arcache <= m_item.axi_arcache;
-          axi_vif.axi_arprot  <= m_item.axi_arprot;
-          axi_vif.axi_arvalid <= m_item.axi_arvalid;
-          // wait(!axi_vif.axi_arready)
-          @(posedge axi_vif.axi_rlast);
-          axi_vif.axi_arvalid <= 1'b0;
-          `uvm_info("DRV_Master", $sformatf("Hgggggggggggggggggggggg"), UVM_HIGH)
-      end
-  endtask
-
-  virtual task r_data (master_item m_item);
-      @(posedge axi_vif.clk);
-      if (!m_item.operation) begin // Read operation
-          axi_vif.axi_rready <= m_item.axi_rready;
-          // @(posedge axi_vif.axi_rlast);
-          
-          @(negedge axi_vif.axi_rlast);
-          axi_vif.axi_rready <= 1'b0;
-          `uvm_info("DRV_Master", $sformatf("HHHHHHHHHHHHHHHHHHHHHHHHHHHH"), UVM_HIGH)
-      end
   endtask
 
   virtual task w_addr (master_item m_item);
@@ -99,19 +70,12 @@ endtask
 
 virtual task drive_item (master_item m_item);
   wait(!axi_vif.rst) begin
-    if (!m_item.operation) begin
-    fork
-    r_addr(m_item);
-    r_data(m_item);
-    join
-  end else begin
 
     fork
     axi_vif.axi_bready <= 1'b1; 
     w_addr(m_item);
     w_data(m_item);
     join
-  end
   end
 endtask
 

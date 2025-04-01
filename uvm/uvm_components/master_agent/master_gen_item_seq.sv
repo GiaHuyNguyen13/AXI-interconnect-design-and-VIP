@@ -12,6 +12,7 @@ class master_gen_item_seq extends uvm_sequence;
   // integer num = 3;
 
   virtual task body();
+  `uvm_info("burst_test", $sformatf("I'm here"), UVM_LOW);
     for (int i = 1; i <= num; i ++) begin
     	master_item m_item = master_item::type_id::create("m_item");
     	start_item(m_item);

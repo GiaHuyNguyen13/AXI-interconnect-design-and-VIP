@@ -5,8 +5,11 @@ class base_test extends uvm_test;
   endfunction
   
   env  				e0;
-  master_gen_item_seq 		m1_seq;
-  master_gen_item_seq     m2_seq;
+  master_gen_item_seq 		m1_seq_wr;
+  master_gen_item_seq     m1_seq_rd;
+  master_gen_item_seq     m2_seq_wr;
+  master_gen_item_seq     m2_seq_rd;
+
   slave_gen_item_seq      s1_seq_wr;
   slave_gen_item_seq      s1_seq_rd;
   slave_gen_item_seq      s2_seq_wr;
@@ -29,10 +32,15 @@ class base_test extends uvm_test;
     // uvm_config_db#(virtual axil_interface)::set(this, "e0.*", "axil_interface", axil_vif);
 
     // Create sequence and randomize it
-    m1_seq = master_gen_item_seq::type_id::create("m1_seq");
-    void'(m1_seq.randomize());
-    m2_seq = master_gen_item_seq::type_id::create("m2_seq");
-    void'(m2_seq.randomize());
+    m1_seq_wr = master_gen_item_seq::type_id::create("m1_seq_wr");
+    void'(m1_seq_wr.randomize());
+    m1_seq_rd = master_gen_item_seq::type_id::create("m1_seq_rd");
+    void'(m1_seq_rd.randomize());
+    
+    m2_seq_wr = master_gen_item_seq::type_id::create("m2_seq_wr");
+    void'(m2_seq_wr.randomize());
+    m2_seq_rd = master_gen_item_seq::type_id::create("m2_seq_rd");
+    void'(m2_seq_rd.randomize());
 
     s1_seq_wr = slave_gen_item_seq::type_id::create("s1_seq_wr");
     void'(s1_seq_wr.randomize());
@@ -47,8 +55,12 @@ class base_test extends uvm_test;
   virtual task run_phase(uvm_phase phase);
     phase.raise_objection(this);
     fork
-       m1_seq.start(e0.m1.s0);
-       m2_seq.start(e0.m2.s0);
+       m1_seq_wr.start(e0.m1.s0_wr);
+       m1_seq_rd.start(e0.m1.s0_rd);
+
+       m2_seq_wr.start(e0.m2.s0_wr);
+       m2_seq_rd.start(e0.m2.s0_rd);
+
        s1_seq_wr.start(e0.s1.s0_wr);
        s1_seq_rd.start(e0.s1.s0_rd);
        s2_seq_wr.start(e0.s2.s0_wr);

@@ -27,7 +27,8 @@
 ../uvm_components/master_agent/master_item.sv
 ../uvm_components/master_agent/master_gen_item_seq.sv
 ../uvm_components/master_agent/master_monitor.sv
-../uvm_components/master_agent/master_driver.sv
+../uvm_components/master_agent/master_rd_driver.sv
+../uvm_components/master_agent/master_wr_driver.sv
 ../uvm_components/master_agent/master_agent.sv
 
 // Slave Agent
