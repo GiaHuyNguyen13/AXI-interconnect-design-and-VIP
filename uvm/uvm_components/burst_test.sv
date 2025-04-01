@@ -4,71 +4,78 @@ class burst_test extends base_test;
     super.new(name, parent);
   endfunction
 
+  /****************CHANGE THESE PARAMETERS FOR EACH TESTCASE****************/
+
+  // Select which operation is allow
+  bit m1_wren = 1; // en = 1 to enable
+  bit m1_rden = 0; // en = 1 to enable
+  bit m2_wren = 1; // en = 1 to enable
+  bit m2_rden = 0; // en = 1 to enable
+
+
+  // Number of items for each operation
   bit [6:0] test_num_m1_wr = 2;
   bit [6:0] test_num_m1_rd = 2;
   bit [6:0] test_num_m2_wr = 2;
   bit [6:0] test_num_m2_rd = 2;
 
+
+  // Burst len for each operation
   bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m2_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
 
-  bit [6:0] test_num_sl_wr = 4;//test_num_m1_wr + test_num_m2_wr;
-  bit [6:0] test_num_sl_rd = 4;//test_num_m1_rd + test_num_m2_rd;  
+  /************************************************************************/
+
+  // Number of slave item
+  bit [6:0] test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
+  bit [6:0] test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;  
   
   
   virtual function void build_phase(uvm_phase phase);
-    m1_wr_en = 0; // en = 1 to enable
-    m1_rd_en = 1; // en = 1 to enable
-    m2_wr_en = 0; // en = 1 to enable
-    m2_rd_en = 0; // en = 1 to enable
+    m1_wr_en = m1_wren; // en = 1 to enable
+    m1_rd_en = m1_rden; // en = 1 to enable
+    m2_wr_en = m2_wren; // en = 1 to enable
+    m2_rd_en = m2_rden; // en = 1 to enable
     super.build_phase(phase);
 
     m1_seq_wr.randomize() with { 
         num == test_num_m1_wr;
-        //op  == operation;
         len == burst_len_m1_wr;
     };
 
     m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
-        //op  == operation;
         len == burst_len_m1_rd;
     };
 
 
     m2_seq_wr.randomize() with { 
         num == test_num_m2_wr;
-        //op  == operation;
         len == burst_len_m2_wr;
     };
 
     m2_seq_rd.randomize() with { 
         num == test_num_m2_rd;
-        //op  == operation;
         len == burst_len_m2_rd;
     };
 
 
     s1_seq_wr.randomize() with { 
-        num == test_num_sl_wr;//test_num;
-        //op  == operation;
+        num == test_num_sl_wr; 
     };
 
     s1_seq_rd.randomize() with { 
-        num == test_num_sl_rd;//test_num;
-        //op  == operation;
+        num == test_num_sl_rd;
     };
 
     s2_seq_wr.randomize() with { 
-        num == test_num_sl_wr;//test_num;
-        //op  == operation;
+        num == test_num_sl_wr;       
     };
     
     s2_seq_rd.randomize() with { 
-        num == test_num_sl_rd;//test_num;
-        //op  == operation;
+        num == test_num_sl_rd;     
     };
     
   endfunction

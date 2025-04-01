@@ -23,7 +23,9 @@ class master_wr_driver extends uvm_driver #(master_item);
       // if(seq_item_port.has_do_available()) begin
         `uvm_info("DRV_Master", $sformatf("Wait for item from sequencer"), UVM_HIGH)
         seq_item_port.get_next_item(m_item); // get next item
+
         drive_item(m_item); // forward item to DUT through interface
+        `uvm_info("DRV_Master", $sformatf("I'm here working"), UVM_LOW);
         `uvm_info("DRV_Master", $sformatf("AXI item done"), UVM_HIGH)
         seq_item_port.item_done(); // item get done
       // end
@@ -32,7 +34,6 @@ class master_wr_driver extends uvm_driver #(master_item);
 
   virtual task w_addr (master_item m_item);
     @(posedge axi_vif.clk);
-    if (m_item.operation) begin // Write operation
         axi_vif.axi_awid    <= m_item.axi_awid;
         axi_vif.axi_awaddr  <= m_item.axi_awaddr;
         axi_vif.axi_awlen   <= m_item.axi_awlen;
@@ -47,13 +48,11 @@ class master_wr_driver extends uvm_driver #(master_item);
         axi_vif.axi_awvalid <= m_item.axi_awvalid;
         wait(!axi_vif.axi_awready);
         axi_vif.axi_awvalid <= 1'b0;
-    end
 endtask
 
 virtual task w_data (master_item m_item);
     integer len = m_item.axi_awlen + 1;
     wait(axi_vif.axi_wready)
-    if (m_item.operation) begin // Write operation
         axi_vif.axi_bready <= 1'b1;
         for (integer i=0; i<len; i++) begin
           // @(posedge axi_vif.clk);
@@ -62,7 +61,6 @@ virtual task w_data (master_item m_item);
           axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
           axi_vif.axi_wvalid  <= m_item.axi_wvalid;
           @(posedge axi_vif.clk);
-        end
           axi_vif.axi_wvalid  <= 1'b0;
           axi_vif.axi_wlast <= 0;
     end
