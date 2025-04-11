@@ -25,7 +25,7 @@ class master_monitor extends uvm_monitor;
       m_item_beat = master_item::type_id::create("m_item_beat");
       //`uvm_info("MON_Master", $sformatf("I'm at Monitor"), UVM_LOW);
       @(posedge axi_vif.clk) begin
-        if (axi_vif.axi_wvalid && axi_vif.axi_wready) begin
+        if (axi_vif.axi_wvalid && axi_vif.axi_wready || axi_vif.axi_rvalid && axi_vif.axi_rready) begin
           m_item_beat.axi_awid    = axi_vif.axi_awid;
           m_item_beat.axi_awaddr  = axi_vif.axi_awaddr;
           m_item_beat.axi_awlen   = axi_vif.axi_awlen;
@@ -47,10 +47,10 @@ class master_monitor extends uvm_monitor;
           m_item_beat.axi_bresp   = axi_vif.axi_bresp;
           m_item_beat.axi_bvalid  = axi_vif.axi_bvalid;
           m_item_beat.axi_bready  = axi_vif.axi_bready;
-          axi_mon_ap.write(m_item_beat); 
-        end
+        //   axi_mon_ap.write(m_item_beat); 
+        // end
 
-        if (axi_vif.axi_rvalid && axi_vif.axi_rready) begin
+        // if (axi_vif.axi_rvalid && axi_vif.axi_rready) begin
               // Read address line
               m_item_beat.axi_arid    = axi_vif.axi_arid;
               m_item_beat.axi_araddr  = axi_vif.axi_araddr;

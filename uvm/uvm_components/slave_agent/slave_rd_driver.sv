@@ -40,6 +40,7 @@ class slave_rd_driver extends uvm_driver #(slave_item);
   endtask
 
   virtual task r_data (slave_item m_item);
+  axi_vif.axi_rlast <= 1'b0;
     wait(axi_vif.axi_rready);
     // @(posedge axi_vif.clk)
           axi_vif.axi_rid <= axi_vif.axi_arid;
