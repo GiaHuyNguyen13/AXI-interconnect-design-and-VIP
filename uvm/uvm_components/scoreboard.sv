@@ -43,6 +43,26 @@ class scoreboard extends uvm_scoreboard;
   endfunction
 
   virtual function void write_m1(master_item m1_item);
+
+      if (m1_item.axi_wvalid && m1_item.axi_wready) begin
+        m1_req_q.push_back(m1_item);
+        grant_req(1, slavedecode(m1_item.axi_awaddr));
+        // m1_queue.push_back(m1_item);
+        if(!slavedecode(m1_item.axi_awaddr)) begin
+            `uvm_info("SCBD", $sformatf("Captured at m1 %0h", m1_item.axi_awid), UVM_LOW);
+            s1_grant_q.push_back({1'b0,1'b1,s1_wr_grant});
+            s1_master_queue.push_back(m1_item);
+            `uvm_info("SCBD", $sformatf("Captured at m1 %0h %0h", s1_master_queue[$].axi_arid, s1_master_queue[$].axi_awid), UVM_LOW);
+        end
+        else begin 
+            m1_item.axi_awaddr = m1_item.axi_awaddr - S1_WIDTH;
+            s2_grant_q.push_back({1'b0,1'b1,s2_wr_grant});
+            s2_master_queue.push_back(m1_item);
+            // m1_item.axi_araddr = m1_item.axi_araddr + S1_WIDTH;
+        end
+        // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
+      end
+
       if (m1_item.axi_rvalid && m1_item.axi_rready) begin
         m1_req_q.push_back(m1_item);
         grant_req(0, slavedecode(m1_item.axi_araddr));
@@ -58,44 +78,12 @@ class scoreboard extends uvm_scoreboard;
             // m1_item.axi_araddr = m1_item.axi_araddr + S1_WIDTH;
         end
       end
-
-      if (m1_item.axi_wvalid && m1_item.axi_wready) begin
-        m1_req_q.push_back(m1_item);
-        grant_req(1, slavedecode(m1_item.axi_awaddr));
-        // m1_queue.push_back(m1_item);
-        if(!slavedecode(m1_item.axi_awaddr)) begin
-            // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
-            s1_grant_q.push_back({1'b0,1'b1,s1_wr_grant});
-            s1_master_queue.push_back(m1_item);
-        end
-        else begin 
-            m1_item.axi_awaddr = m1_item.axi_awaddr - S1_WIDTH;
-            s2_grant_q.push_back({1'b0,1'b1,s2_wr_grant});
-            s2_master_queue.push_back(m1_item);
-            // m1_item.axi_araddr = m1_item.axi_araddr + S1_WIDTH;
-        end
-        // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
-      end
       
   endfunction : write_m1
 
 
   virtual function write_m2 (master_item m2_item);
-      if (m2_item.axi_rvalid && m2_item.axi_rready) begin
-        m2_req_q.push_back(m2_item);
-        grant_req(0, slavedecode(m2_item.axi_araddr));
-        // m2_queue.push_back(m2_item);
-        if(!slavedecode(m2_item.axi_araddr)) begin
-            s1_grant_q.push_back({1'b1,1'b0,s1_rd_grant});
-            s1_master_queue.push_back(m2_item);
-        end
-        else begin 
-            m2_item.axi_araddr = m2_item.axi_araddr - S1_WIDTH;
-            s2_grant_q.push_back({1'b1,1'b0,s2_rd_grant});
-            s2_master_queue.push_back(m2_item);
-            // m2_item.axi_araddr = m2_item.axi_araddr + S1_WIDTH;
-        end       
-      end
+      
       if (m2_item.axi_wvalid && m2_item.axi_wready) begin
         m2_req_q.push_back(m2_item);
         grant_req(1, slavedecode(m2_item.axi_awaddr));
@@ -112,6 +100,24 @@ class scoreboard extends uvm_scoreboard;
         end  
         // `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
       end
+
+      if (m2_item.axi_rvalid && m2_item.axi_rready) begin
+        m2_req_q.push_back(m2_item);
+        grant_req(0, slavedecode(m2_item.axi_araddr));
+        // m2_queue.push_back(m2_item);
+        if(!slavedecode(m2_item.axi_araddr)) begin
+            `uvm_info("SCBD", $sformatf("Captured at m2 %0h", m2_item.axi_arid), UVM_LOW);
+            s1_grant_q.push_back({1'b1,1'b0,s1_rd_grant});
+            s1_master_queue.push_back(m2_item);
+        end
+        else begin 
+            m2_item.axi_araddr = m2_item.axi_araddr - S1_WIDTH;
+            s2_grant_q.push_back({1'b1,1'b0,s2_rd_grant});
+            s2_master_queue.push_back(m2_item);
+            // m2_item.axi_araddr = m2_item.axi_araddr + S1_WIDTH;
+        end       
+      end
+
 
   endfunction : write_m2 
 
@@ -241,12 +247,12 @@ function void check_phase(uvm_phase phase);
     slave_item s_item_temp;
     super.check_phase(phase);
 
-    for (int i = 0; i < s2_master_queue.size(); i++) begin
-        `uvm_info("SCBD", $sformatf("s2_master_queue content: %0h", s2_master_queue[i].axi_awaddr), UVM_LOW);
+    for (int i = 0; i < s1_master_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s1_master_queue content: %0h %0h", s1_master_queue[i].axi_awid, s1_master_queue[i].axi_arid), UVM_LOW);
     end
 
-    for (int i = 0; i < s2_queue.size(); i++) begin
-        `uvm_info("SCBD", $sformatf("s1_queue content: %0h", s2_queue[i].axi_awaddr), UVM_LOW);
+    for (int i = 0; i < s1_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s1_queue content: %0h %0h", s1_queue[i].axi_awid, s1_queue[i].axi_arid),UVM_LOW);
     end
 
     `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
@@ -264,7 +270,7 @@ function void check_phase(uvm_phase phase);
             s1_grant_temp = s1_grant_q.pop_front();
             m_item_temp = s1_master_queue.pop_front();
             s_item_temp = s1_queue.pop_front();
-            // `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_wdata, s_item_temp.axi_wdata), UVM_LOW);
+            `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_awid, m_item_temp.axi_arid), UVM_LOW);
             compare(s1_grant_temp[3], 1'b0, s1_grant_temp[2], m_item_temp, s_item_temp);
         end   
     end
@@ -303,11 +309,11 @@ virtual function void compare(input int master, input int slave, input bit op, i
             if (slave == 0) begin 
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
-                        if (!(temp_mas.axi_rdata % 2) && !(temp_mas.axi_wdata % 2)) begin
+                        if (!(temp_mas.axi_rdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 1 and Slave 1 match"), UVM_LOW); end
                         else begin `uvm_error("SCBD", $sformatf("Master 1 READ from the wrong slave (Correct: Slave 1)")); end
                     end else begin
-                        if (!(temp_slv.axi_rdata % 2) && !(temp_slv.axi_wdata % 2)) begin
+                        if (!(temp_slv.axi_wdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 1 and Slave 1 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 1 WRITE to the wrong slave (Correct: Slave 1)")); end
@@ -323,7 +329,7 @@ virtual function void compare(input int master, input int slave, input bit op, i
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 1 READ from the wrong slave (Correct: Slave 2)")); end
                     end else begin
-                        if (!(temp_slv.axi_rdata % 2) && !(temp_slv.axi_wdata % 2)) begin
+                        if (!(temp_slv.axi_wdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 1 and Slave 2 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 1 WRITE to the wrong slave (Correct: Slave 2)")); end
@@ -336,12 +342,12 @@ virtual function void compare(input int master, input int slave, input bit op, i
             if (slave == 0) begin
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
-                        if (!(temp_mas.axi_rdata % 2) && !(temp_mas.axi_wdata % 2)) begin
+                        if (!(temp_mas.axi_rdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 2 and Slave 1 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 2 READ from the wrong slave (Correct: Slave 1)")); end
                     end else begin
-                        if ((temp_slv.axi_rdata % 2) || (temp_slv.axi_wdata % 2)) begin
+                        if ((temp_slv.axi_wdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 2 and Slave 1 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 2 WRITE to the wrong slave (Correct: Slave 1)")); end
@@ -375,7 +381,7 @@ endfunction : compare
 
 
   virtual function int compare_mas_slv(input master_item mas, input slave_item slv);
-    if(mas.axi_awid != slv.axi_awid) return 1;// if (1) return 1;  
+    if(mas.axi_awid != slv.axi_awid) begin `uvm_info("SCBD", $sformatf("%0h %0h", mas.axi_awid, slv.axi_awid), UVM_LOW); return 1; end// if (1) return 1;  
     else if (mas.axi_awaddr != slv.axi_awaddr) begin `uvm_info("SCBD", $sformatf("%0h %0h", mas.axi_awaddr, slv.axi_awaddr), UVM_LOW); return 2; end
     else if (mas.axi_awlen != slv.axi_awlen) return 3;
     else if (mas.axi_awsize != slv.axi_awsize) return 4;
@@ -397,7 +403,7 @@ endfunction : compare
     else if (mas.axi_bvalid != slv.axi_bvalid) return 18;
     else if (mas.axi_bready != slv.axi_bready) return 19;
 
-    else if (mas.axi_arid != slv.axi_arid) return 20;
+    else if (mas.axi_arid != slv.axi_arid) begin `uvm_info("SCBD", $sformatf("%0h %0h", mas.axi_arid, slv.axi_arid), UVM_LOW); return 20; end
     else if (mas.axi_araddr != slv.axi_araddr) return 21;
     else if (mas.axi_arlen != slv.axi_arlen) return 22;
     else if (mas.axi_arsize != slv.axi_arsize) return 23;
