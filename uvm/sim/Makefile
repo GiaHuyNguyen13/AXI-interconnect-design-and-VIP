@@ -1,3 +1,6 @@
+
+TEST_LIST_FILE := testlist.txt
+
 clean:
 	rm -r *.d 
 
@@ -12,8 +15,14 @@ wave:
 cov:
 	simvision ./cov_work/scope/test/icc_06d2eb86_5d45b528.ucd
 
-run_test1:
+test1:
 	echo "sth">>here.d && make clean && \
-	xrun -f filelist.f -64 -uvmhome CDNS-1.1 case_pkg.sv -top tb -timescale 1ns/1ps +UVM_TESTNAME=m1_rd_s1__m2_rd_s2_test +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
-	#xrun -64 -uvmhome CDNS-1.2 test_pkg.sv tb_top.sv +UVM_TESTNAME=my_test	
+	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="m1_write_s1_test" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
 
+# Target 'test' — chạy với: make test TEST_ID=1
+test:
+	@echo "Running test ID $(ID)..."
+	@test_name=$$(sed -n "$$(( $(ID) ))p" $(TEST_LIST_FILE)); \
+	echo "Test name: $$test_name"; \
+	echo "sth">>here.d && make clean && \
+	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="$$test_name" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc

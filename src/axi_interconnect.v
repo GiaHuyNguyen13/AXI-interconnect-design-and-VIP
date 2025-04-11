@@ -409,7 +409,7 @@ always@(*) begin
         2'b01: begin
             // Select Master 1
             // Write Address (AW)
-            s2_awaddr  = m1s1_wr_addr;
+            s2_awaddr  = m1s2_wr_addr;
             s2_awid    = m1_awid;
             s2_awlen   = m1_awlen;
             s2_awsize  = m1_awsize;
@@ -430,7 +430,7 @@ always@(*) begin
         2'b10: begin
             // Select Master 2
             // Write Address (AW)
-            s2_awaddr  = m2s1_wr_addr;
+            s2_awaddr  = m2s2_wr_addr;
             s2_awid    = m2_awid;
             s2_awlen   = m2_awlen;
             s2_awsize  = m2_awsize;

@@ -13,6 +13,8 @@ class scoreboard extends uvm_scoreboard;
   master_item s1_master_queue[$], s2_master_queue[$];
   slave_item s1_queue[$], s2_queue[$];
   bit [3:0] s1_grant_q[$], s2_grant_q[$]; // bit 3 is for the master num, bit 2 is for op, bit 1:0 is the grant signal
+  string test_sel;
+
 
   // Queue for checking arbitration
   master_item m1_req_q[$], m2_req_q[$];
@@ -285,6 +287,12 @@ function void check_phase(uvm_phase phase);
         end   
     end
     
+    if (!uvm_config_db#(string)::get(this, "", "test_sel", test_sel)) begin
+      `uvm_warning("SCBD", "Did not get test_sel from config DB")
+    end else begin
+      `uvm_info("SCBD", $sformatf("END TEST: %s", test_sel), UVM_LOW)
+    end
+
 endfunction
 
 

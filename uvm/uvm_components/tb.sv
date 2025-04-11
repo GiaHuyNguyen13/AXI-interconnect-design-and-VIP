@@ -5,6 +5,7 @@ import uvm_pkg::*;
 
 module tb;
   logic clk, rst;
+  string test_sel;
   parameter S1_WIDTH = 32'h0000_0200;//32'h8000_0000;
 
 // Clock gen
@@ -44,7 +45,16 @@ module tb;
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s1", "axi_if", slv1_if);
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s2", "axi_if", slv2_if);
     uvm_config_db#(bit [31:0])::set(null, "*", "S1_WIDTH", S1_WIDTH);
-    run_test("m1m2_rd_s1s2_test");
+    //run_test("m1_wr_s1_m2_rd_s2_test");
+    // initial begin
+    if ($value$plusargs("TEST_SEL=%s", test_sel)) begin
+      $display("Received TEST_SEL = %s", test_sel);
+      uvm_config_db#(string)::set(null, "*", "test_sel", test_sel);
+      run_test(test_sel);
+    end else begin
+      $display("TEST_SEL not provided.");
+    end
+    // end
   end
 
   // Instantiate DUT
