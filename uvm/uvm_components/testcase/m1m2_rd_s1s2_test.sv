@@ -1,30 +1,32 @@
-class burst_test extends base_test;
-  `uvm_component_utils(burst_test)
-  function new(string name="burst_test", uvm_component parent=null);
+class m1m2_rd_s1s2_test extends base_test;
+  `uvm_component_utils(m1m2_rd_s1s2_test)
+  function new(string name="m1m2_rd_s1s2_test", uvm_component parent=null);
     super.new(name, parent);
   endfunction
 
   /****************CHANGE THESE PARAMETERS FOR EACH TESTCASE****************/
 
   // Select which operation is allow
-  bit m1_wren = 1; // en = 1 to enable
-  bit m1_rden = 0; // en = 1 to enable
-  bit m2_wren = 1; // en = 1 to enable
-  bit m2_rden = 0; // en = 1 to enable
+  bit m1_wren = 0; // en = 1 to enable
+  bit m1_rden = 1; // en = 1 to enable
+  bit m2_wren = 0; // en = 1 to enable
+  bit m2_rden = 1; // en = 1 to enable
 
 
   // Number of items for each operation
   bit [6:0] test_num_m1_wr = 2;
-  bit [6:0] test_num_m1_rd = 2;
+  bit [6:0] test_num_m1_rd = 6;
   bit [6:0] test_num_m2_wr = 2;
-  bit [6:0] test_num_m2_rd = 2;
+  bit [6:0] test_num_m2_rd = 6;
 
+  bit sel_slv1 = 0;
+  bit sel_slv2 = 1;
 
   // Burst len for each operation
   bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 1; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 1; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
@@ -48,6 +50,7 @@ class burst_test extends base_test;
     void'(m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
         len == burst_len_m1_rd;
+        sel_slv == sel_slv1;
     });
 
 
@@ -59,6 +62,7 @@ class burst_test extends base_test;
     void'(m2_seq_rd.randomize() with { 
         num == test_num_m2_rd;
         len == burst_len_m2_rd;
+        sel_slv == sel_slv2;
     });
 
 

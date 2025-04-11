@@ -18,6 +18,7 @@
 ../uvm_components/axi_interface.sv
 
 // Top tb
+//../uvm_components/case_pkg.sv
 ../uvm_components/tb.sv
 
 // Central memory
@@ -39,7 +40,7 @@
 ../uvm_components/slave_agent/slave_wr_driver.sv
 ../uvm_components/slave_agent/slave_agent.sv
 
-//Reference models
+// Reference models
 //../uvm_components/rd_ref_model.sv
 //../uvm_components/wr_ref_model.sv
 
@@ -48,6 +49,20 @@
 ../uvm_components/env.sv
 ../uvm_components/base_test.sv
 ../uvm_components/burst_test.sv
+
+// Testcase
+../uvm_components/testcase/m1m2_rd_s1s2_test.sv
+../uvm_components/testcase/m1m2_wr_s1s2_test.sv
+../uvm_components/testcase/m1m2_rd_s2s1_test.sv
+../uvm_components/testcase/m1m2_wr_s2s1_test.sv
+../uvm_components/testcase/m1_write_s1_test.sv
+../uvm_components/testcase/m1_write_s2_test.sv
+../uvm_components/testcase/m2_write_s1_test.sv
+../uvm_components/testcase/m2_write_s2_test.sv
+../uvm_components/testcase/m1_read_s1_test.sv
+../uvm_components/testcase/m1_read_s2_test.sv
+../uvm_components/testcase/m2_read_s1_test.sv
+../uvm_components/testcase/m2_read_s2_test.sv
 
 //SVA
 

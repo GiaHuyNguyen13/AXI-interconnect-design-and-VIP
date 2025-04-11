@@ -1,24 +1,26 @@
-class burst_test extends base_test;
-  `uvm_component_utils(burst_test)
-  function new(string name="burst_test", uvm_component parent=null);
+class m1m2_rd_s2s1_test extends base_test;
+  `uvm_component_utils(m1m2_rd_s2s1_test)
+  function new(string name="m1m2_rd_s2s1_test.sv", uvm_component parent=null);
     super.new(name, parent);
   endfunction
 
   /****************CHANGE THESE PARAMETERS FOR EACH TESTCASE****************/
 
   // Select which operation is allow
-  bit m1_wren = 1; // en = 1 to enable
-  bit m1_rden = 0; // en = 1 to enable
-  bit m2_wren = 1; // en = 1 to enable
-  bit m2_rden = 0; // en = 1 to enable
+  bit m1_wren = 0; // en = 1 to enable
+  bit m1_rden = 1; // en = 1 to enable
+  bit m2_wren = 0; // en = 1 to enable
+  bit m2_rden = 1; // en = 1 to enable
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 2;
-  bit [6:0] test_num_m1_rd = 2;
-  bit [6:0] test_num_m2_wr = 2;
-  bit [6:0] test_num_m2_rd = 2;
+  bit [6:0] test_num_m1_wr = 6;
+  bit [6:0] test_num_m1_rd = 6;
+  bit [6:0] test_num_m2_wr = 6;
+  bit [6:0] test_num_m2_rd = 6;
 
+  bit m1_sel_slv_rd = 1; // 0 for slave1  1 for slave2
+  bit m2_sel_slv_rd = 0; // 0 for slave1  1 for slave2
 
   // Burst len for each operation
   bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
@@ -29,7 +31,6 @@ class burst_test extends base_test;
   /************************************************************************/
 
   // Number of slave item
-  bit [6:0] test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
   bit [6:0] test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;  
   
   
@@ -40,42 +41,26 @@ class burst_test extends base_test;
     m2_rd_en = m2_rden; // en = 1 to enable
     super.build_phase(phase);
 
-    void'(m1_seq_wr.randomize() with { 
-        num == test_num_m1_wr;
-        len == burst_len_m1_wr;
-    });
-
     void'(m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
         len == burst_len_m1_rd;
-    });
-
-
-    void'(m2_seq_wr.randomize() with { 
-        num == test_num_m2_wr;
-        len == burst_len_m2_wr;
+        sel_slv == m1_sel_slv_rd;
     });
 
     void'(m2_seq_rd.randomize() with { 
         num == test_num_m2_rd;
         len == burst_len_m2_rd;
+        sel_slv == m2_sel_slv_rd;
     });
 
 
-    void'(s1_seq_wr.randomize() with { 
-        num == test_num_sl_wr; 
-    });
 
     void'(s1_seq_rd.randomize() with { 
-        num == test_num_sl_rd;
+        num == test_num_sl_rd; 
     });
 
-    void'(s2_seq_wr.randomize() with { 
-        num == test_num_sl_wr;       
-    });
-    
     void'(s2_seq_rd.randomize() with { 
-        num == test_num_sl_rd;     
+        num == test_num_sl_rd;       
     });
     
   endfunction

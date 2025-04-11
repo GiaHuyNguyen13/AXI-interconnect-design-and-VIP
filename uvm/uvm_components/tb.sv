@@ -1,10 +1,11 @@
 // `include "uvm_macros.svh"
 `include "uvm.sv"
 import uvm_pkg::*;
+//import case_pkg::*;
 
 module tb;
   logic clk, rst;
-  parameter S1_WIDTH = 32'h8000_0000;
+  parameter S1_WIDTH = 32'h0000_0200;//32'h8000_0000;
 
 // Clock gen
   initial begin
@@ -43,7 +44,7 @@ module tb;
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s1", "axi_if", slv1_if);
     uvm_config_db#(virtual axi_interface)::set(null, "uvm_test_top.e0.s2", "axi_if", slv2_if);
     uvm_config_db#(bit [31:0])::set(null, "*", "S1_WIDTH", S1_WIDTH);
-    run_test("burst_test");
+    run_test("m1m2_rd_s1s2_test");
   end
 
   // Instantiate DUT

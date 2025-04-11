@@ -50,6 +50,7 @@ class scoreboard extends uvm_scoreboard;
             s1_master_queue.push_back(m1_item);
         end
         else begin 
+            m1_item.axi_araddr = m1_item.axi_araddr - S1_WIDTH;
             s2_grant_q.push_back({1'b0,1'b0,s2_rd_grant});
             s2_master_queue.push_back(m1_item);
         end
@@ -65,6 +66,7 @@ class scoreboard extends uvm_scoreboard;
             s1_master_queue.push_back(m1_item);
         end
         else begin 
+            m1_item.axi_awaddr = m1_item.axi_awaddr - S1_WIDTH;
             s2_grant_q.push_back({1'b0,1'b1,s2_wr_grant});
             s2_master_queue.push_back(m1_item);
         end
@@ -84,6 +86,7 @@ class scoreboard extends uvm_scoreboard;
             s1_master_queue.push_back(m2_item);
         end
         else begin 
+            m2_item.axi_araddr = m2_item.axi_araddr - S1_WIDTH;
             s2_grant_q.push_back({1'b1,1'b0,s2_rd_grant});
             s2_master_queue.push_back(m2_item);
         end       
@@ -96,7 +99,8 @@ class scoreboard extends uvm_scoreboard;
             s1_grant_q.push_back({1'b1,1'b1,s1_wr_grant});
             s1_master_queue.push_back(m2_item);
         end
-        else begin 
+        else begin
+            m2_item.axi_awaddr = m2_item.axi_awaddr - S1_WIDTH;
             s2_grant_q.push_back({1'b1,1'b1,s2_wr_grant});
             s2_master_queue.push_back(m2_item);
         end  
@@ -124,6 +128,7 @@ class scoreboard extends uvm_scoreboard;
 
   virtual function write_s2 (slave_item s2_item);
       if (s2_item.axi_rvalid && s2_item.axi_rready) begin
+
         s2_queue.push_back(s2_item);
         // if(s2_rd_grant == 2'b01) compare(0, 1, 0);
         // if(s2_rd_grant == 2'b10) compare(1, 1, 0);      
@@ -230,9 +235,13 @@ function void check_phase(uvm_phase phase);
     slave_item s_item_temp;
     super.check_phase(phase);
 
-    // for (int i = 0; i < s1_master_queue.size(); i++) begin
-    //     `uvm_info("SCBD", $sformatf("s1_master_queue content: %0d", s1_master_queue[i].axi_wdata), UVM_LOW);
-    // end
+    for (int i = 0; i < s2_master_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s2_master_queue content: %0h", s2_master_queue[i].axi_araddr), UVM_LOW);
+    end
+
+    for (int i = 0; i < s2_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s1_queue content: %0h", s2_queue[i].axi_araddr), UVM_LOW);
+    end
 
     `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
     `uvm_info("SCBD", $sformatf("%0d",s1_queue.size()), UVM_LOW);

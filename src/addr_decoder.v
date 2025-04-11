@@ -4,7 +4,8 @@ module addr_decoder(
     output wire [31:0] s1_wr_addr, s2_wr_addr, s1_rd_addr, s2_rd_addr
 );
 
-parameter S1_WIDTH = 32'h8000_0000;
+//parameter S1_WIDTH = 32'h8000_0000;
+parameter S1_WIDTH = 32'h0000_0200;  //512
 wire rd_less, rd_equal, wr_less, wr_equal, rd_gr_eq, wr_gr_eq;
 
 comparator comp_rd (

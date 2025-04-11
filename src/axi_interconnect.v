@@ -169,7 +169,8 @@ module axi_interconnect (
     input wire         s2_rvalid,
     output reg         s2_rready  
 );
-parameter S1_WIDTH = 32'h8000_0000;
+//parameter S1_WIDTH = 32'h8000_0000;
+parameter S1_WIDTH = 32'h0000_0200;  //512
 // Master 1 decoder
 // Slave selection signals
 wire m1s1_wr_sel, m1s1_rd_sel, m1s2_wr_sel, m1s2_rd_sel;

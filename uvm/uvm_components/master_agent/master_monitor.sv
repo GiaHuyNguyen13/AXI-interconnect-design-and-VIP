@@ -23,6 +23,7 @@ class master_monitor extends uvm_monitor;
     
     forever begin
       m_item_beat = master_item::type_id::create("m_item_beat");
+      //`uvm_info("MON_Master", $sformatf("I'm at Monitor"), UVM_LOW);
       @(posedge axi_vif.clk) begin
         if (axi_vif.axi_wvalid && axi_vif.axi_wready) begin
           m_item_beat.axi_awid    = axi_vif.axi_awid;
