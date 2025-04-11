@@ -49,10 +49,10 @@ class scoreboard extends uvm_scoreboard;
         grant_req(1, slavedecode(m1_item.axi_awaddr));
         // m1_queue.push_back(m1_item);
         if(!slavedecode(m1_item.axi_awaddr)) begin
-            `uvm_info("SCBD", $sformatf("Captured at m1 %0h", m1_item.axi_awid), UVM_LOW);
+            // `uvm_info("SCBD", $sformatf("Captured at m1 %0h", m1_item.axi_awid), UVM_LOW);
             s1_grant_q.push_back({1'b0,1'b1,s1_wr_grant});
             s1_master_queue.push_back(m1_item);
-            `uvm_info("SCBD", $sformatf("Captured at m1 %0h %0h", s1_master_queue[$].axi_arid, s1_master_queue[$].axi_awid), UVM_LOW);
+            // `uvm_info("SCBD", $sformatf("Captured at m1 %0h %0h", s1_master_queue[$].axi_arid, s1_master_queue[$].axi_awid), UVM_LOW);
         end
         else begin 
             m1_item.axi_awaddr = m1_item.axi_awaddr - S1_WIDTH;
@@ -106,7 +106,7 @@ class scoreboard extends uvm_scoreboard;
         grant_req(0, slavedecode(m2_item.axi_araddr));
         // m2_queue.push_back(m2_item);
         if(!slavedecode(m2_item.axi_araddr)) begin
-            `uvm_info("SCBD", $sformatf("Captured at m2 %0h", m2_item.axi_arid), UVM_LOW);
+            // `uvm_info("SCBD", $sformatf("Captured at m2 %0h", m2_item.axi_arid), UVM_LOW);
             s1_grant_q.push_back({1'b1,1'b0,s1_rd_grant});
             s1_master_queue.push_back(m2_item);
         end
@@ -247,13 +247,13 @@ function void check_phase(uvm_phase phase);
     slave_item s_item_temp;
     super.check_phase(phase);
 
-    for (int i = 0; i < s1_master_queue.size(); i++) begin
-        `uvm_info("SCBD", $sformatf("s1_master_queue content: %0h %0h", s1_master_queue[i].axi_awid, s1_master_queue[i].axi_arid), UVM_LOW);
-    end
+    // for (int i = 0; i < s1_master_queue.size(); i++) begin
+    //     `uvm_info("SCBD", $sformatf("s1_master_queue content: %0h %0h", s1_master_queue[i].axi_awid, s1_master_queue[i].axi_arid), UVM_LOW);
+    // end
 
-    for (int i = 0; i < s1_queue.size(); i++) begin
-        `uvm_info("SCBD", $sformatf("s1_queue content: %0h %0h", s1_queue[i].axi_awid, s1_queue[i].axi_arid),UVM_LOW);
-    end
+    // for (int i = 0; i < s1_queue.size(); i++) begin
+    //     `uvm_info("SCBD", $sformatf("s1_queue content: %0h %0h", s1_queue[i].axi_awid, s1_queue[i].axi_arid),UVM_LOW);
+    // end
 
     `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
     `uvm_info("SCBD", $sformatf("%0d",s1_queue.size()), UVM_LOW);
@@ -270,7 +270,7 @@ function void check_phase(uvm_phase phase);
             s1_grant_temp = s1_grant_q.pop_front();
             m_item_temp = s1_master_queue.pop_front();
             s_item_temp = s1_queue.pop_front();
-            `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_awid, m_item_temp.axi_arid), UVM_LOW);
+            // `uvm_info("SCBD", $sformatf("Captured at check %0d %0d", m_item_temp.axi_awid, m_item_temp.axi_arid), UVM_LOW);
             compare(s1_grant_temp[3], 1'b0, s1_grant_temp[2], m_item_temp, s_item_temp);
         end   
     end
