@@ -8,7 +8,7 @@ run:
 	echo "sth">>here.d && make clean && \
 	xrun -f filelist.f -top tb -timescale 1ns/1ps +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
 
-wave:
+waveform:
 	echo "sth">>here.d && make clean && \
 	xrun -f filelist.f -top tb -timescale 1ns/1ps +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc -gui
 
@@ -19,10 +19,16 @@ test1:
 	echo "sth">>here.d && make clean && \
 	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="m1_write_s1_test" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
 
-# Target 'test' — chạy với: make test TEST_ID=1
 test:
 	@echo "Running test ID $(ID)..."
 	@test_name=$$(sed -n "$$(( $(ID) ))p" $(TEST_LIST_FILE)); \
 	echo "Test name: $$test_name"; \
 	echo "sth">>here.d && make clean && \
 	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="$$test_name" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
+
+wave:
+	@echo "Running test ID $(ID)..."
+	@test_name=$$(sed -n "$$(( $(ID) ))p" $(TEST_LIST_FILE)); \
+	echo "Test name: $$test_name"; \
+	echo "sth">>here.d && make clean && \
+	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="$$test_name" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc -gui
