@@ -69,8 +69,8 @@
 ../uvm_components/testcase/m1_rd_s2_m2_wr_s1_test.sv  
 ../uvm_components/testcase/m1_wr_s1_m2_rd_s1_test.sv  
 ../uvm_components/testcase/m1_rd_s1_m2_wr_s1_test.sv  
-//../uvm_components/testcase/m1_wr_s2_m2_rd_s2_test.sv  
-//../uvm_components/testcase/m1_rd_s2_m2_wr_s2_test.sv  
+../uvm_components/testcase/m1_wr_s2_m2_rd_s2_test.sv  
+../uvm_components/testcase/m1_rd_s2_m2_wr_s2_test.sv  
 ../uvm_components/testcase/m1_rdwr_s1_m2_wr_s2_test.sv  
 ../uvm_components/testcase/m1_rdwr_s1_m2_rd_s2_test.sv  
 ../uvm_components/testcase/m1_rdwr_s2_m2_wr_s1_test.sv  

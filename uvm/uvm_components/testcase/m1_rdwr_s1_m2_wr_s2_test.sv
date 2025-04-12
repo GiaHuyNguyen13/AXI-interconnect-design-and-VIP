@@ -40,6 +40,8 @@ class m1_rdwr_s1_m2_wr_s2_test extends base_test;
     m1_rd_en = m1_rden; // en = 1 to enable
     m2_wr_en = m2_wren; // en = 1 to enable
     m2_rd_en = m2_rden; // en = 1 to enable
+    sel_slv1_bt = sel_slv1;
+    sel_slv2_bt = sel_slv2;
     super.build_phase(phase);
 
     void'(m1_seq_wr.randomize() with { 

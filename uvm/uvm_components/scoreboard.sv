@@ -43,6 +43,21 @@ class scoreboard extends uvm_scoreboard;
   endfunction
 
   virtual function void write_m1(master_item m1_item);
+      if (m1_item.axi_rvalid && m1_item.axi_rready) begin
+        m1_req_q.push_back(m1_item);
+        grant_req(0, slavedecode(m1_item.axi_araddr));
+        
+        if(!slavedecode(m1_item.axi_araddr)) begin
+            s1_grant_q.push_back({1'b0,1'b0,s1_rd_grant});
+            s1_master_queue.push_back(m1_item);
+        end
+        else begin 
+            m1_item.axi_araddr = m1_item.axi_araddr - S1_WIDTH;
+            s2_grant_q.push_back({1'b0,1'b0,s2_rd_grant});
+            s2_master_queue.push_back(m1_item);
+            // m1_item.axi_araddr = m1_item.axi_araddr + S1_WIDTH;
+        end
+      end
 
       if (m1_item.axi_wvalid && m1_item.axi_wready) begin
         m1_req_q.push_back(m1_item);
@@ -63,43 +78,12 @@ class scoreboard extends uvm_scoreboard;
         // `uvm_info("SCBD", $sformatf("Captured at m1 %0d %0d %0d %0d", s1_wr_grant, m1_item.axi_wdata, s1_wr_lock, m1_item.axi_wlast), UVM_LOW);
       end
 
-      if (m1_item.axi_rvalid && m1_item.axi_rready) begin
-        m1_req_q.push_back(m1_item);
-        grant_req(0, slavedecode(m1_item.axi_araddr));
-        
-        if(!slavedecode(m1_item.axi_araddr)) begin
-            s1_grant_q.push_back({1'b0,1'b0,s1_rd_grant});
-            s1_master_queue.push_back(m1_item);
-        end
-        else begin 
-            m1_item.axi_araddr = m1_item.axi_araddr - S1_WIDTH;
-            s2_grant_q.push_back({1'b0,1'b0,s2_rd_grant});
-            s2_master_queue.push_back(m1_item);
-            // m1_item.axi_araddr = m1_item.axi_araddr + S1_WIDTH;
-        end
-      end
       
   endfunction : write_m1
 
 
   virtual function write_m2 (master_item m2_item);
       
-      if (m2_item.axi_wvalid && m2_item.axi_wready) begin
-        m2_req_q.push_back(m2_item);
-        grant_req(1, slavedecode(m2_item.axi_awaddr));
-        // m2_queue.push_back(m2_item);
-        if(!slavedecode(m2_item.axi_awaddr)) begin
-            s1_grant_q.push_back({1'b1,1'b1,s1_wr_grant});
-            s1_master_queue.push_back(m2_item);
-        end
-        else begin
-            m2_item.axi_awaddr = m2_item.axi_awaddr - S1_WIDTH;
-            s2_grant_q.push_back({1'b1,1'b1,s2_wr_grant});
-            s2_master_queue.push_back(m2_item);
-            // m2_item.axi_araddr = m2_item.axi_araddr + S1_WIDTH;
-        end  
-        // `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
-      end
 
       if (m2_item.axi_rvalid && m2_item.axi_rready) begin
         m2_req_q.push_back(m2_item);
@@ -116,6 +100,23 @@ class scoreboard extends uvm_scoreboard;
             s2_master_queue.push_back(m2_item);
             // m2_item.axi_araddr = m2_item.axi_araddr + S1_WIDTH;
         end       
+      end
+
+      if (m2_item.axi_wvalid && m2_item.axi_wready) begin
+        m2_req_q.push_back(m2_item);
+        grant_req(1, slavedecode(m2_item.axi_awaddr));
+        // m2_queue.push_back(m2_item);
+        if(!slavedecode(m2_item.axi_awaddr)) begin
+            s1_grant_q.push_back({1'b1,1'b1,s1_wr_grant});
+            s1_master_queue.push_back(m2_item);
+        end
+        else begin
+            m2_item.axi_awaddr = m2_item.axi_awaddr - S1_WIDTH;
+            s2_grant_q.push_back({1'b1,1'b1,s2_wr_grant});
+            s2_master_queue.push_back(m2_item);
+            // m2_item.axi_araddr = m2_item.axi_araddr + S1_WIDTH;
+        end  
+        // `uvm_info("SCBD", $sformatf("Captured at m2 %0d %0d %0d", s1_wr_grant, m2_item.axi_wdata, s1_wr_lock), UVM_LOW);      
       end
 
 
@@ -247,13 +248,13 @@ function void check_phase(uvm_phase phase);
     slave_item s_item_temp;
     super.check_phase(phase);
 
-    // for (int i = 0; i < s1_master_queue.size(); i++) begin
-    //     `uvm_info("SCBD", $sformatf("s1_master_queue content: %0h %0h", s1_master_queue[i].axi_awid, s1_master_queue[i].axi_arid), UVM_LOW);
-    // end
+    for (int i = 0; i < s2_master_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s2_master_queue content: %0h", s2_master_queue[i].axi_awid), UVM_LOW);
+    end
 
-    // for (int i = 0; i < s1_queue.size(); i++) begin
-    //     `uvm_info("SCBD", $sformatf("s1_queue content: %0h %0h", s1_queue[i].axi_awid, s1_queue[i].axi_arid),UVM_LOW);
-    // end
+    for (int i = 0; i < s2_queue.size(); i++) begin
+        `uvm_info("SCBD", $sformatf("s2_queue content: %0h", s2_queue[i].axi_awid),UVM_LOW);
+    end
 
     `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
     `uvm_info("SCBD", $sformatf("%0d",s1_queue.size()), UVM_LOW);

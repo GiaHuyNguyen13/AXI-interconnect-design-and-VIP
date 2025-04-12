@@ -19,12 +19,23 @@ class base_test extends uvm_test;
   bit m1_rd_en; // en = 1 to enable
   bit m2_wr_en; // en = 1 to enable
   bit m2_rd_en; // en = 1 to enable
+  bit sel_slv1_bt, sel_slv2_bt;
+
+  bit [1:0] m2_info;
   
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     
     // Create the environment
     e0 = env::type_id::create("e0", this);
+
+    uvm_config_db#(bit)::set(this, "*", "m2_wr_en", m2_wr_en);
+    uvm_config_db#(bit)::set(this, "*", "m2_rd_en", m2_rd_en);
+    uvm_config_db#(bit)::set(this, "*", "m1_wr_en", m1_wr_en);
+    uvm_config_db#(bit)::set(this, "*", "m1_rd_en", m1_rd_en);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv1_bt", sel_slv1_bt);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv2_bt", sel_slv2_bt);
+
 
     // Create sequence and randomize it
     m1_seq_wr = master_gen_item_seq::type_id::create("m1_seq_wr");
