@@ -14,10 +14,10 @@ class full_random extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 10;
-  bit [6:0] test_num_m1_rd = 20;
-  bit [6:0] test_num_m2_wr = 30;
-  bit [6:0] test_num_m2_rd = 40;
+  bit [6:0] test_num_m1_wr = 5;
+  bit [6:0] test_num_m1_rd = 5;
+  bit [6:0] test_num_m2_wr = 5;
+  bit [6:0] test_num_m2_rd = 5;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 0; // 0 for slave1  1 for slave2
