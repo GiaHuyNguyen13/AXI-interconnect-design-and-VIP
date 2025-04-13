@@ -53,6 +53,8 @@ regression:
 		uvm_errs=$$(grep "UVM_ERROR" run_$$id.log | tail -1 | awk '{print $$3}'); \
 		echo "UVM_ERROR Count: $$uvm_errs"; \
 		errors=$$((errors + uvm_errs)); \
+		echo "Queue Sizes:"; \
+		grep -E "Slave [0-9]+ (master|slave) queue size" run_$$id.log || echo "No queue size info found"; \
 	done; \
 	echo "==============================="; \
 	echo "Total UVM_ERRORs in Regression: $$errors"; \

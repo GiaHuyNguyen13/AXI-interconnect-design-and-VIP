@@ -197,7 +197,9 @@ decoder_m1(
     .s1_wr_addr    (m1s1_wr_addr), 
     .s2_wr_addr    (m1s2_wr_addr), 
     .s1_rd_addr    (m1s1_rd_addr), 
-    .s2_rd_addr    (m1s2_rd_addr)
+    .s2_rd_addr    (m1s2_rd_addr),
+    .rd_addr_valid (m1_arvalid),
+    .wr_addr_valid (m1_awvalid)
 );
 
 addr_decoder #(.S1_WIDTH(S1_WIDTH))
@@ -211,7 +213,9 @@ decoder_m2(
     .s1_wr_addr    (m2s1_wr_addr), 
     .s2_wr_addr    (m2s2_wr_addr), 
     .s1_rd_addr    (m2s1_rd_addr), 
-    .s2_rd_addr    (m2s2_rd_addr)
+    .s2_rd_addr    (m2s2_rd_addr),
+    .rd_addr_valid (m2_arvalid),
+    .wr_addr_valid (m2_awvalid)
 );
 
 wr_sl_return wr_sl_return_m1(

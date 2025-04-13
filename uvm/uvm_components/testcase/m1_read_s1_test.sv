@@ -14,7 +14,7 @@ class m1_read_s1_test extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_rd = 3;
+  bit [6:0] test_num_m1_rd = 4;
 
   // Select slave
   bit sel_slv1 = 0; // 0 for slave1  1 for slave2

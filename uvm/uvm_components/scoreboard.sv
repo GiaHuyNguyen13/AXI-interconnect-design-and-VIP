@@ -256,11 +256,11 @@ function void check_phase(uvm_phase phase);
         `uvm_info("SCBD", $sformatf("s2_queue content: %0h", s2_queue[i].axi_awid),UVM_LOW);
     end
 
-    `uvm_info("SCBD", $sformatf("%0d",s1_master_queue.size()), UVM_LOW);
-    `uvm_info("SCBD", $sformatf("%0d",s1_queue.size()), UVM_LOW);
+    `uvm_info("SCBD", $sformatf("Slave 1 master queue size: %0d",s1_master_queue.size()), UVM_LOW);
+    `uvm_info("SCBD", $sformatf("Slave 1 slave queue size: %0d",s1_queue.size()), UVM_LOW);
 
-    `uvm_info("SCBD", $sformatf("%0d",s2_master_queue.size()), UVM_LOW);
-    `uvm_info("SCBD", $sformatf("%0d",s2_queue.size()), UVM_LOW);
+    `uvm_info("SCBD", $sformatf("Slave 2 master queue size: %0d",s2_master_queue.size()), UVM_LOW);
+    `uvm_info("SCBD", $sformatf("Slave 2 slave queue size:%0d",s2_queue.size()), UVM_LOW);
     //Slave 1
     if (s1_master_queue.size() != s1_queue.size()) begin
         `uvm_error("SCBD", $sformatf("s1 ACCESS log length mismatch"));
@@ -325,7 +325,7 @@ virtual function void compare(input int master, input int slave, input bit op, i
             else if (slave == 1) begin
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
-                        if ((temp_mas.axi_rdata % 2) || (temp_mas.axi_wdata % 2)) begin
+                        if ((temp_mas.axi_rdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 1 and Slave 2 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 1 READ from the wrong slave (Correct: Slave 2)")); end
@@ -359,12 +359,12 @@ virtual function void compare(input int master, input int slave, input bit op, i
             else if (slave == 1) begin
                 if (!compare_mas_slv(temp_mas, temp_slv)) begin
                     if (op == 0) begin
-                        if ((temp_mas.axi_rdata % 2) || (temp_mas.axi_wdata % 2)) begin
+                        if ((temp_mas.axi_rdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 2 and Slave 2 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 2 READ from the wrong slave (Correct: Slave 2)")); end
                     end else begin
-                        if ((temp_slv.axi_rdata % 2) || (temp_slv.axi_wdata % 2)) begin
+                        if ((temp_slv.axi_wdata % 2)) begin
                             `uvm_info("SCBD", $sformatf("Master 2 and Slave 2 match"), UVM_LOW); end
                         else begin
                             `uvm_error("SCBD", $sformatf("Master 2 WRITE to the wrong slave (Correct: Slave 2)")); end

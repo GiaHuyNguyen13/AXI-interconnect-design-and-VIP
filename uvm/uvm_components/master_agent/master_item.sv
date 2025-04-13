@@ -3,6 +3,7 @@ class master_item extends uvm_sequence_item;
 
    rand bit    operation; // 0 for read, 1 for write
    rand bit    sel_slave;
+   rand bit    rand_slv;
 
    // Write address line
    rand bit [7:0]   axi_awid;
@@ -59,6 +60,13 @@ class master_item extends uvm_sequence_item;
       soft operation == 1;
     }
 
+   constraint solve_slv_rand { 
+                solve rand_slv before  axi_awaddr, axi_araddr;                           
+            }
+   constraint c_rand_slv {
+      soft rand_slv == 0;
+   }
+
    // constraint c_sel_slv {
    //    soft sel_slv == 1;
    //  }
@@ -73,10 +81,13 @@ class master_item extends uvm_sequence_item;
    constraint c_axi_awaddr {
       //sel_slv == 0 -> axi_araddr inside {[32'h00000000 : 32'h000001FF]};
       //sel_slv == 1 -> axi_araddr inside {[32'h00000200 : 32'h000003FF]};
-      if (sel_slave == 0)
+      
+      if (sel_slave == 0 && rand_slv == 0)
          axi_awaddr inside {[32'h00000000 : 32'h000001FF]};
-      else
+      else if (sel_slave == 1 && rand_slv == 0)
          axi_awaddr inside {[32'h00000200 : 32'h000003FF]};
+      else
+         axi_awaddr inside {[32'h00000000 : 32'h000003FF]};
    }
 
 
@@ -124,10 +135,14 @@ class master_item extends uvm_sequence_item;
    constraint c_axi_araddr {
       //sel_slv == 0 -> axi_araddr inside {[32'h00000000 : 32'h000001FF]};
       //sel_slv == 1 -> axi_araddr inside {[32'h00000200 : 32'h000003FF]};
-      if (sel_slave == 0)
+
+      if (sel_slave == 0 && rand_slv == 0)
          axi_araddr inside {[32'h00000000 : 32'h000001FF]};
-      else
+      else if (sel_slave == 1 && rand_slv == 0)
          axi_araddr inside {[32'h00000200 : 32'h000003FF]};
+      else
+         axi_araddr inside {[32'h00000000 : 32'h000003FF]};
+
       //axi_araddr inside {[1:10]};
       // axi_araddr == 1;
    }

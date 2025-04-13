@@ -1,5 +1,5 @@
 module addr_decoder(
-    input wire [31:0] rd_addr, wr_addr,
+    input wire [31:0] rd_addr, wr_addr, rd_addr_valid, wr_addr_valid,
     output wire rd_slave1_sel, rd_slave2_sel, wr_slave1_sel, wr_slave2_sel, 
     output wire [31:0] s1_wr_addr, s2_wr_addr, s1_rd_addr, s2_rd_addr
 );
@@ -25,11 +25,11 @@ comparator comp_wr (
 assign rd_gr_eq = ~rd_less;
 assign wr_gr_eq = ~wr_less;
 
-assign rd_slave1_sel = rd_less;
-assign rd_slave2_sel = rd_gr_eq;
+assign rd_slave1_sel = rd_less & rd_addr_valid;
+assign rd_slave2_sel = rd_gr_eq & rd_addr_valid;
 
-assign wr_slave1_sel = wr_less;
-assign wr_slave2_sel = wr_gr_eq;
+assign wr_slave1_sel = wr_less & wr_addr_valid;
+assign wr_slave2_sel = wr_gr_eq & wr_addr_valid;
 
 assign s1_rd_addr = rd_addr;
 assign s2_rd_addr = rd_addr - S1_WIDTH;

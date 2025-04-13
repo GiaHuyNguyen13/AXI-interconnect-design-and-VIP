@@ -42,12 +42,13 @@ class master_wr_driver extends uvm_driver #(master_item);
         axi_vif.axi_awprot  <= m_item.axi_awprot;
         axi_vif.axi_awlock  <= m_item.axi_awlock;
         axi_vif.axi_awcache <= m_item.axi_awcache;
-        `uvm_info("DRV_Master", $sformatf("Start waiting"), UVM_HIGH)
-        wait(axi_vif.axi_awready);
-        `uvm_info("DRV_Master", $sformatf("Done waiting"), UVM_HIGH)
-        axi_vif.axi_awvalid <= m_item.axi_awvalid;
-        wait(!axi_vif.axi_awready);
-        axi_vif.axi_awvalid <= 1'b0;
+        axi_vif.axi_awvalid <= 1'b1;
+        // `uvm_info("DRV_Master", $sformatf("Start waiting"), UVM_HIGH)
+        // wait(axi_vif.axi_awready);
+        // `uvm_info("DRV_Master", $sformatf("Done waiting"), UVM_HIGH)
+          wait(axi_vif.axi_wlast == 1'b1)
+          @(negedge axi_vif.axi_wlast);
+          axi_vif.axi_awvalid <= 1'b0;
 endtask
 
 virtual task w_data (master_item m_item);

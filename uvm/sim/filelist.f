@@ -86,7 +86,8 @@
 ../uvm_components/testcase/m1m2_wr_same_s1_test.sv  
 ../uvm_components/testcase/m1m2_rd_same_s1_test.sv  
 ../uvm_components/testcase/m1m2_wr_same_s2_test.sv  
-../uvm_components/testcase/m1m2_rd_same_s2_test.sv  
+../uvm_components/testcase/m1m2_rd_same_s2_test.sv
+../uvm_components/testcase/full_random.sv  
 
 
 

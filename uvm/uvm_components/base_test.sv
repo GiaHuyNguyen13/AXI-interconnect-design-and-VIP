@@ -89,8 +89,10 @@ class base_test extends uvm_test;
     4'b0011: begin
         // m2_wr_en and m2_rd_en are enabled
         fork
+            fork
             m2_seq_wr.start(e0.m2.s0_wr);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -112,8 +114,10 @@ class base_test extends uvm_test;
     4'b0101: begin
         // m1_rd_en and m2_rd_en are enabled
         fork
+            fork
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             //s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -124,8 +128,10 @@ class base_test extends uvm_test;
     4'b0110: begin
         // m1_rd_en and m2_wr_en are enabled
         fork
+            fork
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_wr.start(e0.m2.s0_wr);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -136,9 +142,11 @@ class base_test extends uvm_test;
     4'b0111: begin
         // m1_rd_en, m2_wr_en, and m2_rd_en are enabled
         fork
+            fork
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_wr.start(e0.m2.s0_wr);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -158,8 +166,10 @@ class base_test extends uvm_test;
     4'b1001: begin
         // m1_wr_en and m2_rd_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -170,8 +180,10 @@ class base_test extends uvm_test;
     4'b1010: begin
         // m1_wr_en and m2_wr_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m2_seq_wr.start(e0.m2.s0_wr);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             //s1_seq_rd.start(e0.s1.s0_rd);
@@ -182,9 +194,11 @@ class base_test extends uvm_test;
     4'b1011: begin
         // m1_wr_en, m2_wr_en, and m2_rd_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m2_seq_wr.start(e0.m2.s0_wr);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -195,8 +209,10 @@ class base_test extends uvm_test;
     4'b1100: begin
         // m1_wr_en and m1_rd_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m1_seq_rd.start(e0.m1.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -207,9 +223,11 @@ class base_test extends uvm_test;
     4'b1101: begin
         // m1_wr_en, m1_rd_en and m2_rd_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -220,9 +238,11 @@ class base_test extends uvm_test;
     4'b1110: begin
         // m1_wr_en, m1_rd_en and m2_wr_en are enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_wr.start(e0.m2.s0_wr);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);
@@ -233,10 +253,12 @@ class base_test extends uvm_test;
     4'b1111: begin
         // All enabled
         fork
+            fork
             m1_seq_wr.start(e0.m1.s0_wr);
             m1_seq_rd.start(e0.m1.s0_rd);
             m2_seq_wr.start(e0.m2.s0_wr);
             m2_seq_rd.start(e0.m2.s0_rd);
+            join
 
             s1_seq_wr.start(e0.s1.s0_wr);
             s1_seq_rd.start(e0.s1.s0_rd);

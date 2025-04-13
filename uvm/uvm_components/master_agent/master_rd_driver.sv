@@ -32,7 +32,7 @@ class master_rd_driver extends uvm_driver #(master_item);
 
   virtual task r_addr (master_item m_item);
       @(posedge axi_vif.clk);
-      if (!m_item.operation) begin // Read operation
+      // if (!m_item.operation) begin // Read operation
           axi_vif.axi_arid    <= m_item.axi_arid;
           axi_vif.axi_araddr  <= m_item.axi_araddr;
           axi_vif.axi_arlen   <= m_item.axi_arlen;
@@ -42,18 +42,17 @@ class master_rd_driver extends uvm_driver #(master_item);
           axi_vif.axi_arcache <= m_item.axi_arcache;
           axi_vif.axi_arprot  <= m_item.axi_arprot;
           axi_vif.axi_arvalid <= m_item.axi_arvalid;
-          // wait(!axi_vif.axi_arready)
-          // @(posedge axi_vif.axi_rlast);
+
           wait(axi_vif.axi_rlast == 1'b1)
           @(negedge axi_vif.axi_rlast);
           axi_vif.axi_arvalid <= 1'b0;
           `uvm_info("DRV_Master", $sformatf("Hgggggggggggggggggggggg"), UVM_HIGH)
-      end
+      // end
   endtask
 
   virtual task r_data (master_item m_item);
       @(posedge axi_vif.clk);
-      if (!m_item.operation) begin // Read operation
+      // if (!m_item.operation) begin // Read operation
           axi_vif.axi_rready <= m_item.axi_rready;
           // @(posedge axi_vif.axi_rlast);
           
@@ -61,7 +60,7 @@ class master_rd_driver extends uvm_driver #(master_item);
           @(negedge axi_vif.axi_rlast);
           axi_vif.axi_rready <= 1'b0;
           `uvm_info("DRV_Master", $sformatf("HHHHHHHHHHHHHHHHHHHHHHHHHHHH"), UVM_HIGH)
-      end
+      // end
   endtask
 
 //   virtual task w_addr (master_item m_item);

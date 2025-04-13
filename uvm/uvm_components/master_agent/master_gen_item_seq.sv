@@ -8,9 +8,13 @@ class master_gen_item_seq extends uvm_sequence;
   rand bit op;
   rand bit [7:0] len;
   rand bit sel_slv;
+  rand bit slv_rand;
   // integer op  = 1;
   // integer len = 4;
   // integer num = 3;
+  constraint c_slv_rand {
+      soft slv_rand == 0;
+   }
 
   virtual task body();
     for (int i = 1; i <= num; i ++) begin
@@ -21,6 +25,7 @@ class master_gen_item_seq extends uvm_sequence;
         axi_awlen == len;
         axi_arlen == len;
         sel_slave == sel_slv;
+        rand_slv == slv_rand;
       });
       `uvm_info("burst_test", $sformatf("I'm here, %0d", i), UVM_LOW);
       finish_item(m_item);
