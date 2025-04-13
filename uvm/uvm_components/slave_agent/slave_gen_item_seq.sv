@@ -4,14 +4,14 @@ class slave_gen_item_seq extends uvm_sequence;
     super.new(name);
   endfunction
 
-  rand bit [6:0] num;
+  rand int num;
   rand bit op;
   // rand bit [7:0] len;
   // bit op = 0;
   // bit [6:0] num = 3;
 
   virtual task body();
-  `uvm_info("burst_test", $sformatf("I'm here slave, %0d", num), UVM_LOW);
+  `uvm_info("burst_test", $sformatf("I'm here slave, %0d", num), UVM_HIGH);
     for (int i = 1; i <= num; i ++) begin
     	slave_item m_item = slave_item::type_id::create("m_item");
     	start_item(m_item);

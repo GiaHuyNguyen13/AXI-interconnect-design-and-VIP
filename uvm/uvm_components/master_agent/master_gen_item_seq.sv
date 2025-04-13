@@ -4,7 +4,7 @@ class master_gen_item_seq extends uvm_sequence;
     super.new(name);
   endfunction
 
-  rand bit [6:0] num;
+  rand int num;
   rand bit op;
   rand bit [7:0] len;
   rand bit sel_slv;
@@ -27,7 +27,7 @@ class master_gen_item_seq extends uvm_sequence;
         sel_slave == sel_slv;
         rand_slv == slv_rand;
       });
-      `uvm_info("burst_test", $sformatf("I'm here, %0d", i), UVM_LOW);
+      `uvm_info("burst_test", $sformatf("I'm here, %0d", i), UVM_HIGH);
       finish_item(m_item);
     end
     `uvm_info("SEQ_Master", $sformatf("Done generation of %0d items",num), UVM_LOW)

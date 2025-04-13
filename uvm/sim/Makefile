@@ -24,7 +24,7 @@ test:
 	@test_name=$$(sed -n "$$(( $(ID) ))p" $(TEST_LIST_FILE)); \
 	echo "Test name: $$test_name"; \
 	echo "sth">>here.d && make clean && \
-	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="$$test_name" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_HIGH -access +rwc
+	xrun -f filelist.f -top tb -timescale 1ns/1ps +TEST_SEL="$$test_name" +define+UVM_NO_DPI +UVM_VERBOSITY=UVM_LOW -access +rwc
 
 wave:
 	@echo "Running test ID $(ID)..."

@@ -14,10 +14,10 @@ class full_random extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 20;
-  bit [6:0] test_num_m1_rd = 30;
-  bit [6:0] test_num_m2_wr = 40;
-  bit [6:0] test_num_m2_rd = 50;
+  int test_num_m1_wr = 200;
+  int test_num_m1_rd = 300;
+  int test_num_m2_wr = 400;
+  int test_num_m2_rd = 500;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 0; // 0 for slave1  1 for slave2
@@ -26,16 +26,16 @@ class full_random extends base_test;
   bit rand_slv = 1;
 
   // Burst len for each operation
-  bit [7:0] burst_len_m1_wr = 2; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 3; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 5; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 20; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 30; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 40; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 50; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
   // Number of slave item
-  bit [6:0] test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
-  bit [6:0] test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;  
+  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
+  int test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;  
   
   
   virtual function void build_phase(uvm_phase phase);
