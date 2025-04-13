@@ -7,7 +7,8 @@ class slave_monitor extends uvm_monitor;
    uvm_analysis_port #(slave_item)  axi_mon_ap;
    virtual axi_interface          axi_vif;
    slave_item wr_item_beat, rd_item_beat;
-   bit m2_wr_en, m2_rd_en, m1_wr_en, m1_rd_en, sel_slv1, sel_slv2;
+   bit m2_wr_en, m2_rd_en, m1_wr_en, m1_rd_en;
+   bit sel_slv1_rd_bt, sel_slv1_wr_bt, sel_slv2_rd_bt, sel_slv2_wr_bt;
 
   virtual function void build_phase (uvm_phase phase);
   super.build_phase(phase);
@@ -21,9 +22,13 @@ class slave_monitor extends uvm_monitor;
       `uvm_fatal("MON", "Could not get m1_wr_en")
     if (!uvm_config_db #(bit)::get(this, "", "m1_rd_en", m1_rd_en))
       `uvm_fatal("MON", "Could not get m1_rd_en")
-    if (!uvm_config_db #(bit)::get(this, "", "sel_slv1_bt", sel_slv1))
+    if (!uvm_config_db #(bit)::get(this, "", "sel_slv1_rd_bt", sel_slv1_rd_bt))
       `uvm_fatal("MON", "Could not get sel_slv1")
-    if (!uvm_config_db #(bit)::get(this, "", "sel_slv2_bt", sel_slv2))
+    if (!uvm_config_db #(bit)::get(this, "", "sel_slv1_wr_bt", sel_slv1_wr_bt))
+      `uvm_fatal("MON", "Could not get sel_slv2")
+    if (!uvm_config_db #(bit)::get(this, "", "sel_slv2_rd_bt", sel_slv2_rd_bt))
+      `uvm_fatal("MON", "Could not get sel_slv1")
+    if (!uvm_config_db #(bit)::get(this, "", "sel_slv2_wr_bt", sel_slv2_wr_bt))
       `uvm_fatal("MON", "Could not get sel_slv2")
     axi_mon_ap = new ("axi_mon_ap", this); // create analysis port
   endfunction
@@ -40,7 +45,7 @@ class slave_monitor extends uvm_monitor;
       // sl_item_beat = slave_item::type_id::create("sl_item_beat");
       @(posedge axi_vif.clk) begin
 
-        if(m1_rd_en && m2_wr_en && (sel_slv1 == sel_slv2)) begin
+        if(m1_rd_en && m2_wr_en && (sel_slv1_rd_bt == sel_slv2_wr_bt)) begin
 
             if (axi_vif.axi_wvalid && axi_vif.axi_wready) begin
               wr_item_beat.axi_awid    = axi_vif.axi_awid;

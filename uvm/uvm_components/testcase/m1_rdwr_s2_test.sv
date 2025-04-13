@@ -19,8 +19,11 @@ class m1_rdwr_s2_test extends base_test;
   bit [6:0] test_num_m2_wr = 6;
   bit [6:0] test_num_m2_rd = 6;
 
-  bit sel_slv1 = 1; // 0 for slave1  1 for slave2
-  bit sel_slv2 = 0; // 0 for slave1  1 for slave2
+  bit sel_slv1_rd = 1; // 0 for slave1  1 for slave2
+  bit sel_slv1_wr = 1; // 0 for slave1  1 for slave2
+  bit sel_slv2_rd = 0; // 0 for slave1  1 for slave2
+  bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
+
   // Burst len for each operation
   bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
@@ -38,14 +41,16 @@ class m1_rdwr_s2_test extends base_test;
     m1_rd_en = m1_rden; // en = 1 to enable
     m2_wr_en = m2_wren; // en = 1 to enable
     m2_rd_en = m2_rden; // en = 1 to enable
-    sel_slv1_bt = sel_slv1;
-    sel_slv2_bt = sel_slv2;
+    sel_slv1_rd_bt = sel_slv1_rd;
+    sel_slv1_wr_bt = sel_slv1_wr;
+    sel_slv2_rd_bt = sel_slv2_rd;
+    sel_slv2_wr_bt = sel_slv2_wr;
     super.build_phase(phase);
 
     void'(m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
         len == burst_len_m1_rd;
-        sel_slv == sel_slv1;
+        sel_slv == sel_slv1_rd;
     });
 
 
@@ -61,7 +66,7 @@ class m1_rdwr_s2_test extends base_test;
     void'(m1_seq_wr.randomize() with { 
         num == test_num_m1_rd;
         len == burst_len_m1_rd;
-        sel_slv == sel_slv1;
+        sel_slv == sel_slv1_wr;
     });
 
     void'(s1_seq_wr.randomize() with { 

@@ -87,7 +87,7 @@ class master_item extends uvm_sequence_item;
       else if (sel_slave == 1 && rand_slv == 0)
          axi_awaddr inside {[32'h00000200 : 32'h000003FF]};
       else
-         axi_awaddr inside {[32'h00000000 : 32'h000003FF]};
+         axi_awaddr inside {[32'h00000000 : 32'h00000300]};
    }
 
 
@@ -141,7 +141,7 @@ class master_item extends uvm_sequence_item;
       else if (sel_slave == 1 && rand_slv == 0)
          axi_araddr inside {[32'h00000200 : 32'h000003FF]};
       else
-         axi_araddr inside {[32'h00000000 : 32'h000003FF]};
+         axi_araddr inside {[32'h00000000 : 32'h00000300]};
 
       //axi_araddr inside {[1:10]};
       // axi_araddr == 1;

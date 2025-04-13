@@ -15,12 +15,14 @@ class full_random extends base_test;
 
   // Number of items for each operation
   bit [6:0] test_num_m1_wr = 10;
-  bit [6:0] test_num_m1_rd = 10;
-  bit [6:0] test_num_m2_wr = 10;
-  bit [6:0] test_num_m2_rd = 10;
+  bit [6:0] test_num_m1_rd = 20;
+  bit [6:0] test_num_m2_wr = 30;
+  bit [6:0] test_num_m2_rd = 40;
 
-  bit sel_slv1 = 0;
-  bit sel_slv2 = 1;
+  bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
+  bit sel_slv1_wr = 0; // 0 for slave1  1 for slave2
+  bit sel_slv2_rd = 0; // 0 for slave1  1 for slave2
+  bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
   bit rand_slv = 1;
 
   // Burst len for each operation
@@ -41,8 +43,10 @@ class full_random extends base_test;
     m1_rd_en = m1_rden; // en = 1 to enable
     m2_wr_en = m2_wren; // en = 1 to enable
     m2_rd_en = m2_rden; // en = 1 to enable
-    sel_slv1_bt = sel_slv1;
-    sel_slv2_bt = sel_slv2;
+    sel_slv1_rd_bt = sel_slv1_rd;
+    sel_slv1_wr_bt = sel_slv1_wr;
+    sel_slv2_rd_bt = sel_slv2_rd;
+    sel_slv2_wr_bt = sel_slv2_wr;
     super.build_phase(phase);
 
     void'(m1_seq_wr.randomize() with { 

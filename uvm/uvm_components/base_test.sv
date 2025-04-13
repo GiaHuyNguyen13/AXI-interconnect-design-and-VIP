@@ -19,7 +19,7 @@ class base_test extends uvm_test;
   bit m1_rd_en; // en = 1 to enable
   bit m2_wr_en; // en = 1 to enable
   bit m2_rd_en; // en = 1 to enable
-  bit sel_slv1_bt, sel_slv2_bt;
+  bit sel_slv1_rd_bt, sel_slv1_wr_bt, sel_slv2_rd_bt, sel_slv2_wr_bt;
 
   bit [1:0] m2_info;
   
@@ -33,8 +33,10 @@ class base_test extends uvm_test;
     uvm_config_db#(bit)::set(this, "*", "m2_rd_en", m2_rd_en);
     uvm_config_db#(bit)::set(this, "*", "m1_wr_en", m1_wr_en);
     uvm_config_db#(bit)::set(this, "*", "m1_rd_en", m1_rd_en);
-    uvm_config_db#(bit)::set(this, "*", "sel_slv1_bt", sel_slv1_bt);
-    uvm_config_db#(bit)::set(this, "*", "sel_slv2_bt", sel_slv2_bt);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv1_rd_bt", sel_slv1_rd_bt);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv1_wr_bt", sel_slv1_wr_bt);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv2_rd_bt", sel_slv2_rd_bt);
+    uvm_config_db#(bit)::set(this, "*", "sel_slv2_wr_bt", sel_slv2_wr_bt);
 
 
     // Create sequence and randomize it
