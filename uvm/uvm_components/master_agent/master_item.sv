@@ -4,6 +4,7 @@ class master_item extends uvm_sequence_item;
    rand bit    operation; // 0 for read, 1 for write
    rand bit    sel_slave;
    rand bit    rand_slv;
+   rand bit    burst_len_rand;
 
    // Write address line
    rand bit [7:0]   axi_awid;
@@ -85,14 +86,15 @@ class master_item extends uvm_sequence_item;
       if (sel_slave == 0 && rand_slv == 0)
          axi_awaddr inside {[32'h00000000 : 32'h000001FF]};
       else if (sel_slave == 1 && rand_slv == 0)
-         axi_awaddr inside {[32'h00000200 : 32'h000003FF]};
+         axi_awaddr inside {[32'h00000200 : 32'h000003F5]};
       else
          axi_awaddr inside {[32'h00000000 : 32'h00000300]};
    }
 
 
    constraint c_axi_awlen {
-      soft axi_awlen inside {[3:3]};
+      if(burst_len_rand) axi_awlen inside {[0:9]};
+      else soft axi_awlen inside {[3:3]};
    }
 
    constraint c_axi_awsize {
@@ -139,7 +141,7 @@ class master_item extends uvm_sequence_item;
       if (sel_slave == 0 && rand_slv == 0)
          axi_araddr inside {[32'h00000000 : 32'h000001FF]};
       else if (sel_slave == 1 && rand_slv == 0)
-         axi_araddr inside {[32'h00000200 : 32'h000003FF]};
+         axi_araddr inside {[32'h00000200 : 32'h000003F5]};
       else
          axi_araddr inside {[32'h00000000 : 32'h00000300]};
 
@@ -148,8 +150,8 @@ class master_item extends uvm_sequence_item;
    }
 
    constraint c_axi_arlen {
-      // axi_arlen inside {[0:255]};
-      soft axi_arlen == 1;
+      if(burst_len_rand) axi_arlen inside {[0:9]};
+      else soft axi_arlen == 1;
    }
 
    constraint c_axi_arsize {

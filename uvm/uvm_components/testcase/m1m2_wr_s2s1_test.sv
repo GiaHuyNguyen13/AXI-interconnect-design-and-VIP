@@ -14,10 +14,10 @@ class m1m2_wr_s2s1_test extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 2;
-  bit [6:0] test_num_m1_rd = 6;
-  bit [6:0] test_num_m2_wr = 2;
-  bit [6:0] test_num_m2_rd = 6;
+  int test_num_m1_wr = 620;
+  int test_num_m1_rd = 6;
+  int test_num_m2_wr = 630;
+  int test_num_m2_rd = 6;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 1; // 0 for slave1  1 for slave2
@@ -25,15 +25,15 @@ class m1m2_wr_s2s1_test extends base_test;
   bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
 
   // Burst len for each operation
-  bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m1_rd = 1; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
   bit [7:0] burst_len_m2_rd = 1; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
   // Number of slave item
-  bit [6:0] test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
+  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
   
   
   virtual function void build_phase(uvm_phase phase);

@@ -137,6 +137,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m1_rdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m1_rresp[1:0]}]}
 	} ]]
@@ -274,6 +275,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m2_rdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.m2_rresp[1:0]}]}
 	} ]]
@@ -369,9 +371,6 @@ set id [waveform add -signals [subst  {
 	{[format {tb.dut.scu_s1_wr.next_gr[0:0]}]}
 	} ]]
 set id [waveform add -signals [subst  {
-	{[format {tb.dut.scu_s1_wr.endtrans[0:0]}]}
-	} ]]
-set id [waveform add -signals [subst  {
 	{[format {tb.dut.scu_s1_wr.state[1:0]}]}
 	} ]]
 set id [waveform add -label {} -comment {}]
@@ -440,6 +439,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s1_rdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s1_rresp[1:0]}]}
 	} ]]
@@ -505,6 +505,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s2_wdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s2_wstrb[3:0]}]}
 	} ]]
@@ -583,6 +584,7 @@ set id [waveform add -label {} -comment {}]
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s2_rdata[31:0]}]}
 	} ]]
+waveform format $id -radix %d
 set id [waveform add -signals [subst  {
 	{[format {tb.dut.s2_rresp[1:0]}]}
 	} ]]
@@ -661,4 +663,4 @@ set id [waveform add -signals [subst  {
 	{[format {tb.dut.mas_sel_s2_wr[1:0]}]}
 	} ]]
 
-waveform xview limits 60000ps 1410000ps
+waveform xview limits 0 650000ps
