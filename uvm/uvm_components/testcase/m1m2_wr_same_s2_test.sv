@@ -14,10 +14,10 @@ class m1m2_wr_same_s2_test extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 6;
-  bit [6:0] test_num_m1_rd = 6;
-  bit [6:0] test_num_m2_wr = 6;
-  bit [6:0] test_num_m2_rd = 6;
+  int test_num_m1_wr = 1180;
+  int test_num_m1_rd = 6;
+  int test_num_m2_wr = 1190;
+  int test_num_m2_rd = 6;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 1; // 0 for slave1  1 for slave2
@@ -25,15 +25,16 @@ class m1m2_wr_same_s2_test extends base_test;
   bit sel_slv2_wr = 1; // 0 for slave1  1 for slave2
 
   // Burst len for each operation
-  bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 9; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
   // Number of slave item
-  bit [6:0] test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;  
+  int test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;
+  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;   
   
   
   virtual function void build_phase(uvm_phase phase);
@@ -48,25 +49,25 @@ class m1m2_wr_same_s2_test extends base_test;
     super.build_phase(phase);
 
     void'(m1_seq_wr.randomize() with { 
-        num == test_num_m1_rd;
-        len == burst_len_m1_rd;
+        num == test_num_m1_wr;
+        len == burst_len_m1_wr;
         sel_slv == sel_slv1_wr;
     });
 
     void'(m2_seq_wr.randomize() with { 
-        num == test_num_m2_rd;
-        len == burst_len_m2_rd;
+        num == test_num_m2_wr;
+        len == burst_len_m2_wr;
         sel_slv == sel_slv2_wr;
     });
 
 
 
     void'(s1_seq_wr.randomize() with { 
-        num == test_num_sl_rd; 
+        num == test_num_sl_wr; 
     });
 
     void'(s2_seq_wr.randomize() with { 
-        num == test_num_sl_rd;       
+        num == test_num_sl_wr;       
     });
     
   endfunction

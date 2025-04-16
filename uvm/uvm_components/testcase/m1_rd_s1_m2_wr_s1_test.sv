@@ -14,10 +14,10 @@ class m1_rd_s1_m2_wr_s1_test extends base_test;
 
 
   // Number of items for each operation
-  bit [6:0] test_num_m1_wr = 6;
-  bit [6:0] test_num_m1_rd = 6;
-  bit [6:0] test_num_m2_wr = 6;
-  bit [6:0] test_num_m2_rd = 6;
+  int test_num_m1_wr = 6;
+  int test_num_m1_rd = 760;
+  int test_num_m2_wr = 770;
+  int test_num_m2_rd = 6;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 0; // 0 for slave1  1 for slave2
@@ -25,16 +25,16 @@ class m1_rd_s1_m2_wr_s1_test extends base_test;
   bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
 
   // Burst len for each operation
-  bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 9; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 9; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
   // Number of slave item
-  bit [6:0] test_num_sl_wr = (test_num_m1_wr + test_num_m2_rd)*2;
-  bit [6:0] test_num_sl_rd = (test_num_m1_wr + test_num_m2_rd)*2;
+  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
+  int test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;
   
   
   virtual function void build_phase(uvm_phase phase);
@@ -67,6 +67,14 @@ class m1_rd_s1_m2_wr_s1_test extends base_test;
     });
 
     void'(s1_seq_rd.randomize() with { 
+        num == test_num_sl_rd;       
+    });
+
+    void'(s2_seq_wr.randomize() with { 
+        num == test_num_sl_wr; 
+    });
+
+    void'(s2_seq_rd.randomize() with { 
         num == test_num_sl_rd;       
     });
     
