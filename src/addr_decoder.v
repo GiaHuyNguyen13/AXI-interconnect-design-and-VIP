@@ -1,5 +1,6 @@
 module addr_decoder(
-    input wire [31:0] rd_addr, wr_addr, rd_addr_valid, wr_addr_valid,
+    input wire [31:0] rd_addr, wr_addr,
+    input wire        rd_addr_valid, wr_addr_valid,
     output wire rd_slave1_sel, rd_slave2_sel, wr_slave1_sel, wr_slave2_sel, 
     output wire [31:0] s1_wr_addr, s2_wr_addr, s1_rd_addr, s2_rd_addr
 );
