@@ -67,6 +67,14 @@ class m1_rd_s2_m2_wr_s2_test extends base_test;
     void'(s2_seq_rd.randomize() with { 
         num == test_num_sl_rd;       
     });
+
+    void'(s1_seq_rd.randomize() with { 
+        num == test_num_sl_rd; 
+    });
+
+    void'(s2_seq_wr.randomize() with { 
+        num == test_num_sl_wr;       
+    });
     
 
     

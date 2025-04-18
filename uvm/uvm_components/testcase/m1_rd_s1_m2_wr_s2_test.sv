@@ -33,8 +33,8 @@ class m1_rd_s1_m2_wr_s2_test extends base_test;
   /************************************************************************/
 
   // Number of slave item
-  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_rd)*2;
-  int test_num_sl_rd = (test_num_m1_wr + test_num_m2_rd)*2;
+  int test_num_sl_wr = (test_num_m1_wr + test_num_m2_wr)*2;
+  int test_num_sl_rd = (test_num_m1_rd + test_num_m2_rd)*2;
   
   
   virtual function void build_phase(uvm_phase phase);
@@ -60,7 +60,13 @@ class m1_rd_s1_m2_wr_s2_test extends base_test;
         sel_slv == sel_slv2_wr;
     });
 
+    void'(s1_seq_rd.randomize() with { 
+        num == test_num_sl_rd; 
+    });
 
+    void'(s2_seq_wr.randomize() with { 
+        num == test_num_sl_wr;       
+    });
 
     void'(s1_seq_wr.randomize() with { 
         num == test_num_sl_wr; 

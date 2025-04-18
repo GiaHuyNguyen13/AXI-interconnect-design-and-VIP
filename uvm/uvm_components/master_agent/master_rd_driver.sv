@@ -36,7 +36,7 @@ class master_rd_driver extends uvm_driver #(master_item);
           axi_vif.axi_arid    <= m_item.axi_arid;
           axi_vif.axi_araddr  <= m_item.axi_araddr;
           axi_vif.axi_arlen   <= m_item.axi_arlen;
-          axi_vif.axi_arsize  <= 3'b010;
+          axi_vif.axi_arsize  <= m_item.axi_arsize;
           axi_vif.axi_arburst <= m_item.axi_arburst;
           axi_vif.axi_arlock  <= m_item.axi_arlock;
           axi_vif.axi_arcache <= m_item.axi_arcache;
@@ -54,6 +54,8 @@ class master_rd_driver extends uvm_driver #(master_item);
       @(posedge axi_vif.clk);
       // if (!m_item.operation) begin // Read operation
           axi_vif.axi_rready <= m_item.axi_rready;
+          axi_vif.axi_rresp <= m_item.axi_rresp;
+          axi_vif.axi_rid <= m_item.axi_rid;
           // @(posedge axi_vif.axi_rlast);
           
           wait(axi_vif.axi_rlast == 1'b1)

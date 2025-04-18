@@ -37,7 +37,7 @@ class master_wr_driver extends uvm_driver #(master_item);
         axi_vif.axi_awid    <= m_item.axi_awid;
         axi_vif.axi_awaddr  <= m_item.axi_awaddr;
         axi_vif.axi_awlen   <= m_item.axi_awlen;
-        axi_vif.axi_awsize  <= 3'b010; //m_item.axi_awsize;
+        axi_vif.axi_awsize  <= m_item.axi_awsize;
         axi_vif.axi_awburst <= m_item.axi_awburst;
         axi_vif.axi_awprot  <= m_item.axi_awprot;
         axi_vif.axi_awlock  <= m_item.axi_awlock;
@@ -55,6 +55,7 @@ virtual task w_data (master_item m_item);
     integer len = m_item.axi_awlen + 1;
     wait(axi_vif.axi_wready)
         axi_vif.axi_bready <= 1'b1;
+        axi_vif.axi_bid <= m_item.axi_bid;
         for (integer i=0; i<len; i++) begin
           // @(posedge axi_vif.clk);
           axi_vif.axi_wdata   <= mem.read((m_item.axi_awaddr%1000) + i);

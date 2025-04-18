@@ -105,11 +105,11 @@ class master_item extends uvm_sequence_item;
    }
 
    constraint c_axi_awsize {
-      axi_awsize inside {[0:0]};
+      axi_awsize inside {[0:7]};
    }
 
    constraint c_axi_awburst {
-      axi_awburst inside {[0:0]};
+      axi_awburst inside {[0:3]};
    }
 
    constraint c_axi_awvalid {
@@ -137,8 +137,8 @@ class master_item extends uvm_sequence_item;
    }
 
    constraint c_axi_arid {
-      // axi_arid inside {[0:255]};
-      axi_arid == 1;
+      axi_arid inside {[0:255]};
+      // axi_arid == 1;
    }
 
    constraint c_axi_araddr {
@@ -167,17 +167,17 @@ class master_item extends uvm_sequence_item;
    }
 
    constraint c_axi_arsize {
-      // axi_arsize inside {[0:7]};
-      axi_arsize == 0;
+      axi_arsize inside {[0:7]};
+      // axi_arsize == 0;
    }
 
    constraint c_axi_arburst {
-      // axi_arburst inside {[0:3]};
-      axi_arburst == 0;
+      axi_arburst inside {[0:3]};
+      // axi_arburst == 0;
    }
 
    constraint c_axi_arlock {
-      axi_arlock inside {[0:0]};
+      axi_arlock inside {[0:1]};
    }
 
    constraint c_axi_arvalid {

@@ -407,7 +407,7 @@ endfunction : compare
     else if (mas.axi_awaddr != slv.axi_awaddr) begin `uvm_info("SCBD", $sformatf("%0h %0h", mas.axi_awaddr, slv.axi_awaddr), UVM_HIGH); return 2; end
     else if (mas.axi_awlen != slv.axi_awlen) return 3;
     else if (mas.axi_awsize != slv.axi_awsize) return 4;
-    else if (mas.axi_awburst != slv.axi_awburst) return 5;
+    else if (mas.axi_awburst != slv.axi_awburst) begin `uvm_info("SCBD", $sformatf("%0h %0h", mas.axi_awburst, slv.axi_awburst), UVM_LOW); return 5; end
     else if (mas.axi_awlock != slv.axi_awlock) return 6;
     else if (mas.axi_awcache != slv.axi_awcache) return 7;
     else if (mas.axi_awprot != slv.axi_awprot) return 8;
