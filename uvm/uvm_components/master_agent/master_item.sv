@@ -83,12 +83,19 @@ class master_item extends uvm_sequence_item;
       //sel_slv == 0 -> axi_araddr inside {[32'h00000000 : 32'h000001FF]};
       //sel_slv == 1 -> axi_araddr inside {[32'h00000200 : 32'h000003FF]};
       
-      if (sel_slave == 0 && rand_slv == 0)
-         axi_awaddr inside {[32'h00000000 : 32'h000001FF]};
+      // if (sel_slave == 0 && rand_slv == 0)
+      //    axi_awaddr inside {[32'h00000000 : 32'h000001FF]};
+      // else if (sel_slave == 1 && rand_slv == 0)
+      //    axi_awaddr inside {[32'h00000200 : 32'h000003F5]};
+      // else
+      //    axi_awaddr inside {[32'h00000000 : 32'h00000300]};
+
+       if (sel_slave == 0 && rand_slv == 0)
+         axi_awaddr inside {[32'h0000_0000 : 32'h7FFF_FFFF]};
       else if (sel_slave == 1 && rand_slv == 0)
-         axi_awaddr inside {[32'h00000200 : 32'h000003F5]};
+         axi_awaddr inside {[32'h8000_0000 : 32'hFFFF_FF00]};
       else
-         axi_awaddr inside {[32'h00000000 : 32'h00000300]};
+         axi_awaddr inside {[32'h00000000 : 32'hFFFF_FF00]};
    }
 
 
@@ -138,15 +145,20 @@ class master_item extends uvm_sequence_item;
       //sel_slv == 0 -> axi_araddr inside {[32'h00000000 : 32'h000001FF]};
       //sel_slv == 1 -> axi_araddr inside {[32'h00000200 : 32'h000003FF]};
 
-      if (sel_slave == 0 && rand_slv == 0)
-         axi_araddr inside {[32'h00000000 : 32'h000001FF]};
-      else if (sel_slave == 1 && rand_slv == 0)
-         axi_araddr inside {[32'h00000200 : 32'h000003F5]};
-      else
-         axi_araddr inside {[32'h00000000 : 32'h00000300]};
+      // if (sel_slave == 0 && rand_slv == 0)
+      //    axi_araddr inside {[32'h00000000 : 32'h000001FF]};
+      // else if (sel_slave == 1 && rand_slv == 0)
+      //    axi_araddr inside {[32'h00000200 : 32'h000003F5]};
+      // else
+      //    axi_araddr inside {[32'h00000000 : 32'h00000300]};
 
-      //axi_araddr inside {[1:10]};
-      // axi_araddr == 1;
+      if (sel_slave == 0 && rand_slv == 0)
+         axi_araddr inside {[32'h0000_0000 : 32'h7FFF_FFFF]};
+      else if (sel_slave == 1 && rand_slv == 0)
+         axi_araddr inside {[32'h8000_0000 : 32'hFFFF_FF00]};
+      else
+         axi_araddr inside {[32'h00000000 : 32'hFFFF_FF00]};
+
    }
 
    constraint c_axi_arlen {

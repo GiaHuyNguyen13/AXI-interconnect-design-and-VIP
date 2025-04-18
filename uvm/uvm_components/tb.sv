@@ -6,7 +6,7 @@ import uvm_pkg::*;
 module tb;
   logic clk, rst;
   string test_sel;
-  parameter S1_WIDTH = 32'h0000_0200;//32'h8000_0000;
+  parameter S1_WIDTH = 32'h8000_0000;//32'h0000_2000;
 
 // Clock gen
   initial begin

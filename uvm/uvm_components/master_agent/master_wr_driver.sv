@@ -57,7 +57,7 @@ virtual task w_data (master_item m_item);
         axi_vif.axi_bready <= 1'b1;
         for (integer i=0; i<len; i++) begin
           // @(posedge axi_vif.clk);
-          axi_vif.axi_wdata   <= mem.read(m_item.axi_awaddr + i);
+          axi_vif.axi_wdata   <= mem.read((m_item.axi_awaddr%1000) + i);
           axi_vif.axi_wstrb   <= m_item.axi_wstrb;
           axi_vif.axi_wlast   <= (i == len - 1) ? 1:0;
           axi_vif.axi_wvalid  <= m_item.axi_wvalid;

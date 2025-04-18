@@ -47,7 +47,7 @@ class slave_rd_driver extends uvm_driver #(slave_item);
           axi_vif.axi_rvalid <= 1'b1;
           `uvm_info("DRV_Slave", $sformatf("HEREEEEE"), UVM_HIGH)
           for(int i = 0; i <= axi_vif.axi_arlen; i++) begin
-            axi_vif.axi_rdata <= mem.read(axi_vif.axi_araddr + i);
+            axi_vif.axi_rdata <= mem.read((axi_vif.axi_araddr%1000) + i);
             axi_vif.axi_rresp <= 2'b00;
             if(i == axi_vif.axi_arlen) axi_vif.axi_rlast <= 1'b1;
             @(posedge axi_vif.clk);
