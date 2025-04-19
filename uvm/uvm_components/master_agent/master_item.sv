@@ -5,6 +5,7 @@ class master_item extends uvm_sequence_item;
    rand bit    sel_slave;
    rand bit    rand_slv;
    rand bit    burst_len_rand;
+   rand bit    equal_corner;
 
    // Write address line
    rand bit [7:0]   axi_awid;
@@ -89,8 +90,9 @@ class master_item extends uvm_sequence_item;
       //    axi_awaddr inside {[32'h00000200 : 32'h000003F5]};
       // else
       //    axi_awaddr inside {[32'h00000000 : 32'h00000300]};
-
-       if (sel_slave == 0 && rand_slv == 0)
+      if(equal_corner)
+         axi_awaddr inside {[32'h7FFF_FFFF : 32'h8000_0000]};
+      else if (sel_slave == 0 && rand_slv == 0)
          axi_awaddr inside {[32'h0000_0000 : 32'h7FFF_FFFF]};
       else if (sel_slave == 1 && rand_slv == 0)
          axi_awaddr inside {[32'h8000_0000 : 32'hFFFF_FF00]};
@@ -151,8 +153,9 @@ class master_item extends uvm_sequence_item;
       //    axi_araddr inside {[32'h00000200 : 32'h000003F5]};
       // else
       //    axi_araddr inside {[32'h00000000 : 32'h00000300]};
-
-      if (sel_slave == 0 && rand_slv == 0)
+      if(equal_corner)
+      axi_araddr inside {[32'h7FFF_FFFF : 32'h8000_0000]};
+      else if (sel_slave == 0 && rand_slv == 0)
          axi_araddr inside {[32'h0000_0000 : 32'h7FFF_FFFF]};
       else if (sel_slave == 1 && rand_slv == 0)
          axi_araddr inside {[32'h8000_0000 : 32'hFFFF_FF00]};

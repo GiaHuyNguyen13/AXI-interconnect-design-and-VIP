@@ -89,7 +89,8 @@
 ../uvm_components/testcase/m1m2_rd_same_s2_test.sv
 ../uvm_components/testcase/m1_rd_s1_wr_s2.sv
 ../uvm_components/testcase/m1_wr_s1_rd_s2.sv
-../uvm_components/testcase/full_random.sv  
+../uvm_components/testcase/full_random.sv
+../uvm_components/testcase/equal_corner.sv  
 
 
 

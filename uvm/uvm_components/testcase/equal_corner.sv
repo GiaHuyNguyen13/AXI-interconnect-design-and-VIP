@@ -1,6 +1,6 @@
-class full_random extends base_test;
-  `uvm_component_utils(full_random)
-  function new(string name="full_random", uvm_component parent=null);
+class equal_corner extends base_test;
+  `uvm_component_utils(equal_corner)
+  function new(string name="equal_corner", uvm_component parent=null);
     super.new(name, parent);
   endfunction
 
@@ -21,16 +21,16 @@ class full_random extends base_test;
 
   bit sel_slv1_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv1_wr = 0; // 0 for slave1  1 for slave2
-  bit sel_slv2_rd = 0; // 0 for slave1  1 for slave2
-  bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
-  bit rand_slv = 1;
-  bit rand_burst_len = 1;
+  bit sel_slv2_rd = 1; // 0 for slave1  1 for slave2
+  bit sel_slv2_wr = 1; // 0 for slave1  1 for slave2
+
+  bit equal_corner = 1;
 
   // Burst len for each operation
-  bit [7:0] burst_len_m1_wr = 20; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m1_rd = 30; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_wr = 40; // 0 is 1 beat, 1 is 2 beat, ...
-  bit [7:0] burst_len_m2_rd = 50; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_wr = 2; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m1_rd = 3; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
+  bit [7:0] burst_len_m2_rd = 5; // 0 is 1 beat, 1 is 2 beat, ...
 
   /************************************************************************/
 
@@ -52,35 +52,37 @@ class full_random extends base_test;
 
     void'(m1_seq_wr.randomize() with { 
         num == test_num_m1_wr;
-        // len == burst_len_m1_wr;
+        len == burst_len_m1_wr;
+        equal == equal_corner;
         // sel_slv == sel_slv1;
-        slv_rand == rand_slv;
-        bl_rand == rand_burst_len;
     });
+
 
     void'(m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
-        // len == burst_len_m1_rd;
+        len == burst_len_m1_rd;
+        equal == equal_corner;
         // sel_slv == sel_slv1;
-        slv_rand == rand_slv;
-        bl_rand == rand_burst_len;
     });
 
 
     void'(m2_seq_wr.randomize() with { 
         num == test_num_m2_wr;
-        // len == burst_len_m2_wr;
+        len == burst_len_m2_wr;
+        equal == equal_corner;
         // sel_slv == sel_slv2;
-        slv_rand == rand_slv;
-        bl_rand == rand_burst_len;
+        // slv_rand == rand_slv;
+        // bl_rand == rand_burst_len;
     });
+
 
     void'(m2_seq_rd.randomize() with { 
         num == test_num_m2_rd;
-        // len == burst_len_m2_rd;
+        len == burst_len_m2_rd;
+        equal == equal_corner;
         // sel_slv == sel_slv2;
-        slv_rand == rand_slv;
-        bl_rand == rand_burst_len;
+        // slv_rand == rand_slv;
+        // bl_rand == rand_burst_len;
     });
 
 

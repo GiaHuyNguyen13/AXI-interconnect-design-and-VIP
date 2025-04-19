@@ -23,6 +23,7 @@ class m1_rd_s1_wr_s2 extends base_test;
   bit sel_slv1_wr = 1; // 0 for slave1  1 for slave2
   bit sel_slv2_rd = 0; // 0 for slave1  1 for slave2
   bit sel_slv2_wr = 0; // 0 for slave1  1 for slave2
+  bit rand_slv = 1;
 
   // Burst len for each operation
   bit [7:0] burst_len_m1_wr = 4; // 0 is 1 beat, 1 is 2 beat, ...
@@ -51,13 +52,15 @@ class m1_rd_s1_wr_s2 extends base_test;
     void'(m1_seq_rd.randomize() with { 
         num == test_num_m1_rd;
         len == burst_len_m1_rd;
-        sel_slv == sel_slv1_rd;
+        // sel_slv == sel_slv1_rd;
+        slv_rand == rand_slv;
     });
 
     void'(m1_seq_wr.randomize() with { 
         num == test_num_m1_wr;
         len == burst_len_m1_wr;
-        sel_slv == sel_slv1_wr;
+        // sel_slv == sel_slv1_wr;
+        slv_rand == rand_slv;
     });
 
 
